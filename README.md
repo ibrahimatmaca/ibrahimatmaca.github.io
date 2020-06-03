@@ -1,1 +1,0 @@
-# ibrahimatmaca.github.io
