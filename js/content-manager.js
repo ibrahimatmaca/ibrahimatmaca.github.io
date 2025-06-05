@@ -1,5 +1,5 @@
 /**
- * Modern Content Manager - JSON data ile dinamik içerik yönetimi ve tema sistemi
+ * Modern Content Manager - JSON data ile dinamik içerik yönetimi, tema sistemi ve dil desteği
  * Author: İbrahim Atmaca
  */
 
@@ -7,13 +7,16 @@ class ContentManager {
     constructor() {
         this.content = null;
         this.currentTheme = 'dark'; // Default dark theme
+        this.currentLanguage = this.detectBrowserLanguage(); // Detect browser language
         this.init();
     }
 
     async init() {
         await this.loadContent();
+        this.setLanguage(this.getStoredLanguage());
         this.populateContent();
         this.initThemeSystem();
+        this.initLanguageSystem();
         this.initAnimations();
         this.initMatrixAnimation();
     }
@@ -28,57 +31,155 @@ class ContentManager {
         }
     }
 
+    detectBrowserLanguage() {
+        // Get browser language
+        const browserLang = navigator.language || navigator.userLanguage;
+        
+        // Check if browser language starts with 'tr' (Turkish)
+        if (browserLang.toLowerCase().startsWith('tr')) {
+            return 'tr';
+        }
+        
+        // Default to English for other languages
+        return 'en';
+    }
+
+    getStoredLanguage() {
+        // Return stored language if exists, otherwise return detected browser language
+        return localStorage.getItem('preferred-language') || this.detectBrowserLanguage();
+    }
+
+    setLanguage(language) {
+        this.currentLanguage = language;
+        localStorage.setItem('preferred-language', language);
+        document.documentElement.lang = language;
+        
+        // Update HTML meta language
+        const langMeta = document.querySelector('meta[name="language"]');
+        if (langMeta) {
+            langMeta.setAttribute('content', language === 'tr' ? 'Turkish' : 'English');
+        }
+        
+        // Update dropdown display
+        this.updateLanguageDropdown();
+    }
+
+    getCurrentContent() {
+        if (!this.content || !this.content.languages) {
+            return this.content; // Fallback to old structure
+        }
+        return this.content.languages[this.currentLanguage] || this.content.languages[this.content.defaultLanguage] || this.content.languages['tr'];
+    }
+
+    initLanguageSystem() {
+        // Initialize dropdown menu events
+        const dropdownItems = document.querySelectorAll('[data-language]');
+        
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const selectedLanguage = e.target.getAttribute('data-language');
+                
+                this.setLanguage(selectedLanguage);
+                this.populateContent();
+            });
+        });
+        
+        // Initialize dropdown display
+        this.updateLanguageDropdown();
+    }
+
+    updateLanguageDropdown() {
+        const currentLanguageSpan = document.getElementById('current-language');
+        const trCheck = document.querySelector('#lang-tr .language-check');
+        const enCheck = document.querySelector('#lang-en .language-check');
+        
+        if (currentLanguageSpan) {
+            currentLanguageSpan.textContent = this.currentLanguage === 'tr' ? 'Türkçe' : 'English';
+        }
+        
+        // Update check marks
+        if (trCheck && enCheck) {
+            if (this.currentLanguage === 'tr') {
+                trCheck.style.visibility = 'visible';
+                enCheck.style.visibility = 'hidden';
+            } else {
+                trCheck.style.visibility = 'hidden';
+                enCheck.style.visibility = 'visible';
+            }
+        }
+    }
+
+    toggleLanguage() {
+        // This method is now replaced by dropdown, but keeping for backward compatibility
+        const newLanguage = this.currentLanguage === 'tr' ? 'en' : 'tr';
+        this.setLanguage(newLanguage);
+        this.populateContent();
+    }
+
     populateContent() {
-        if (!this.content) return;
+        const content = this.getCurrentContent();
+        if (!content) return;
 
         // Site meta bilgileri
-        this.updateMetaInfo();
+        this.updateMetaInfo(content);
         
         // Navigation
-        this.updateNavigation();
+        this.updateNavigation(content);
         
         // Hero section
-        this.updateHeroSection();
+        this.updateHeroSection(content);
         
         // About section
-        this.updateAboutSection();
+        this.updateAboutSection(content);
         
         // Experience section
-        this.updateExperienceSection();
+        this.updateExperienceSection(content);
         
         // Skills section
-        this.updateSkillsSection();
+        this.updateSkillsSection(content);
         
         // Projects section
-        this.updateProjectsSection();
+        this.updateProjectsSection(content);
         
         // Contact section
-        this.updateContactSection();
+        this.updateContactSection(content);
         
         // Footer
-        this.updateFooter();
+        this.updateFooter(content);
     }
 
-    updateMetaInfo() {
-        const { site } = this.content;
-        document.getElementById('page-title').textContent = site.title;
-        document.getElementById('page-keywords').setAttribute('content', site.keywords);
-        document.getElementById('page-description').setAttribute('content', site.description);
+    updateMetaInfo(content) {
+        const { site } = content;
+        const titleElement = document.getElementById('page-title');
+        const keywordsElement = document.getElementById('page-keywords');
+        const descriptionElement = document.getElementById('page-description');
+        
+        if (titleElement) titleElement.textContent = site.title;
+        if (keywordsElement) keywordsElement.setAttribute('content', site.keywords);
+        if (descriptionElement) descriptionElement.setAttribute('content', site.description);
     }
 
-    updateNavigation() {
-        const { navigation } = this.content;
-        document.getElementById('nav-brand').textContent = navigation.brand;
-        document.getElementById('nav-home').textContent = navigation.home;
-        document.getElementById('nav-about').textContent = navigation.about;
-        document.getElementById('nav-experience').textContent = navigation.experience;
-        document.getElementById('nav-skills').textContent = navigation.skills;
-        document.getElementById('nav-projects').textContent = navigation.projects;
-        document.getElementById('nav-contact').textContent = navigation.contact;
+    updateNavigation(content) {
+        const { navigation } = content;
+        const elements = {
+            'nav-brand': navigation.brand,
+            'nav-home': navigation.home,
+            'nav-about': navigation.about,
+            'nav-experience': navigation.experience,
+            'nav-skills': navigation.skills,
+            'nav-projects': navigation.projects,
+            'nav-contact': navigation.contact
+        };
+        
+        Object.entries(elements).forEach(([id, text]) => {
+            const element = document.getElementById(id);
+            if (element) element.textContent = text;
+        });
     }
 
-    updateHeroSection() {
-        const { hero } = this.content;
+    updateHeroSection(content) {
+        const { hero } = content;
         
         // Update name
         const nameElement = document.querySelector('.name-text');
@@ -87,7 +188,16 @@ class ContentManager {
         }
         
         // Update hero titles for text slider
-        document.getElementById('hero-titles').textContent = hero.titles.join(',');
+        const heroTitlesElement = document.getElementById('hero-titles');
+        if (heroTitlesElement) {
+            heroTitlesElement.textContent = hero.titles.join(',');
+        }
+        
+        // Update hero intro text
+        const heroIntroElement = document.getElementById('hero-intro');
+        if (heroIntroElement && hero.intro) {
+            heroIntroElement.innerHTML = `<p>${hero.intro}</p>`;
+        }
         
         // Initialize text slider animation after content is loaded
         this.initTextSlider();
@@ -106,180 +216,277 @@ class ContentManager {
                 if (typed_strings) {
                     window.typedInstance = new Typed('.text-slider', {
                         strings: typed_strings.split(','),
-                        typeSpeed: 80,
-                        loop: true,
-                        backDelay: 1500,
-                        backSpeed: 40,
-                        fadeOut: true,
-                        fadeOutClass: 'typed-fade-out',
-                        fadeOutDelay: 500
+                        typeSpeed: 60,
+                        loop: false,
+                        backDelay: 2000,
+                        backSpeed: 0,
+                        showCursor: true,
+                        cursorChar: '|',
+                        autoInsertCss: true,
+                        onComplete: function(self) {
+                            // Hide cursor when typing is complete
+                            setTimeout(() => {
+                                const cursor = document.querySelector('.typed-cursor');
+                                if (cursor) cursor.style.display = 'none';
+                            }, 1000);
+                        }
                     });
                 }
             }
         }, 100);
     }
 
-    updateAboutSection() {
-        const { about } = this.content;
+    updateAboutSection(content) {
+        const { about } = content;
         
         // Title
-        document.getElementById('about-title').textContent = about.title;
+        const titleElement = document.getElementById('about-title');
+        if (titleElement) titleElement.textContent = about.title;
+        
+        // Get localized labels
+        const isEnglish = this.currentLanguage === 'en';
+        const labels = {
+            name: isEnglish ? 'Name:' : 'Ad:',
+            position: isEnglish ? 'Position:' : 'Pozisyon:',
+            company: isEnglish ? 'Company:' : 'Şirket:',
+            email: isEnglish ? 'Email:' : 'Email:',
+            education: isEnglish ? 'Education:' : 'Mezuniyet:'
+        };
         
         // Personal info
         const aboutInfo = document.getElementById('about-info');
-        aboutInfo.innerHTML = `
-            <div class="mb-3"><strong>Ad:</strong> <span class="text-gradient">${about.personal_info.name}</span></div>
-            <div class="mb-3"><strong>Pozisyon:</strong> <span class="text-muted">${about.personal_info.position}</span></div>
-            <div class="mb-3"><strong>Şirket:</strong> <span class="text-muted">${about.personal_info.company}</span></div>
-            <div class="mb-3"><strong>Email:</strong> <span class="text-muted">${about.personal_info.email}</span></div>
-            <div class="mb-3"><strong>Mezuniyet:</strong> <span class="text-muted">${about.personal_info.education}</span></div>
-        `;
+        if (aboutInfo) {
+            aboutInfo.innerHTML = `
+                <div class="mb-3"><strong>${labels.name}</strong> <span class="text-gradient">${about.personal_info.name}</span></div>
+                <div class="mb-3"><strong>${labels.position}</strong> <span class="text-muted">${about.personal_info.position}</span></div>
+                <div class="mb-3"><strong>${labels.company}</strong> <span class="text-muted">${about.personal_info.company}</span></div>
+                <div class="mb-3"><strong>${labels.email}</strong> <span class="text-muted">${about.personal_info.email}</span></div>
+                <div class="mb-3"><strong>${labels.education}</strong> <span class="text-muted">${about.personal_info.education}</span></div>
+            `;
+        }
         
         // Description
         const aboutDescription = document.getElementById('about-description');
-        aboutDescription.innerHTML = about.description.map(p => `<p class="mb-3">${p}</p>`).join('');
+        if (aboutDescription) {
+            aboutDescription.innerHTML = about.description.map(p => `<p class="mb-3">${p}</p>`).join('');
+        }
     }
 
-    updateExperienceSection() {
-        const { experience } = this.content;
+    updateExperienceSection(content) {
+        const { experience } = content;
         
-        document.getElementById('experience-title').textContent = experience.title;
-        document.getElementById('experience-subtitle').textContent = experience.subtitle;
+        const titleElement = document.getElementById('experience-title');
+        const subtitleElement = document.getElementById('experience-subtitle');
+        const timelineElement = document.getElementById('experience-timeline');
         
-        const timeline = document.getElementById('experience-timeline');
-        timeline.innerHTML = experience.items.map((item, index) => `
-            <div class="timeline-item-modern animate-on-scroll">
-                <div class="timeline-content-modern">
-                    <h3 class="text-gradient">${item.position}</h3>
-                    <h4 class="mb-2"><strong>${item.company}</strong></h4>
-                    <div class="mb-2">
-                        <span class="badge bg-gradient me-2">${item.period}</span>
-                        <span class="badge bg-gradient me-2">${item.location}</span>
-                        <span class="badge bg-gradient">${item.employment_type}</span>
+        if (titleElement) titleElement.textContent = experience.title;
+        if (subtitleElement) subtitleElement.textContent = experience.subtitle;
+        
+        if (timelineElement) {
+            timelineElement.innerHTML = experience.items.map((item, index) => `
+                <div class="timeline-item-modern animate-on-scroll">
+                    <div class="timeline-content-modern">
+                        <h3 class="text-gradient">${item.position}</h3>
+                        <h4 class="mb-2"><strong>${item.company}</strong></h4>
+                        <div class="mb-2">
+                            <span class="badge bg-gradient me-2">${item.period}</span>
+                            <span class="badge bg-gradient me-2">${item.location}</span>
+                            <span class="badge bg-gradient">${item.employment_type}</span>
+                        </div>
+                        <p class="mb-3">${item.description}</p>
+                        <ul class="list-unstyled">
+                            ${item.achievements.map(achievement => `<li class="mb-2"><i class="fa fa-check text-success me-2"></i>${achievement}</li>`).join('')}
+                        </ul>
                     </div>
-                    <p class="mb-3">${item.description}</p>
-                    <ul class="list-unstyled">
-                        ${item.achievements.map(achievement => `<li class="mb-2"><i class="fa fa-check text-success me-2"></i>${achievement}</li>`).join('')}
-                    </ul>
+                    <div class="timeline-marker-modern"></div>
                 </div>
-                <div class="timeline-marker-modern"></div>
-            </div>
-        `).join('');
+            `).join('');
+        }
     }
 
-    updateSkillsSection() {
-        const { skills } = this.content;
+    updateSkillsSection(content) {
+        const { skills } = content;
         
-        document.getElementById('skills-title').textContent = skills.title;
+        const titleElement = document.getElementById('skills-title');
+        if (titleElement) titleElement.textContent = skills.title;
         
         // Skills categories - single card
         const skillsCategories = document.getElementById('skills-categories');
-        const categories = Object.values(skills.categories);
-        
-        skillsCategories.innerHTML = `
-            <div class="col-12">
-                <div class="card-modern animate-on-scroll">
-                    ${categories.map((category, index) => `
-                        <div class="skills-section ${index < categories.length - 1 ? 'mb-5' : ''}">
-                            <h5 class="text-gradient mb-4">
-                                ${category.items[0]?.icon ? `<i class="${category.items[0].icon} me-2"></i>` : ''}
-                                ${category.title}
-                            </h5>
-                            <div class="skills-list">
-                                ${category.items.map(skill => `
-                                    <div class="skill-modern">
-                                        <div class="skill-name">
-                                            <span>
-                                                ${skill.icon ? `<i class="${skill.icon}"></i>` : ''}
-                                                ${skill.name}
-                                            </span>
+        if (skillsCategories) {
+            const categories = Object.values(skills.categories);
+            
+            skillsCategories.innerHTML = `
+                <div class="col-12">
+                    <div class="card-modern animate-on-scroll">
+                        ${categories.map((category, index) => `
+                            <div class="skills-section ${index < categories.length - 1 ? 'mb-5' : ''}">
+                                <h5 class="text-gradient mb-4">
+                                    ${category.items[0]?.icon ? `<i class="${category.items[0].icon} me-2"></i>` : ''}
+                                    ${category.title}
+                                </h5>
+                                <div class="skills-list">
+                                    ${category.items.map(skill => `
+                                        <div class="skill-modern">
+                                            <div class="skill-name">
+                                                <span>
+                                                    ${skill.icon ? `<i class="${skill.icon}"></i>` : ''}
+                                                    ${skill.name}
+                                                </span>
+                                            </div>
+                                            <div class="skill-badges">
+                                                ${skill.certification ? '<span class="badge bg-warning">Certified</span>' : ''}
+                                                ${skill.endorsements > 0 ? `<span class="badge bg-success">${skill.endorsements}+ endorsements</span>` : ''}
+                                                ${!skill.certification && skill.endorsements === 0 ? '<span class="badge bg-primary">Professional</span>' : ''}
+                                            </div>
                                         </div>
-                                        <div class="skill-badges">
-                                            ${skill.certification ? '<span class="badge bg-warning">Certified</span>' : ''}
-                                            ${skill.endorsements > 0 ? `<span class="badge bg-success">${skill.endorsements}+ endorsements</span>` : ''}
-                                            ${!skill.certification && skill.endorsements === 0 ? '<span class="badge bg-primary">Professional</span>' : ''}
-                                        </div>
-                                    </div>
-                                `).join('')}
+                                    `).join('')}
+                                </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
         
         // Services
         const skillsServices = document.getElementById('skills-services');
-        skillsServices.innerHTML = skills.services.map(service => `
-            <div class="col-lg-4 mb-4">
-                <div class="card-modern text-center animate-on-scroll">
-                    <div class="mb-4">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-gradient rounded-circle" style="width: 80px; height: 80px;">
-                            <i class="fa ${service.icon} fa-2x text-white"></i>
+        if (skillsServices && skills.services) {
+            skillsServices.innerHTML = skills.services.map(service => `
+                <div class="col-lg-4 mb-4">
+                    <div class="card-modern text-center animate-on-scroll">
+                        <div class="mb-4">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-gradient rounded-circle" style="width: 80px; height: 80px;">
+                                <i class="fa ${service.icon} fa-2x text-white"></i>
+                            </div>
                         </div>
+                        <h5 class="text-gradient mb-3">${service.title}</h5>
+                        <p class="text-muted">${service.description}</p>
                     </div>
-                    <h5 class="text-gradient mb-3">${service.title}</h5>
-                    <p class="text-muted">${service.description}</p>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
     }
 
-    updateProjectsSection() {
-        const { projects } = this.content;
+    updateProjectsSection(content) {
+        const { projects } = content;
         
-        document.getElementById('projects-title').textContent = projects.title;
-        document.getElementById('projects-subtitle').textContent = projects.subtitle;
-        
+        const titleElement = document.getElementById('projects-title');
+        const subtitleElement = document.getElementById('projects-subtitle');
         const projectsContainer = document.getElementById('projects-container');
-        projectsContainer.innerHTML = projects.items.map(project => {
-            const techBadges = project.technologies.map(tech => {
-                return `<span class="badge project-badge">${tech}</span>`;
-            }).join('');
-            
-            const projectContent = `
-                <div class="project-image">
-                    <img src="${project.image}" alt="${project.title}" class="img-fluid">
-                    <div class="project-overlay">
-                        <i class="fa fa-external-link fa-2x text-white"></i>
-                    </div>
-                </div>
-                <div class="project-content">
-                    <h5 class="text-gradient mb-2">${project.title}</h5>
-                    <div class="text-muted mb-3">
-                        <small>${project.category} • ${project.date}</small>
-                    </div>
-                    <p class="mb-3">${project.description}</p>
-                    <div class="project-badges">${techBadges}</div>
-                </div>
-            `;
-            
-            return `
-                <div class="col-lg-6 col-md-6 mb-4">
-                    <div class="project-card animate-on-scroll">
-                        ${project.link ? `<a href="${project.link}" target="_blank" class="text-decoration-none">${projectContent}</a>` : projectContent}
-                    </div>
-                </div>
-            `;
-        }).join('');
+        
+        if (titleElement) titleElement.textContent = projects.title;
+        if (subtitleElement) subtitleElement.textContent = projects.subtitle;
+        
+        if (projectsContainer) {
+            // Check if new category structure exists
+            if (projects.categories) {
+                const categories = Object.entries(projects.categories);
+                
+                projectsContainer.innerHTML = categories.map(([categoryKey, category]) => {
+                    const projectCards = category.items.map(project => {
+                        const techBadges = project.technologies.map(tech => {
+                            return `<span class="badge project-badge">${tech}</span>`;
+                        }).join('');
+                        
+                        const projectContent = `
+                            <div class="project-image">
+                                <img src="${project.image}" alt="${project.title}" class="img-fluid">
+                                <div class="project-overlay">
+                                    <i class="fa fa-external-link fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h5 class="text-gradient mb-2">${project.title}</h5>
+                                <div class="text-muted mb-3">
+                                    <small>${project.category} • ${project.date}</small>
+                                </div>
+                                <p class="mb-3">${project.description}</p>
+                                <div class="project-badges">${techBadges}</div>
+                            </div>
+                        `;
+                        
+                        return `
+                            <div class="col-lg-6 col-md-6 mb-4">
+                                <div class="project-card animate-on-scroll">
+                                    ${project.link && project.link !== '#' ? `<a href="${project.link}" target="_blank" class="text-decoration-none">${projectContent}</a>` : projectContent}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    return `
+                        <div class="col-12 mb-5">
+                            <div class="project-category-section">
+                                <h4 class="text-gradient mb-4 d-flex align-items-center">
+                                    <i class="${category.icon} me-3"></i>
+                                    ${category.title}
+                                </h4>
+                                <div class="row">
+                                    ${projectCards}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                // Fallback to old structure for backward compatibility
+                projectsContainer.innerHTML = projects.items.map(project => {
+                    const techBadges = project.technologies.map(tech => {
+                        return `<span class="badge project-badge">${tech}</span>`;
+                    }).join('');
+                    
+                    const projectContent = `
+                        <div class="project-image">
+                            <img src="${project.image}" alt="${project.title}" class="img-fluid">
+                            <div class="project-overlay">
+                                <i class="fa fa-external-link fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h5 class="text-gradient mb-2">${project.title}</h5>
+                            <div class="text-muted mb-3">
+                                <small>${project.category} • ${project.date}</small>
+                            </div>
+                            <p class="mb-3">${project.description}</p>
+                            <div class="project-badges">${techBadges}</div>
+                        </div>
+                    `;
+                    
+                    return `
+                        <div class="col-lg-6 col-md-6 mb-4">
+                            <div class="project-card animate-on-scroll">
+                                ${project.link ? `<a href="${project.link}" target="_blank" class="text-decoration-none">${projectContent}</a>` : projectContent}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
     }
 
-    updateContactSection() {
-        const { contact } = this.content;
+    updateContactSection(content) {
+        const { contact } = content;
         
-        document.getElementById('contact-title').textContent = contact.title;
-        document.getElementById('contact-info-title').textContent = contact.info_title;
-        document.getElementById('contact-description').textContent = contact.description;
-        document.getElementById('contact-submit').textContent = contact.form.submit_button;
+        const titleElement = document.getElementById('contact-title');
+        const infoTitleElement = document.getElementById('contact-info-title');
+        const descriptionElement = document.getElementById('contact-description');
+        const submitElement = document.getElementById('contact-submit');
+        
+        if (titleElement) titleElement.textContent = contact.title;
+        if (infoTitleElement) infoTitleElement.textContent = contact.info_title;
+        if (descriptionElement) descriptionElement.textContent = contact.description;
+        if (submitElement) submitElement.textContent = contact.form.submit_button;
         
         // Contact details
         const contactDetails = document.getElementById('contact-details');
-        contactDetails.innerHTML = contact.details.map(detail => {
-            if (detail.link) {
-                return `<li class="mb-3"><i class="${detail.icon} me-4"></i><a href="${detail.link}" target="_blank" class="text-decoration-none">${detail.text}</a></li>`;
-            }
-            return `<li class="mb-3"><i class="${detail.icon} me-4"></i>${detail.text}</li>`;
-        }).join('');
+        if (contactDetails) {
+            contactDetails.innerHTML = contact.details.map(detail => {
+                if (detail.link) {
+                    return `<li class="mb-3"><i class="${detail.icon} me-4"></i><a href="${detail.link}" target="_blank" class="text-decoration-none">${detail.text}</a></li>`;
+                }
+                return `<li class="mb-3"><i class="${detail.icon} me-4"></i>${detail.text}</li>`;
+            }).join('');
+        }
         
         // Update social links
         if (contact.social_links) {
@@ -292,12 +499,118 @@ class ContentManager {
                 `).join('');
             }
         }
+        
+        // Update form placeholders
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const subjectField = document.getElementById('subject');
+        const messageField = document.querySelector('textarea[name="message"]');
+        
+        if (nameField) nameField.placeholder = contact.form.name_placeholder;
+        if (emailField) emailField.placeholder = contact.form.email_placeholder;
+        if (subjectField) subjectField.placeholder = contact.form.subject_placeholder;
+        if (messageField) messageField.placeholder = contact.form.message_placeholder;
+        
+        // Re-attach form validation with current language
+        this.initContactForm(contact);
     }
 
-    updateFooter() {
-        const { footer } = this.content;
-        document.getElementById('footer-copyright').innerHTML = `&copy; ${footer.copyright}`;
-        document.getElementById('footer-credits').textContent = footer.credits;
+    initContactForm(contactContent) {
+        const form = document.getElementById('contactForm');
+        if (!form) return;
+        
+        // Remove existing event listeners
+        const newForm = form.cloneNode(true);
+        form.parentNode.replaceChild(newForm, form);
+        
+        // Add new event listener with current language
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.querySelector('textarea[name="message"]').value;
+            
+            // Validation with current language
+            if (name.length < 4) {
+                this.showFormError(contactContent.form.validation.name_error);
+                return;
+            }
+            
+            if (!this.isValidEmail(email)) {
+                this.showFormError(contactContent.form.validation.email_error);
+                return;
+            }
+            
+            if (subject.length < 8) {
+                this.showFormError(contactContent.form.validation.subject_error);
+                return;
+            }
+            
+            if (message.length < 1) {
+                this.showFormError(contactContent.form.validation.message_error);
+                return;
+            }
+            
+            // Show success message
+            this.showFormSuccess(contactContent.form.success_message);
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+        });
+    }
+
+    showFormError(message) {
+        const errorElement = document.getElementById('errormessage');
+        const successElement = document.getElementById('sendmessage');
+        
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        if (successElement) {
+            successElement.style.display = 'none';
+        }
+        
+        setTimeout(() => {
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+        }, 5000);
+    }
+
+    showFormSuccess(message) {
+        const errorElement = document.getElementById('errormessage');
+        const successElement = document.getElementById('sendmessage');
+        
+        if (successElement) {
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+        }
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+        
+        setTimeout(() => {
+            if (successElement) {
+                successElement.style.display = 'none';
+            }
+        }, 5000);
+    }
+
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    updateFooter(content) {
+        const { footer } = content;
+        const copyrightElement = document.getElementById('footer-copyright');
+        const creditsElement = document.getElementById('footer-credits');
+        
+        if (copyrightElement) copyrightElement.innerHTML = `&copy; ${footer.copyright}`;
+        if (creditsElement) creditsElement.textContent = footer.credits;
     }
 
     getTechBadgeClass(tech) {

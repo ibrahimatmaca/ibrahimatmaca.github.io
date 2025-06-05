@@ -55,64 +55,6 @@
 		}
 	});
 
-	// Contact form handling
-	$('#contactForm').on('submit', function(e) {
-		e.preventDefault();
-		
-		var name = $('#name').val();
-		var email = $('#email').val();
-		var subject = $('#subject').val();
-		var message = $('textarea[name="message"]').val();
-		
-		// Simple validation
-		if (name.length < 2) {
-			showError('Lütfen geçerli bir isim giriniz.');
-			return;
-		}
-		
-		if (!isValidEmail(email)) {
-			showError('Lütfen geçerli bir email adresi giriniz.');
-			return;
-		}
-		
-		if (subject.length < 3) {
-			showError('Lütfen geçerli bir konu giriniz.');
-			return;
-		}
-		
-		if (message.length < 10) {
-			showError('Lütfen daha detaylı bir mesaj yazınız.');
-			return;
-		}
-		
-		// Show success message
-		showSuccess('Mesajınız gönderildi! En kısa sürede size dönüş yapılacaktır.');
-		
-		// Reset form
-		this.reset();
-	});
-
-	function showError(message) {
-		$('#errormessage').text(message).show();
-		$('#sendmessage').hide();
-		setTimeout(function() {
-			$('#errormessage').fadeOut();
-		}, 5000);
-	}
-
-	function showSuccess(message) {
-		$('#sendmessage').text(message).show();
-		$('#errormessage').hide();
-		setTimeout(function() {
-			$('#sendmessage').fadeOut();
-		}, 5000);
-	}
-
-	function isValidEmail(email) {
-		var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(email);
-	}
-
 	// Smooth animations for skill progress bars
 	$(window).on('scroll', function() {
 		$('.skill-progress-bar').each(function() {

@@ -58,7 +58,7 @@ const HeroSection = () => {
   };
 
   const skills = [
-    'Flutter', 'SwiftUI', 'Cloud Firestore', 'Payment Systems',
+    'Flutter', 'SwiftUI', 'Firebase', 'Payment Systems',
     'Team Leadership', 'MVVM', 'FinTech', 'MoneyPay'
   ];
 

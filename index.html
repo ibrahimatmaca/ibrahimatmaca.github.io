@@ -104,7 +104,7 @@
       "Mobile App Development",
       "Fintech Applications",
       "Payment Systems",
-      "Cloud Firestore",
+      "Firebase",
       "MVVM Architecture",
       "Team Leadership"
     ],
@@ -201,6 +201,16 @@
               <span id="theme-text">Light</span>
             </button>
           </li>
+          <li class="nav-item dropdown" role="none">
+            <button class="btn dropdown-toggle language-dropdown" type="button" id="languageDropdown" data-toggle="dropdown" aria-expanded="false" aria-label="Select language">
+              <i class="fa fa-globe me-1" aria-hidden="true"></i>
+              <span id="current-language">Türkçe</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+              <li><a class="dropdown-item" href="#" data-language="tr" id="lang-tr"><i class="fa fa-check me-2 language-check" style="visibility: visible;"></i>Türkçe</a></li>
+              <li><a class="dropdown-item" href="#" data-language="en" id="lang-en"><i class="fa fa-check me-2 language-check" style="visibility: hidden;"></i>English</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
@@ -225,7 +235,7 @@
             <h2 class="hero-subtitle" id="hero-subtitle">
               Senior Mobile Developer – 
               <span class="text-slider-wrapper">
-                <span class="text-slider-items" id="hero-titles">Flutter Expert,iOS & FinTech Specialist,Payment Systems Expert,Team Leadership,Mobile Architecture</span>
+                <span class="text-slider-items" id="hero-titles">Flutter Expert,iOS & FinTech Specialist,Payment Systems Expert,Mobile Architecture</span>
                 <strong class="text-slider"></strong>
               </span>
             </h2>
@@ -234,7 +244,7 @@
             <div class="hero-skills" id="hero-skills">
               <span class="skill-badge">Flutter</span>
               <span class="skill-badge">SwiftUI</span>
-              <span class="skill-badge">Cloud Firestore</span>
+              <span class="skill-badge">Firebase</span>
               <span class="skill-badge">Payment Systems</span>
               <span class="skill-badge">MVVM</span>
               <span class="skill-badge">FinTech</span>
@@ -243,7 +253,7 @@
             
             <!-- PR Intro Paragraph -->
             <div class="hero-intro" id="hero-intro">
-              <p>As a Senior Mobile Developer at MoneyPay, I combine technical expertise with a deep passion for building seamless user experiences. My work empowers digital products in the finance and payment sectors, helping brands deliver secure, innovative solutions at scale.</p>
+              <!-- Bu metin JavaScript tarafından dil desteğine göre yüklenecek -->
             </div>
           </div>
         </div>
@@ -254,11 +264,6 @@
               <img src="img/intro-bg.jpg" alt="İbrahim Atmaca - Senior Mobile Developer at MoneyPay, Flutter and iOS expert" class="avatar-img" loading="lazy">
               <div class="avatar-glow" aria-hidden="true"></div>
               <div class="avatar-ring" aria-hidden="true"></div>
-            </div>
-            <!-- Status Badge -->
-            <div class="status-badge" role="status" aria-live="polite">
-              <div class="status-indicator" aria-hidden="true"></div>
-              <span>Available for projects</span>
             </div>
           </div>
         </div>
@@ -323,100 +328,7 @@
         <p class="section-subtitle" id="experience-subtitle">Fintech ve oyun geliştirme sektöründe uzmanlaşmış mobil uygulama geliştirme deneyimi</p>
       </div>
       <div class="timeline-modern" id="experience-timeline">
-        <div class="timeline-item-modern animate-on-scroll">
-          <div class="timeline-content-modern">
-            <h3 class="text-gradient">Senior Mobile Developer</h3>
-            <h4 class="mb-2"><strong>MoneyPay</strong></h4>
-            <div class="mb-2">
-              <span class="badge bg-gradient me-2">Temmuz 2024 - Devam Ediyor</span>
-              <span class="badge bg-gradient me-2">Remote</span>
-              <span class="badge bg-gradient">Tam Zamanlı</span>
-            </div>
-            <p class="mb-3">Fintech uygulamalarında ileri düzey mobil geliştirme ve teknoloji entegrasyonu. Cloud Firestore ile veri yönetimi ve performans optimizasyonu.</p>
-            <ul class="list-unstyled">
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Technology Integration ve Cloud Firestore uzmanlaşması</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Senior seviyede takım liderliği ve mentorship</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Performans optimizasyonu ve kod kalitesi iyileştirmeleri</li>
-            </ul>
-          </div>
-          <div class="timeline-marker-modern"></div>
-        </div>
-        
-        <div class="timeline-item-modern animate-on-scroll">
-          <div class="timeline-content-modern">
-            <h3 class="text-gradient">Mobile Developer</h3>
-            <h4 class="mb-2"><strong>MoneyPay</strong></h4>
-            <div class="mb-2">
-              <span class="badge bg-gradient me-2">Temmuz 2023 - Ağustos 2024</span>
-              <span class="badge bg-gradient me-2">İstanbul</span>
-              <span class="badge bg-gradient">Tam Zamanlı</span>
-            </div>
-            <p class="mb-3">Flutter ile fintech mobil uygulaması geliştirme. Ödeme sistemleri entegrasyonu ve kullanıcı deneyimi iyileştirmeleri.</p>
-            <ul class="list-unstyled">
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Masterpass ve KYC entegrasyonları</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Native kod entegrasyonları</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Uygulama performans artışı sağlama</li>
-            </ul>
-          </div>
-          <div class="timeline-marker-modern"></div>
-        </div>
-        
-        <div class="timeline-item-modern animate-on-scroll">
-          <div class="timeline-content-modern">
-            <h3 class="text-gradient">Expert Mobile Application Developer</h3>
-            <h4 class="mb-2"><strong>iWallet Türkiye</strong></h4>
-            <div class="mb-2">
-              <span class="badge bg-gradient me-2">Mart 2023 - Temmuz 2023</span>
-              <span class="badge bg-gradient me-2">Ankara</span>
-              <span class="badge bg-gradient">Remote</span>
-            </div>
-            <p class="mb-3">Uzman seviyede mobil uygulama geliştirme ve takım liderliği. Payment sistemleri ve real-time kommunikasyon çözümleri.</p>
-            <ul class="list-unstyled">
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Payment Systems uzmanlaşması</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Team Leadership ve mentorship</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Web Socket ve Stacked architecture</li>
-            </ul>
-          </div>
-          <div class="timeline-marker-modern"></div>
-        </div>
-        
-        <div class="timeline-item-modern animate-on-scroll">
-          <div class="timeline-content-modern">
-            <h3 class="text-gradient">Mobile Application Developer</h3>
-            <h4 class="mb-2"><strong>iWallet Türkiye</strong></h4>
-            <div class="mb-2">
-              <span class="badge bg-gradient me-2">Mart 2022 - Mayıs 2023</span>
-              <span class="badge bg-gradient me-2">Ankara</span>
-              <span class="badge bg-gradient">Tam Zamanlı</span>
-            </div>
-            <p class="mb-3">Flutter ile fintech uygulamaları geliştirme. Ödeme sistemleri entegrasyonu ve güvenlik protokolleri implementasyonu.</p>
-            <ul class="list-unstyled">
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Flutter ile ödeme uygulaması geliştirme</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Güvenlik protokolleri implementasyonu</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Takım çalışması ve kod review süreçleri</li>
-            </ul>
-          </div>
-          <div class="timeline-marker-modern"></div>
-        </div>
-        
-        <div class="timeline-item-modern animate-on-scroll">
-          <div class="timeline-content-modern">
-            <h3 class="text-gradient">Jr. Game Developer</h3>
-            <h4 class="mb-2"><strong>Luna Games Studio</strong></h4>
-            <div class="mb-2">
-              <span class="badge bg-gradient me-2">Temmuz 2019 - Haziran 2020</span>
-              <span class="badge bg-gradient me-2">Samsun</span>
-              <span class="badge bg-gradient">Tam Zamanlı</span>
-            </div>
-            <p class="mb-3">Unity ile hyper-casual oyun geliştirme. Google Play Store'da yayınlanan 12 oyun projesi.</p>
-            <ul class="list-unstyled">
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>12 Hyper-Casual Games Google Play release</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Unity ve C# ile oyun geliştirme</li>
-              <li class="mb-2"><i class="fa fa-check text-success me-2"></i>Hyper-Casual Game Design uzmanlığı</li>
-            </ul>
-          </div>
-          <div class="timeline-marker-modern"></div>
-        </div>
+        <!-- Content will be populated by JavaScript -->
       </div>
     </div>
   </section>
@@ -428,155 +340,11 @@
         <h2 id="skills-title">Teknik Yetenekler</h2>
       </div>
       <div class="row mb-5" id="skills-categories">
-        <div class="col-12">
-          <div class="card-modern animate-on-scroll">
-            <!-- Mobil Geliştirme -->
-            <div class="skills-section mb-5">
-              <h5 class="text-gradient mb-4"><i class="fab fa-flutter me-2"></i>Mobil Geliştirme</h5>
-              <div class="skills-list">
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fab fa-flutter"></i>Flutter</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-success">9+ endorsements</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fab fa-apple"></i>iOS Development</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-success">2+ endorsements</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fab fa-swift"></i>SwiftUI</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-success">2+ endorsements</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fab fa-swift"></i>Swift</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-warning">Certified</span>
-                    <span class="badge bg-success">2+ endorsements</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Backend & Integration -->
-            <div class="skills-section mb-5">
-              <h5 class="text-gradient mb-4"><i class="fas fa-cloud me-2"></i>Backend & Integration</h5>
-              <div class="skills-list">
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-cloud"></i>Cloud Firestore</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-primary">Professional</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-exchange-alt"></i>REST API</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-primary">Professional</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-plug"></i>Technology Integration</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-primary">Professional</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-satellite-dish"></i>Web Socket</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-primary">Professional</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Fintech & Payment -->
-            <div class="skills-section">
-              <h5 class="text-gradient mb-4"><i class="fas fa-credit-card me-2"></i>Fintech & Payment</h5>
-              <div class="skills-list">
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-credit-card"></i>Payment Systems</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-primary">Professional</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-cash-register"></i>POS Systems</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-primary">Professional</span>
-                  </div>
-                </div>
-                <div class="skill-modern">
-                  <div class="skill-name">
-                    <span><i class="fas fa-sitemap"></i>MVVM</span>
-                  </div>
-                  <div class="skill-badges">
-                    <span class="badge bg-success">2+ endorsements</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Content will be populated by JavaScript -->
       </div>
       
       <div class="row" id="skills-services">
-        <div class="col-lg-4 mb-4">
-          <div class="card-modern text-center animate-on-scroll">
-            <div class="mb-4">
-              <div class="d-inline-flex align-items-center justify-content-center bg-gradient rounded-circle" style="width: 80px; height: 80px;">
-                <i class="fa fa-mobile fa-2x text-white"></i>
-              </div>
-            </div>
-            <h5 class="text-gradient mb-3">Cross-Platform Development</h5>
-            <p class="text-muted">Flutter ile iOS ve Android platformları için tek kod tabanında uygulama geliştirme. 9+ endorsement ile onaylanmış uzmanlık.</p>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card-modern text-center animate-on-scroll">
-            <div class="mb-4">
-              <div class="d-inline-flex align-items-center justify-content-center bg-gradient rounded-circle" style="width: 80px; height: 80px;">
-                <i class="fa fa-credit-card fa-2x text-white"></i>
-              </div>
-            </div>
-            <h5 class="text-gradient mb-3">Fintech Solutions</h5>
-            <p class="text-muted">Payment sistemleri, POS entegrasyonu ve güvenli finans teknolojileri uygulamaları. MoneyPay ve iWallet deneyimi.</p>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card-modern text-center animate-on-scroll">
-            <div class="mb-4">
-              <div class="d-inline-flex align-items-center justify-content-center bg-gradient rounded-circle" style="width: 80px; height: 80px;">
-                <i class="fa fa-users fa-2x text-white"></i>
-              </div>
-            </div>
-            <h5 class="text-gradient mb-3">Technical Leadership</h5>
-            <p class="text-muted">Takım liderliği, mentorship ve teknoloji entegrasyonu. Senior seviyede proje yönetimi deneyimi.</p>
-          </div>
-        </div>
+        <!-- Content will be populated by JavaScript -->
       </div>
     </div>
   </section>
@@ -589,54 +357,7 @@
         <p class="section-subtitle" id="projects-subtitle">MoneyPay ve diğer önemli projelerim</p>
       </div>
       <div class="row" id="projects-container">
-        <div class="col-lg-6 col-md-6 mb-4">
-          <div class="project-card animate-on-scroll">
-            <a href="https://play.google.com/store/apps/details?id=com.ibrahimatmaca.ColorLineDraw" target="_blank" class="text-decoration-none" aria-label="View Color Line Draw 3D game on Google Play Store">
-              <div class="project-image">
-                <img src="img/drawline.jpg" alt="Color Line Draw 3D - Unity puzzle game screenshot showing colorful 3D line drawing gameplay" class="img-fluid" loading="lazy">
-                <div class="project-overlay" aria-hidden="true">
-                  <i class="fa fa-external-link fa-2x text-white" aria-hidden="true"></i>
-                </div>
-              </div>
-              <div class="project-content">
-                <h5 class="text-gradient mb-2">Color Line Draw 3D</h5>
-                <div class="text-muted mb-3">
-                  <small>Game • 2020</small>
-                </div>
-                <p class="mb-3">Unity ile geliştirilmiş 3D puzzle oyunu. Google Play Store'da 100K+ indirme.</p>
-                <div class="project-badges">
-                  <span class="badge project-badge">Unity</span>
-                  <span class="badge project-badge">C#</span>
-                  <span class="badge project-badge">3D Graphics</span>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 mb-4">
-          <div class="project-card animate-on-scroll">
-            <a href="https://play.google.com/store/apps/details?id=com.ibrahimatmaca.glasspuzzle3d" target="_blank" class="text-decoration-none" aria-label="View Glass Puzzle 3D game on Google Play Store">
-              <div class="project-image">
-                <img src="img/glass.png" alt="Glass Puzzle 3D - Unity physics game screenshot showing innovative glass breaking mechanics" class="img-fluid" loading="lazy">
-                <div class="project-overlay" aria-hidden="true">
-                  <i class="fa fa-external-link fa-2x text-white" aria-hidden="true"></i>
-                </div>
-              </div>
-              <div class="project-content">
-                <h5 class="text-gradient mb-2">Glass Puzzle 3D</h5>
-                <div class="text-muted mb-3">
-                  <small>Game • 2020</small>
-                </div>
-                <p class="mb-3">İnovatif cam kırma mekaniği ile geliştirilmiş 3D puzzle oyunu.</p>
-                <div class="project-badges">
-                  <span class="badge project-badge">Unity</span>
-                  <span class="badge project-badge">C#</span>
-                  <span class="badge project-badge">Physics</span>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
+        <!-- Content will be populated by JavaScript -->
       </div>
     </div>
   </section>
@@ -656,23 +377,19 @@
               <div id="errormessage" class="alert alert-danger" style="display: none;"></div>
               
               <div class="form-group-modern">
-                <input type="text" name="name" class="form-control-modern" id="name" placeholder=" " required />
-                <label class="form-label-modern">Adınız</label>
+                <input type="text" name="name" class="form-control-modern" id="name" placeholder="Adınız Soyadınız" required />
               </div>
               
               <div class="form-group-modern">
-                <input type="email" class="form-control-modern" name="email" id="email" placeholder=" " required />
-                <label class="form-label-modern">Email Adresiniz</label>
+                <input type="email" class="form-control-modern" name="email" id="email" placeholder="Email Adresiniz" required />
               </div>
               
               <div class="form-group-modern">
-                <input type="text" class="form-control-modern" name="subject" id="subject" placeholder=" " required />
-                <label class="form-label-modern">Konu</label>
+                <input type="text" class="form-control-modern" name="subject" id="subject" placeholder="Konu Başlığı" required />
               </div>
               
               <div class="form-group-modern">
-                <textarea class="form-control-modern" name="message" rows="5" placeholder=" " required></textarea>
-                <label class="form-label-modern">Mesajınız</label>
+                <textarea class="form-control-modern" name="message" rows="5" placeholder="Mesajınızı buraya yazın..." required></textarea>
               </div>
               
               <button type="submit" class="btn-modern w-100" id="contact-submit">Mesaj Gönder</button>

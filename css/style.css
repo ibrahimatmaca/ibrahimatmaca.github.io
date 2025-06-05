@@ -599,6 +599,8 @@ a:hover {
   border: 4px solid var(--bg-color);
   position: relative;
   z-index: 2;
+  display: block;
+  background-color: #f0f0f0;
 }
 
 .avatar-glow {
@@ -1286,19 +1288,100 @@ a:hover {
   #skills-services .card-modern {
     padding: 2rem 1.5rem;
   }
+  
+  /* Project images responsive improvements */
+  .project-image {
+    height: 240px;
+  }
+  
+  .project-card {
+    margin-bottom: 2rem;
+  }
+  
+  .project-content {
+    padding: 1.5rem;
+  }
+  
+  .project-badges {
+    gap: 0.25rem;
+  }
+  
+  .project-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .project-image {
+    height: 200px;
+  }
+  
+  .project-content {
+    padding: 1rem;
+  }
+  
+  .project-category-section h4 {
+    font-size: 1.25rem;
+  }
+  
+  .project-category-section h4 i {
+    font-size: 1.5rem;
+  }
 }
 
 /*======================================
 //--//-->   PROJECT CARDS
 ======================================*/
 
+.project-category-section {
+  margin-bottom: 3rem;
+}
+
+.project-category-section h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--mobile-accent), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.project-category-section h4 i {
+  background: linear-gradient(135deg, var(--mobile-accent), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.75rem;
+}
+
+.project-category-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(135deg, var(--mobile-accent), var(--secondary-color));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.project-category-section:hover h4::after {
+  width: 120px;
+}
+
 .project-card {
   background: var(--card-bg);
   border-radius: 20px;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px var(--shadow);
   border: 1px solid var(--border-color);
-  backdrop-filter: blur(10px);
+  height: 100%;
 }
 
 .project-card:hover {
@@ -1309,18 +1392,27 @@ a:hover {
 .project-image {
   position: relative;
   overflow: hidden;
-  height: 250px;
+  height: 280px;
+  border-radius: 12px 12px 0 0;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .project-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  object-position: center;
+  transition: transform 0.5s ease, filter 0.3s ease;
+  border-radius: 12px 12px 0 0;
+  background: var(--bg-secondary);
 }
 
 .project-card:hover .project-image img {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  filter: brightness(1.1);
 }
 
 .project-overlay {
@@ -1411,21 +1503,6 @@ a:hover {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
   background: var(--card-bg);
-}
-
-.form-label-modern {
-  position: absolute;
-  top: 1rem;
-  left: 1.5rem;
-  color: var(--text-muted);
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.form-control-modern:focus + .form-label-modern,
-.form-control-modern:not(:placeholder-shown) + .form-label-modern {
-  transform: translateY(-2rem) scale(0.8);
-  color: var(--primary-color);
 }
 
 /*======================================
@@ -1678,10 +1755,10 @@ img {
   image-rendering: optimize-contrast;
 }
 
-/* Lazy Loading Fallback */
+/* Lazy Loading Styles */
 img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 0.3s;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 img[loading="lazy"].loaded {
@@ -1698,11 +1775,34 @@ img[loading="lazy"].loaded {
 }
 
 .webp .project-image img[src*="drawline"] {
-  content: url('../img/drawline.webp');
+  object-position: center center;
+  object-fit: cover;
 }
 
 .webp .project-image img[src*="glass"] {
-  content: url('../img/glass.webp');
+  object-position: center center;
+  object-fit: cover;
+}
+
+.webp .project-image img[src*="elevana"] {
+  object-position: center center;
+  object-fit: cover;
+}
+
+/* Additional project image optimizations */
+.project-image img[src*="elevana"] {
+  object-position: center center;
+  object-fit: cover;
+}
+
+.project-image img[src*="drawline"] {
+  object-position: center center;
+  object-fit: cover;
+}
+
+.project-image img[src*="glass"] {
+  object-position: center center;
+  object-fit: cover;
 }
 
 /* Reduce motion for accessibility and performance */
@@ -1837,4 +1937,154 @@ textarea:focus-visible {
 
 .skip-link:focus {
   top: 6px;
+}
+
+/* Language Dropdown Menu */
+.language-dropdown {
+  background: var(--card-bg) !important;
+  border: 2px solid var(--mobile-accent) !important;
+  color: var(--text-color) !important;
+  padding: 10px 15px !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin-left: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+}
+
+.language-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.language-dropdown:hover::before {
+  left: 100%;
+}
+
+.language-dropdown:hover {
+  background: var(--mobile-accent) !important;
+  border-color: var(--mobile-accent) !important;
+  color: white !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 25px var(--matrix-glow) !important;
+}
+
+.language-dropdown:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--matrix-glow) !important;
+}
+
+.language-dropdown i {
+  font-size: 16px !important;
+  transition: transform 0.3s ease !important;
+  margin-right: 4px !important;
+}
+
+.language-dropdown:hover i {
+  transform: rotate(15deg) !important;
+}
+
+.language-dropdown span {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: capitalize !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 10px 40px var(--shadow-heavy) !important;
+  padding: 8px !important;
+  margin-top: 8px !important;
+  min-width: 120px !important;
+}
+
+.dropdown-menu .dropdown-item {
+  color: var(--text-color) !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: var(--mobile-accent) !important;
+  color: white !important;
+  transform: translateX(4px) !important;
+}
+
+.dropdown-menu .dropdown-item.active {
+  background: var(--mobile-accent) !important;
+  color: white !important;
+}
+
+.language-check {
+  width: 16px !important;
+  color: var(--success-color) !important;
+  font-size: 12px !important;
+  margin-right: 8px !important;
+}
+
+/* Fix for me-1, me-2 classes */
+.me-1 {
+  margin-right: 0.25rem !important;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+.me-4 {
+  margin-right: 1.5rem !important;
+}
+
+/* Theme specific dropdown styles */
+[data-theme="dark"] .language-dropdown {
+  border-color: var(--secondary-color) !important;
+  box-shadow: 0 0 15px rgba(103, 232, 249, 0.2) !important;
+}
+
+[data-theme="dark"] .language-dropdown:hover {
+  background: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  box-shadow: 0 0 30px var(--matrix-glow) !important;
+}
+
+[data-theme="light"] .language-dropdown {
+  border-color: var(--mobile-accent) !important;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.2) !important;
+}
+
+[data-theme="light"] .language-dropdown:hover {
+  background: var(--mobile-accent) !important;
+  border-color: var(--mobile-accent) !important;
+  box-shadow: 0 0 30px var(--matrix-glow) !important;
+}
+
+/* Remove old language toggle styles */
+.language-toggle {
+  display: none !important;
 }
