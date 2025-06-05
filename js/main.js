@@ -1,50 +1,16 @@
 (function ($) {
 	"use strict";
 	var nav = $('nav');
-  var navHeight = nav.outerHeight();
-  
-  $('.navbar-toggler').on('click', function() {
-    if( ! $('#mainNav').hasClass('navbar-reduce')) {
-      $('#mainNav').addClass('navbar-reduce');
-    }
-  })
-
-  // Preloader
-  $(window).on('load', function () {
-    if ($('#preloader').length) {
-      $('#preloader').delay(100).fadeOut('slow', function () {
-        $(this).remove();
-      });
-    }
-  });
-
-  // Back to top button
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
-    } else {
-      $('.back-to-top').fadeOut('slow');
-    }
-  });
-  $('.back-to-top').click(function(){
-    $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
-    return false;
-  });
-
-	/*--/ Star ScrollTop /--*/
-	$('.scrolltop-mf').on("click", function () {
-		$('html, body').animate({
-			scrollTop: 0
-		}, 1000);
+	var navHeight = nav.outerHeight();
+	
+	// Modern navbar functionality
+	$('.navbar-toggler').on('click', function() {
+		if (!$('#mainNav').hasClass('navbar-reduce')) {
+			$('#mainNav').addClass('navbar-reduce');
+		}
 	});
 
-	/*--/ Star Counter /--*/
-	$('.counter').counterUp({
-		delay: 15,
-		time: 2000
-	});
-
-	/*--/ Star Scrolling nav /--*/
+	// Smooth scrolling for navigation links
 	$('a.js-scroll[href*="#"]:not([href="#"])').on("click", function () {
 		if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
 			var target = $(this.hash);
@@ -58,7 +24,7 @@
 		}
 	});
 
-	// Closes responsive menu when a scroll trigger link is clicked
+	// Close responsive menu when a scroll trigger link is clicked
 	$('.js-scroll').on("click", function () {
 		$('.navbar-collapse').collapse('hide');
 	});
@@ -68,40 +34,139 @@
 		target: '#mainNav',
 		offset: navHeight
 	});
-	/*--/ End Scrolling nav /--*/
 
-	/*--/ Navbar Menu Reduce /--*/
+	// Modern navbar scroll behavior
 	$(window).trigger('scroll');
 	$(window).on('scroll', function () {
-		var pixels = 50; 
-		var top = 1200;
+		var pixels = 50;
 		if ($(window).scrollTop() > pixels) {
 			$('.navbar-expand-md').addClass('navbar-reduce');
-			$('.navbar-expand-md').removeClass('navbar-trans');
 		} else {
-			$('.navbar-expand-md').addClass('navbar-trans');
 			$('.navbar-expand-md').removeClass('navbar-reduce');
-		}
-		if ($(window).scrollTop() > top) {
-			$('.scrolltop-mf').fadeIn(1000, "easeInOutExpo");
-		} else {
-			$('.scrolltop-mf').fadeOut(1000, "easeInOutExpo");
 		}
 	});
 
-	/*--/ Star Typed /--*/
-	if ($('.text-slider').length == 1) {
-    var typed_strings = $('.text-slider-items').text();
-		var typed = new Typed('.text-slider', {
-			strings: typed_strings.split(','),
-			typeSpeed: 80,
-			loop: true,
-			backDelay: 1100,
-			backSpeed: 30
-		});
+	// Modern counter animation
+	$('.counter').counterUp({
+		delay: 15,
+		time: 2000,
+		formatter: function (n) {
+			return n.replace(/,/g, '.');
+		}
+	});
+
+	// Contact form handling
+	$('#contactForm').on('submit', function(e) {
+		e.preventDefault();
+		
+		var name = $('#name').val();
+		var email = $('#email').val();
+		var subject = $('#subject').val();
+		var message = $('textarea[name="message"]').val();
+		
+		// Simple validation
+		if (name.length < 2) {
+			showError('Lütfen geçerli bir isim giriniz.');
+			return;
+		}
+		
+		if (!isValidEmail(email)) {
+			showError('Lütfen geçerli bir email adresi giriniz.');
+			return;
+		}
+		
+		if (subject.length < 3) {
+			showError('Lütfen geçerli bir konu giriniz.');
+			return;
+		}
+		
+		if (message.length < 10) {
+			showError('Lütfen daha detaylı bir mesaj yazınız.');
+			return;
+		}
+		
+		// Show success message
+		showSuccess('Mesajınız gönderildi! En kısa sürede size dönüş yapılacaktır.');
+		
+		// Reset form
+		this.reset();
+	});
+
+	function showError(message) {
+		$('#errormessage').text(message).show();
+		$('#sendmessage').hide();
+		setTimeout(function() {
+			$('#errormessage').fadeOut();
+		}, 5000);
 	}
 
-	/*--/ Testimonials owl /--*/
+	function showSuccess(message) {
+		$('#sendmessage').text(message).show();
+		$('#errormessage').hide();
+		setTimeout(function() {
+			$('#sendmessage').fadeOut();
+		}, 5000);
+	}
+
+	function isValidEmail(email) {
+		var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
+	}
+
+	// Smooth animations for skill progress bars
+	$(window).on('scroll', function() {
+		$('.skill-progress-bar').each(function() {
+			var elementTop = $(this).offset().top;
+			var elementBottom = elementTop + $(this).outerHeight();
+			var viewportTop = $(window).scrollTop();
+			var viewportBottom = viewportTop + $(window).height();
+			
+			if (elementBottom > viewportTop && elementTop < viewportBottom) {
+				$(this).addClass('animate');
+			}
+		});
+	});
+
+	// Add smooth hover effects
+	$('.card-modern, .project-card, .btn-modern, .btn-outline-modern').hover(
+		function() {
+			$(this).addClass('hover-effect');
+		},
+		function() {
+			$(this).removeClass('hover-effect');
+		}
+	);
+
+	// Preloader
+	$(window).on('load', function () {
+		if ($('#preloader').length) {
+			$('#preloader').delay(100).fadeOut('slow', function () {
+				$(this).remove();
+			});
+		}
+	});
+
+	// Back to top button
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > 100) {
+			$('.back-to-top').fadeIn('slow');
+		} else {
+			$('.back-to-top').fadeOut('slow');
+		}
+	});
+	$('.back-to-top').click(function(){
+		$('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
+		return false;
+	});
+
+	/*--/ Star ScrollTop /--*/
+	$('.scrolltop-mf').on("click", function () {
+		$('html, body').animate({
+			scrollTop: 0
+		}, 1000);
+	});
+
+	/*--/ Star Testimonials owl /--*/
 	$('#testimonial-mf').owlCarousel({
 		margin: 20,
 		autoplay: true,

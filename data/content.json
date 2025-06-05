@@ -1,0 +1,369 @@
+{
+  "site": {
+    "title": "İbrahim Atmaca - Senior Mobile Developer",
+    "description": "MoneyPay'de çalışan Senior Mobile Developer İbrahim Atmaca'nın kişisel portföy sitesi",
+    "keywords": "İbrahim Atmaca, Senior Mobile Developer, MoneyPay, Flutter, iOS, Android"
+  },
+  "navigation": {
+    "brand": "İbrahim Atmaca",
+    "home": "Ana Sayfa",
+    "about": "Hakkımda",
+    "experience": "Deneyim",
+    "skills": "Yetenekler",
+    "projects": "Projeler",
+    "contact": "İletişim"
+  },
+  "hero": {
+    "name": "İBRAHİM ATMACA",
+    "titles": [
+      "Senior Mobile Developer",
+      "Flutter Expert",
+      "iOS Developer",
+      "Android Developer",
+      "MoneyPay Team Lead"
+    ],
+    "cta_primary": "Hakkımda",
+    "cta_secondary": "İletişime Geç"
+  },
+  "about": {
+    "title": "Hakkımda",
+    "personal_info": {
+      "name": "İbrahim Atmaca",
+      "position": "Senior Mobile Developer",
+      "company": "MoneyPay",
+      "email": "ibrahim.atmaca61@hotmail.com",
+      "education": "19 Mayıs Üniversitesi - Bilgisayar Mühendisliği (2016-2020)"
+    },
+    "description": [
+      "MoneyPay'de Senior Mobile Developer olarak çalışan, fintech sektöründe mobil uygulama geliştirme konusunda uzmanlaşmış bir yazılım geliştiricisiyim.",
+      "Yaklaşık 5 yıldır Flutter ile mobil uygulama geliştirme alanında çalışmaktayım. Son 2.5 yıldır MoneyPay ekibinin bir parçasıyım ve son 1 yıldır Senior Mobile Developer olarak görev yapmaktayım. Bu süreçte özellikle Masterpass ve KYC gibi süreçlerde native kod entegrasyonlarına aktif olarak katkı sağladım. Ayrıca uygulama performansını artırma ve genel kullanıcı deneyimini iyileştirme konularında da odaklandım.",
+      "Kariyerim boyunca fintech sektöründe uzmanlaştım, POS cihazları, ödeme sistemleri ve güvenlik uygulamaları konusunda uygulamalı deneyim kazandım. Teknolojiye olan tutkum iş dışında da yeni projeler geliştirerek ve FPS oyunları oynayarak devam etmektedir.",
+      "Sürekli öğrenmeyi ve teknolojiyi takip etmeyi seviyorum. Takım liderliği yaparak genç geliştiricileri mentorlamaktan keyif alıyorum."
+    ]
+  },
+  "experience": {
+    "title": "Profesyonel Deneyim",
+    "subtitle": "Fintech ve oyun geliştirme sektöründe uzmanlaşmış mobil uygulama geliştirme deneyimi",
+    "items": [
+      {
+        "company": "MoneyPay",
+        "position": "Senior Mobile Developer",
+        "period": "Temmuz 2024 - Devam Ediyor",
+        "location": "Remote",
+        "employment_type": "Tam Zamanlı",
+        "description": "Fintech uygulamalarında ileri düzey mobil geliştirme ve teknoloji entegrasyonu. Cloud Firestore ile veri yönetimi ve performans optimizasyonu.",
+        "achievements": [
+          "Technology Integration ve Cloud Firestore uzmanlaşması",
+          "Senior seviyede takım liderliği ve mentorship",
+          "Performans optimizasyonu ve kod kalitesi iyileştirmeleri"
+        ]
+      },
+      {
+        "company": "MoneyPay",
+        "position": "Mobile Developer",
+        "period": "Temmuz 2023 - Ağustos 2024",
+        "location": "İstanbul",
+        "employment_type": "Tam Zamanlı",
+        "description": "Flutter ile fintech mobil uygulaması geliştirme. Ödeme sistemleri entegrasyonu ve kullanıcı deneyimi iyileştirmeleri.",
+        "achievements": [
+          "Masterpass ve KYC entegrasyonları",
+          "Native kod entegrasyonları",
+          "Uygulama performans artışı sağlama"
+        ]
+      },
+      {
+        "company": "iWallet Türkiye",
+        "position": "Expert Mobile Application Developer",
+        "period": "Mart 2023 - Temmuz 2023",
+        "location": "Ankara",
+        "employment_type": "Remote",
+        "description": "Uzman seviyede mobil uygulama geliştirme ve takım liderliği. Payment sistemleri ve real-time kommunikasyon çözümleri.",
+        "achievements": [
+          "Payment Systems uzmanlaşması",
+          "Team Leadership ve mentorship",
+          "Web Socket ve Stacked architecture"
+        ]
+      },
+      {
+        "company": "iWallet Türkiye",
+        "position": "Mobile Application Developer",
+        "period": "Mart 2022 - Mayıs 2023",
+        "location": "Ankara",
+        "employment_type": "Tam Zamanlı",
+        "description": "Flutter ile fintech uygulamaları geliştirme. Ödeme sistemleri entegrasyonu ve güvenlik protokolleri implementasyonu.",
+        "achievements": [
+          "Flutter ile ödeme uygulaması geliştirme",
+          "Güvenlik protokolleri implementasyonu",
+          "Takım çalışması ve kod review süreçleri"
+        ]
+      },
+      {
+        "company": "Freelancer.com",
+        "position": "Mobile Application Developer",
+        "period": "Temmuz 2020 - Şubat 2021",
+        "location": "Remote",
+        "employment_type": "Freelance",
+        "description": "Flutter ile çoklu proje geliştirme. Film ve dating uygulamaları için kapsamlı mobil çözümler.",
+        "achievements": [
+          "Multiple movie ve dating apps geliştirme",
+          "Flutter ve Provider state management",
+          "Müşteri odaklı çözüm geliştirme"
+        ]
+      },
+      {
+        "company": "Luna Games Studio",
+        "position": "Jr. Game Developer",
+        "period": "Temmuz 2019 - Haziran 2020",
+        "location": "Samsun",
+        "employment_type": "Tam Zamanlı",
+        "description": "Unity ile hyper-casual oyun geliştirme. Google Play Store'da yayınlanan 12 oyun projesi.",
+        "achievements": [
+          "12 Hyper-Casual Games Google Play release",
+          "Unity ve C# ile oyun geliştirme",
+          "Hyper-Casual Game Design uzmanlığı"
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "title": "Teknik Yetenekler",
+    "categories": {
+      "mobile": {
+        "title": "Mobil Geliştirme",
+        "items": [
+          { 
+            "name": "Flutter", 
+            "level": 95, 
+            "endorsements": 9,
+            "experience": "5+ yıl deneyim",
+            "icon": "fab fa-flutter"
+          },
+          { 
+            "name": "iOS Development", 
+            "level": 85, 
+            "endorsements": 2,
+            "experience": "iOS Training, Auto Layout",
+            "icon": "fab fa-apple"
+          },
+          { 
+            "name": "SwiftUI", 
+            "level": 80, 
+            "endorsements": 2,
+            "experience": "iOS Development",
+            "icon": "fab fa-swift"
+          },
+          { 
+            "name": "Swift", 
+            "level": 85, 
+            "endorsements": 2,
+            "experience": "LinkedIn Certified",
+            "certification": true,
+            "icon": "fab fa-swift"
+          }
+        ]
+      },
+      "architecture": {
+        "title": "Mimari & State Management",
+        "items": [
+          { 
+            "name": "MVVM", 
+            "level": 90, 
+            "endorsements": 2,
+            "experience": "Architecture Pattern",
+            "icon": "fas fa-sitemap"
+          },
+          { 
+            "name": "BLoC", 
+            "level": 85, 
+            "endorsements": 0,
+            "experience": "Freelancer.com",
+            "icon": "fas fa-cubes"
+          },
+          { 
+            "name": "MobX", 
+            "level": 75, 
+            "endorsements": 0,
+            "experience": "Freelancer.com",
+            "icon": "fas fa-stream"
+          },
+          { 
+            "name": "Stacked", 
+            "level": 80, 
+            "endorsements": 0,
+            "experience": "iWallet Türkiye",
+            "icon": "fas fa-layer-group"
+          }
+        ]
+      },
+      "backend": {
+        "title": "Backend & Integration",
+        "items": [
+          { 
+            "name": "Cloud Firestore", 
+            "level": 90, 
+            "endorsements": 0,
+            "experience": "MoneyPay",
+            "icon": "fas fa-cloud"
+          },
+          { 
+            "name": "REST API", 
+            "level": 85, 
+            "endorsements": 0,
+            "experience": "API Integration",
+            "icon": "fas fa-exchange-alt"
+          },
+          { 
+            "name": "Technology Integration", 
+            "level": 88, 
+            "endorsements": 0,
+            "experience": "MoneyPay",
+            "icon": "fas fa-plug"
+          },
+          { 
+            "name": "Web Socket", 
+            "level": 80, 
+            "endorsements": 0,
+            "experience": "iWallet Türkiye",
+            "icon": "fas fa-satellite-dish"
+          }
+        ]
+      },
+      "fintech": {
+        "title": "Fintech & Payment",
+        "items": [
+          { 
+            "name": "Payment Systems", 
+            "level": 92, 
+            "endorsements": 0,
+            "experience": "iWallet Türkiye, MoneyPay",
+            "icon": "fas fa-credit-card"
+          },
+          { 
+            "name": "POS Systems", 
+            "level": 85, 
+            "endorsements": 0,
+            "experience": "iWallet Türkiye",
+            "icon": "fas fa-cash-register"
+          },
+          { 
+            "name": "MVVM", 
+            "level": 90, 
+            "endorsements": 2,
+            "experience": "Architecture Pattern",
+            "icon": "fas fa-sitemap"
+          }
+        ]
+      },
+      "gamedev": {
+        "title": "Oyun Geliştirme",
+        "items": [
+          { 
+            "name": "Unity", 
+            "level": 70, 
+            "endorsements": 0,
+            "experience": "Luna Games Studio",
+            "icon": "fab fa-unity"
+          }
+        ]
+      },
+      "leadership": {
+        "title": "Liderlik & Soft Skills",
+        "items": [
+          { 
+            "name": "Team Leadership", 
+            "level": 88, 
+            "endorsements": 0,
+            "experience": "iWallet Türkiye, MoneyPay",
+            "icon": "fas fa-users"
+          },
+          { 
+            "name": "Teamwork", 
+            "level": 90, 
+            "endorsements": 0,
+            "experience": "iWallet Türkiye",
+            "icon": "fas fa-handshake"
+          }
+        ]
+      }
+    },
+    "services": [
+      {
+        "icon": "fa-mobile",
+        "title": "Cross-Platform Development",
+        "description": "Flutter ile iOS ve Android platformları için tek kod tabanında uygulama geliştirme. 9+ endorsement ile onaylanmış uzmanlık."
+      },
+      {
+        "icon": "fa-credit-card",
+        "title": "Fintech Solutions",
+        "description": "Payment sistemleri, POS entegrasyonu ve güvenli finans teknolojileri uygulamaları. MoneyPay ve iWallet deneyimi."
+      },
+      {
+        "icon": "fa-users",
+        "title": "Technical Leadership",
+        "description": "Takım liderliği, mentorship ve teknoloji entegrasyonu. Senior seviyede proje yönetimi deneyimi."
+      }
+    ]
+  },
+  "projects": {
+    "title": "Öne Çıkan Projeler",
+    "subtitle": "Önemli projelerim",
+    "items": [
+      {
+        "title": "Color Line Draw 3D",
+        "category": "Game",
+        "date": "2020",
+        "description": "Unity ile geliştirilmiş 3D puzzle oyunu. Google Play Store'da 100K+ indirme.",
+        "technologies": ["Unity", "C#", "3D Graphics"],
+        "image": "img/drawline.jpg",
+        "link": "https://play.google.com/store/apps/details?id=com.ibrahimatmaca.ColorLineDraw"
+      },
+      {
+        "title": "Glass Puzzle 3D",
+        "category": "Game",
+        "date": "2020",
+        "description": "İnovatif cam kırma mekaniği ile geliştirilmiş 3D puzzle oyunu.",
+        "technologies": ["Unity", "C#", "Physics"],
+        "image": "img/glass.png",
+        "link": "https://play.google.com/store/apps/details?id=com.ibrahimatmaca.glasspuzzle3d"
+      }
+    ]
+  },
+  "contact": {
+    "title": "Benimle İletişime Geçin",
+    "info_title": "İletişim Bilgileri",
+    "description": "MoneyPay'de senior mobile developer olarak çalışıyorum. Yeni projeler, iş birliği fırsatları ve teknoloji konuları hakkında konuşmaktan mutluluk duyarım.",
+    "details": [
+      { "icon": "ion-email", "text": "ibrahim.atmaca61@hotmail.com" },
+      { "icon": "ion-social-linkedin", "text": "LinkedIn: İbrahim Atmaca", "link": "https://www.linkedin.com/in/ibrahimatmaca" },
+      { "icon": "ion-social-github", "text": "GitHub: ibrahimatmaca", "link": "https://github.com/ibrahimatmaca" }
+    ],
+    "social_links": [
+      { "icon": "ion-social-linkedin", "link": "https://www.linkedin.com/in/ibrahimatmaca", "label": "LinkedIn" },
+      { "icon": "ion-social-github", "link": "https://github.com/ibrahimatmaca", "label": "GitHub" },
+      { "icon": "ion-email", "link": "mailto:ibrahim.atmaca61@hotmail.com", "label": "Email" }
+    ],
+    "form": {
+      "name_placeholder": "Adınız",
+      "email_placeholder": "Email Adresiniz",
+      "subject_placeholder": "Konu",
+      "message_placeholder": "Mesajınız",
+      "submit_button": "Mesaj Gönder",
+      "success_message": "Mesajınız gönderildi. Teşekkür ederim!",
+      "validation": {
+        "name_error": "Lütfen en az 4 karakter giriniz",
+        "email_error": "Lütfen geçerli bir email adresi giriniz",
+        "subject_error": "Lütfen en az 8 karakter giriniz",
+        "message_error": "Lütfen mesaj yazınız"
+      }
+    }
+  },
+  "footer": {
+    "copyright": "2024 İbrahim Atmaca. Tüm hakları saklıdır.",
+    "credits": "Senior Mobile Developer"
+  },
+  "theme": {
+    "toggle_text": "Tema",
+    "light_mode": "Açık Tema",
+    "dark_mode": "Koyu Tema"
+  }
+} 

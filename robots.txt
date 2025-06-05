@@ -1,0 +1,42 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://ibrahimatmaca.github.io/sitemap.xml
+
+# Block access to potential sensitive files
+Disallow: /lib/
+Disallow: /*.json$
+Disallow: /js/
+Disallow: /css/
+
+# Allow access to main content
+Allow: /css/style.css
+Allow: /js/main.js
+Allow: /js/content-manager.js
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Social media bots
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Crawl delay (be respectful)
+Crawl-delay: 1
+
+# Host preference
+Host: https://ibrahimatmaca.github.io 
