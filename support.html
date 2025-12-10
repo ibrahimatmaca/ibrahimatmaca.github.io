@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+
+<head>
+  <!-- Basic Meta Tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https:; connect-src 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <!-- Primary Meta Tags -->
+  <title id="page-title">Destek | Support - İbrahim Atmaca</title>
+  <meta name="title" content="Destek | Support - İbrahim Atmaca">
+  <meta id="page-description" name="description" content="Uygulamalarım için destek sayfası. Yardım, SSS ve iletişim bilgileri. Support page for my applications. Help, FAQ and contact information.">
+  <meta id="page-keywords" name="keywords" content="destek, support, yardım, help, FAQ, iletişim, contact, İbrahim Atmaca, uygulama desteği, app support">
+  <meta name="author" content="İbrahim Atmaca">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Turkish">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://ibrahimatmaca.github.io/support.html">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="İbrahim Atmaca Portfolio">
+  <meta property="og:title" content="Destek | Support - İbrahim Atmaca">
+  <meta property="og:description" content="Uygulamalarım için destek sayfası. Support page for my applications.">
+  <meta property="og:url" content="https://ibrahimatmaca.github.io/support.html">
+  <meta property="og:locale" content="tr_TR">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#2563EB">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+  
+  <!-- Support Page Specific Styles -->
+  <style>
+    .support-hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .support-hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .support-hero p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .quick-help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .help-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .help-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px var(--shadow);
+      border-color: var(--primary-color);
+    }
+    
+    .help-card-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      color: white;
+    }
+    
+    .help-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+    
+    .help-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    
+    .faq-section {
+      margin: 4rem 0;
+    }
+    
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-item:hover {
+      border-color: var(--primary-color);
+    }
+    
+    .faq-question {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+    
+    .faq-question:hover {
+      color: var(--primary-color);
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 1.5rem;
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+      padding: 0 1.5rem 1.5rem;
+    }
+    
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+    
+    .faq-question i {
+      transition: transform 0.3s ease;
+      color: var(--primary-color);
+    }
+    
+    .contact-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin: 3rem 0;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .contact-box h2 {
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+    }
+    
+    .contact-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-info:hover {
+      background: var(--bg-tertiary);
+      transform: translateX(5px);
+    }
+    
+    .contact-info i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      width: 40px;
+      text-align: center;
+    }
+    
+    .contact-info a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .contact-info a:hover {
+      color: var(--primary-color);
+    }
+    
+    .security-section {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .security-section h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .security-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .security-section li {
+      padding: 0.5rem 0;
+      color: var(--text-secondary);
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    
+    .security-section li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success-color);
+      font-weight: bold;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .status-operational {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--success-color);
+      border: 1px solid var(--success-color);
+    }
+    
+    .language-switcher {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    
+    .language-switcher button {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      color: var(--text-color);
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      margin: 0 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .language-switcher button.active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+    
+    .language-switcher button:hover {
+      border-color: var(--primary-color);
+    }
+    
+    .content-tr, .content-en {
+      display: none;
+    }
+    
+    .content-tr.active, .content-en.active {
+      display: block;
+    }
+    
+    @media (max-width: 768px) {
+      .support-hero h1 {
+        font-size: 2rem;
+      }
+      
+      .quick-help-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-box {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body id="page-top">
+  <!-- Skip Links for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#navigation" class="skip-link">Skip to navigation</a>
+  
+  <!-- Matrix Background -->
+  <div class="matrix-bg" aria-hidden="true">
+    <div class="matrix-rain" id="matrix-rain"></div>
+  </div>
+
+  <!--/ Nav Star /-->
+  <nav class="navbar navbar-b navbar-expand-md fixed-top" id="mainNav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a class="navbar-brand js-scroll" href="index.html" id="nav-brand" aria-label="İbrahim Atmaca - Go to homepage">İbrahim Atmaca</a>
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
+        aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="navbar-collapse collapse justify-content-end" id="navbarDefault">
+        <ul class="navbar-nav" role="menubar">
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="index.html#home" role="menuitem" id="nav-home">Ana Sayfa</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="index.html#about" role="menuitem" id="nav-about">Hakkımda</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="index.html#projects" role="menuitem" id="nav-projects">Projeler</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link active" href="support.html" role="menuitem" id="nav-support">Destek</a>
+          </li>
+          <li class="nav-item" role="none">
+            <a class="nav-link" href="index.html#contact" role="menuitem" id="nav-contact">İletişim</a>
+          </li>
+          <li class="nav-item" role="none">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle between light and dark theme" role="switch" aria-checked="false">
+              <i class="fa fa-sun-o" id="theme-icon" aria-hidden="true"></i>
+              <span id="theme-text">Light</span>
+            </button>
+          </li>
+          <li class="nav-item dropdown" role="none">
+            <button class="btn dropdown-toggle language-dropdown" type="button" id="languageDropdown" data-toggle="dropdown" aria-expanded="false" aria-label="Select language">
+              <i class="fa fa-globe me-1" aria-hidden="true"></i>
+              <span id="current-language">Türkçe</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+              <li><a class="dropdown-item" href="#" data-language="tr" id="lang-tr"><i class="fa fa-check me-2 language-check" style="visibility: visible;"></i>Türkçe</a></li>
+              <li><a class="dropdown-item" href="#" data-language="en" id="lang-en"><i class="fa fa-check me-2 language-check" style="visibility: hidden;"></i>English</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!--/ Nav End /-->
+
+  <!--/ Main Content /-->
+  <main id="main-content" role="main">
+    
+    <!-- Support Hero Section -->
+    <section class="support-hero">
+      <div class="container">
+        <div class="content-tr active">
+          <h1>Destek Merkezi</h1>
+          <p>Uygulamalarım hakkında sorularınız mı var? Size yardımcı olmaktan mutluluk duyarım.</p>
+        </div>
+        <div class="content-en">
+          <h1>Support Center</h1>
+          <p>Do you have questions about my applications? I'm happy to help you.</p>
+        </div>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+          <button class="lang-btn active" data-lang="tr" aria-label="Switch to Turkish">Türkçe</button>
+          <button class="lang-btn" data-lang="en" aria-label="Switch to English">English</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Help Cards -->
+    <section class="section-modern">
+      <div class="container">
+        <div class="content-tr active">
+          <div class="section-title animate-on-scroll">
+            <h2>Hızlı Yardım</h2>
+            <p class="section-subtitle">Sık sorulan sorular ve hızlı çözümler</p>
+          </div>
+        </div>
+        <div class="content-en">
+          <div class="section-title animate-on-scroll">
+            <h2>Quick Help</h2>
+            <p class="section-subtitle">Frequently asked questions and quick solutions</p>
+          </div>
+        </div>
+        
+        <div class="quick-help-grid">
+          <!-- Card 1 -->
+          <div class="help-card animate-on-scroll">
+            <div class="help-card-icon">
+              <i class="fa fa-mobile"></i>
+            </div>
+            <div class="content-tr active">
+              <h3>Uygulama Sorunları</h3>
+              <p>Uygulama çöküyor, yavaş çalışıyor veya beklenmedik bir hata mı alıyorsunuz? Cihazınızı yeniden başlatmayı deneyin ve uygulamayı güncelleyin.</p>
+            </div>
+            <div class="content-en">
+              <h3>App Issues</h3>
+              <p>Is the app crashing, running slowly, or showing unexpected errors? Try restarting your device and updating the app.</p>
+            </div>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="help-card animate-on-scroll">
+            <div class="help-card-icon">
+              <i class="fa fa-shield"></i>
+            </div>
+            <div class="content-tr active">
+              <h3>Güvenlik</h3>
+              <p>Uygulamalarım güvenliğinize önem verir. Verileriniz cihazınızda saklanır ve üçüncü taraflarla paylaşılmaz.</p>
+            </div>
+            <div class="content-en">
+              <h3>Security</h3>
+              <p>My applications prioritize your security. Your data is stored on your device and not shared with third parties.</p>
+            </div>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="help-card animate-on-scroll">
+            <div class="help-card-icon">
+              <i class="fa fa-sync"></i>
+            </div>
+            <div class="content-tr active">
+              <h3>Güncellemeler</h3>
+              <p>Uygulamaları güncel tutmak önemlidir. App Store veya Google Play Store'dan en son sürümü kontrol edin.</p>
+            </div>
+            <div class="content-en">
+              <h3>Updates</h3>
+              <p>Keeping apps up to date is important. Check the App Store or Google Play Store for the latest version.</p>
+            </div>
+          </div>
+          
+          <!-- Card 4 -->
+          <div class="help-card animate-on-scroll">
+            <div class="help-card-icon">
+              <i class="fa fa-question-circle"></i>
+            </div>
+            <div class="content-tr active">
+              <h3>Diğer Sorular</h3>
+              <p>Başka bir sorunuz mu var? Aşağıdaki iletişim bilgilerinden bana ulaşabilirsiniz.</p>
+            </div>
+            <div class="content-en">
+              <h3>Other Questions</h3>
+              <p>Do you have another question? You can reach me through the contact information below.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section-modern faq-section">
+      <div class="container">
+        <div class="content-tr active">
+          <div class="section-title animate-on-scroll">
+            <h2>Sık Sorulan Sorular</h2>
+          </div>
+        </div>
+        <div class="content-en">
+          <div class="section-title animate-on-scroll">
+            <h2>Frequently Asked Questions</h2>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item animate-on-scroll">
+              <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                <span class="content-tr active">Uygulamalarınız hangi platformlarda mevcut?</span>
+                <span class="content-en">On which platforms are your applications available?</span>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p class="content-tr active">Uygulamalarım iOS (App Store) ve Android (Google Play Store) platformlarında mevcuttur. Her platform için optimize edilmiş versiyonlar sunulmaktadır.</p>
+                <p class="content-en">My applications are available on iOS (App Store) and Android (Google Play Store) platforms. Optimized versions are provided for each platform.</p>
+              </div>
+            </div>
+            
+            <!-- FAQ Item 2 -->
+            <div class="faq-item animate-on-scroll">
+              <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                <span class="content-tr active">Uygulamalarınız ücretsiz mi?</span>
+                <span class="content-en">Are your applications free?</span>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p class="content-tr active">Çoğu uygulamam ücretsizdir. Bazı uygulamalarda premium özellikler için uygulama içi satın alma seçenekleri bulunmaktadır.</p>
+                <p class="content-en">Most of my applications are free. Some applications have in-app purchase options for premium features.</p>
+              </div>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="faq-item animate-on-scroll">
+              <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                <span class="content-tr active">Verilerim nasıl korunuyor?</span>
+                <span class="content-en">How is my data protected?</span>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p class="content-tr active">Uygulamalarım gizliliğinize önem verir. Verileriniz cihazınızda yerel olarak saklanır ve üçüncü taraflarla paylaşılmaz. Detaylı bilgi için gizlilik politikalarını inceleyebilirsiniz.</p>
+                <p class="content-en">My applications value your privacy. Your data is stored locally on your device and is not shared with third parties. You can review the privacy policies for detailed information.</p>
+              </div>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="faq-item animate-on-scroll">
+              <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                <span class="content-tr active">Bir hata bildirmek istiyorum. Nasıl yapabilirim?</span>
+                <span class="content-en">I want to report a bug. How can I do this?</span>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p class="content-tr active">Hata bildirimi için aşağıdaki e-posta adresinden bana ulaşabilirsiniz. Lütfen hatanın detaylarını, cihazınızın modelini ve işletim sistemini belirtin.</p>
+                <p class="content-en">You can reach me at the email address below for bug reports. Please include details of the bug, your device model, and operating system.</p>
+              </div>
+            </div>
+            
+            <!-- FAQ Item 5 -->
+            <div class="faq-item animate-on-scroll">
+              <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+                <span class="content-tr active">Yeni özellik önerisi yapabilir miyim?</span>
+                <span class="content-en">Can I suggest new features?</span>
+                <i class="fa fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p class="content-tr active">Tabii ki! Yeni özellik önerileriniz benim için çok değerlidir. İletişim bilgilerimden bana ulaşabilirsiniz.</p>
+                <p class="content-en">Of course! Your new feature suggestions are very valuable to me. You can reach me through my contact information.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section-modern">
+      <div class="container">
+        <div class="contact-box animate-on-scroll">
+          <div class="content-tr active">
+            <h2>İletişim</h2>
+            <p class="mb-4">Sorularınız, önerileriniz veya geri bildirimleriniz için benimle iletişime geçebilirsiniz.</p>
+          </div>
+          <div class="content-en">
+            <h2>Contact</h2>
+            <p class="mb-4">You can contact me for your questions, suggestions, or feedback.</p>
+          </div>
+          
+          <div class="status-badge status-operational">
+            <span class="content-tr active">✓ Tüm Sistemler Çalışıyor</span>
+            <span class="content-en">✓ All Systems Operational</span>
+          </div>
+          
+          <div class="contact-info">
+            <i class="ion-email"></i>
+            <div>
+              <strong class="content-tr active">E-posta:</strong>
+              <strong class="content-en">Email:</strong>
+              <a href="mailto:ibrahim.atmaca61@hotmail.com">ibrahim.atmaca61@hotmail.com</a>
+            </div>
+          </div>
+          
+          <div class="contact-info">
+            <i class="ion-social-linkedin"></i>
+            <div>
+              <strong class="content-tr active">LinkedIn:</strong>
+              <strong class="content-en">LinkedIn:</strong>
+              <a href="https://www.linkedin.com/in/ibrahimatmaca" target="_blank" rel="noopener noreferrer">İbrahim Atmaca</a>
+            </div>
+          </div>
+          
+          <div class="contact-info">
+            <i class="ion-social-github"></i>
+            <div>
+              <strong class="content-tr active">GitHub:</strong>
+              <strong class="content-en">GitHub:</strong>
+              <a href="https://github.com/ibrahimatmaca" target="_blank" rel="noopener noreferrer">ibrahimatmaca</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="section-modern">
+      <div class="container">
+        <div class="security-section animate-on-scroll">
+          <div class="content-tr active">
+            <h3><i class="fa fa-shield me-2"></i>Güvenlik Önlemleri</h3>
+            <p>Bu sayfa aşağıdaki güvenlik önlemleri ile korunmaktadır:</p>
+            <ul>
+              <li>Content Security Policy (CSP) ile XSS saldırılarına karşı koruma</li>
+              <li>X-Frame-Options ile clickjacking saldırılarına karşı koruma</li>
+              <li>X-Content-Type-Options ile MIME type sniffing'e karşı koruma</li>
+              <li>Strict referrer policy ile veri sızıntısına karşı koruma</li>
+              <li>Tüm form verileri client-side validation ile kontrol edilir</li>
+              <li>Güvenli HTTPS bağlantıları kullanılır</li>
+            </ul>
+          </div>
+          <div class="content-en">
+            <h3><i class="fa fa-shield me-2"></i>Security Measures</h3>
+            <p>This page is protected with the following security measures:</p>
+            <ul>
+              <li>Protection against XSS attacks with Content Security Policy (CSP)</li>
+              <li>Protection against clickjacking attacks with X-Frame-Options</li>
+              <li>Protection against MIME type sniffing with X-Content-Type-Options</li>
+              <li>Protection against data leakage with strict referrer policy</li>
+              <li>All form data is validated with client-side validation</li>
+              <li>Secure HTTPS connections are used</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!--/ Footer /-->
+  <footer class="footer-modern" role="contentinfo">
+    <div class="container">
+      <p class="mb-2">&copy; 2024 <strong>İbrahim Atmaca</strong>. <span class="content-tr active">Tüm hakları saklıdır.</span><span class="content-en">All rights reserved.</span></p>
+      <p class="text-muted">Senior Mobile Developer</p>
+      <p class="mt-3">
+        <a href="index.html" class="text-decoration-none me-3"><span class="content-tr active">Ana Sayfa</span><span class="content-en">Home</span></a>
+        <a href="support.html" class="text-decoration-none me-3"><span class="content-tr active">Destek</span><span class="content-en">Support</span></a>
+        <a href="privacyPolicy.html" class="text-decoration-none"><span class="content-tr active">Gizlilik Politikası</span><span class="content-en">Privacy Policy</span></a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/jquery/jquery-migrate.min.js"></script>
+  <script src="lib/popper/popper.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+
+  <!-- Support Page Script -->
+  <script>
+    // Language Switcher
+    document.addEventListener('DOMContentLoaded', function() {
+      const langButtons = document.querySelectorAll('.lang-btn');
+      const langDropdown = document.querySelectorAll('[data-language]');
+      
+      // Button switcher
+      langButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+          switchLanguage(lang);
+          
+          // Update button states
+          langButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Dropdown switcher (if exists)
+      langDropdown.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          const lang = this.getAttribute('data-language');
+          switchLanguage(lang);
+        });
+      });
+      
+      function switchLanguage(lang) {
+        // Hide all content
+        document.querySelectorAll('.content-tr, .content-en').forEach(el => {
+          el.classList.remove('active');
+        });
+        
+        // Show selected language
+        document.querySelectorAll('.content-' + lang).forEach(el => {
+          el.classList.add('active');
+        });
+        
+        // Update HTML lang attribute
+        document.documentElement.lang = lang;
+        
+        // Update dropdown display
+        const currentLangSpan = document.getElementById('current-language');
+        if (currentLangSpan) {
+          currentLangSpan.textContent = lang === 'tr' ? 'Türkçe' : 'English';
+        }
+        
+        // Update dropdown checks
+        const trCheck = document.querySelector('#lang-tr .language-check');
+        const enCheck = document.querySelector('#lang-en .language-check');
+        if (trCheck && enCheck) {
+          if (lang === 'tr') {
+            trCheck.style.visibility = 'visible';
+            enCheck.style.visibility = 'hidden';
+          } else {
+            trCheck.style.visibility = 'hidden';
+            enCheck.style.visibility = 'visible';
+          }
+        }
+      }
+      
+      // FAQ Accordion
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+          const faqItem = this.parentElement;
+          const isActive = faqItem.classList.contains('active');
+          
+          // Close all FAQ items
+          document.querySelectorAll('.faq-item').forEach(item => {
+            item.classList.remove('active');
+            item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          });
+          
+          // Toggle current item
+          if (!isActive) {
+            faqItem.classList.add('active');
+            this.setAttribute('aria-expanded', 'true');
+          }
+        });
+        
+        // Keyboard support
+        question.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+          }
+        });
+      });
+      
+      // Initialize theme system
+      const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+      const themeText = document.getElementById('theme-text');
+      
+      html.setAttribute('data-theme', savedTheme);
+      
+      if (themeIcon && themeText) {
+        if (savedTheme === 'dark') {
+          themeIcon.className = 'fa fa-sun-o';
+          themeText.textContent = 'Light';
+        } else {
+          themeIcon.className = 'fa fa-moon-o';
+          themeText.textContent = 'Dark';
+        }
+      }
+      
+      // Theme toggle
+      const themeToggle = document.getElementById('theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          const currentTheme = html.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          
+          html.setAttribute('data-theme', newTheme);
+          localStorage.setItem('portfolio-theme', newTheme);
+          
+          if (themeIcon && themeText) {
+            if (newTheme === 'dark') {
+              themeIcon.className = 'fa fa-sun-o';
+              themeText.textContent = 'Light';
+            } else {
+              themeIcon.className = 'fa fa-moon-o';
+              themeText.textContent = 'Dark';
+            }
+          }
+        });
+      }
+      
+      // Initialize matrix animation (simplified)
+      const matrixRain = document.getElementById('matrix-rain');
+      if (matrixRain) {
+        const characters = '01İÖÇŞÜĞABCDEFGHIJKLMNOPQRSTUVWXYZ{}[]()<>+*/=.,:;?!@#$%^&*-_~`|\\';
+        
+        for (let i = 0; i < 50; i++) {
+          setTimeout(() => {
+            const char = document.createElement('div');
+            char.className = 'matrix-char';
+            char.textContent = characters[Math.floor(Math.random() * characters.length)];
+            char.style.left = Math.random() * 100 + '%';
+            char.style.animationDelay = Math.random() * 10 + 's';
+            char.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            matrixRain.appendChild(char);
+            
+            setTimeout(() => {
+              if (char.parentNode) {
+                char.parentNode.removeChild(char);
+              }
+            }, (Math.random() * 5 + 5) * 1000);
+          }, i * 200);
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
+
