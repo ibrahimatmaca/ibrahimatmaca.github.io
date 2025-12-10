@@ -311,6 +311,140 @@
       display: block;
     }
     
+    .contact-form-section {
+      margin: 4rem 0;
+    }
+    
+    .contact-form-modern {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .form-group-modern {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-control-modern {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control-modern:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .form-control-modern::placeholder {
+      color: var(--text-muted);
+    }
+    
+    .form-control-modern.is-invalid {
+      border-color: var(--error-color);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+    
+    .invalid-feedback {
+      display: none;
+      color: var(--error-color);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    
+    .invalid-feedback:not(:empty) {
+      display: block;
+    }
+    
+    textarea.form-control-modern {
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    .btn-modern {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .btn-modern:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
+    }
+    
+    .btn-modern:active {
+      transform: translateY(0);
+    }
+    
+    .btn-modern:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .alert-modern {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+    
+    .alert-modern.show {
+      display: block;
+    }
+    
+    .alert-success-modern {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+    }
+    
+    .alert-error-modern {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--error-color);
+      color: var(--error-color);
+    }
+    
+    .form-label-modern {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+    
+    .form-required {
+      color: var(--error-color);
+      margin-left: 0.25rem;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
     @media (max-width: 768px) {
       .support-hero h1 {
         font-size: 2rem;
@@ -574,17 +708,132 @@
       </div>
     </section>
 
+    <!-- Contact Form Section -->
+    <section class="section-modern contact-form-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="contact-form-modern animate-on-scroll">
+              <div class="content-tr active">
+                <h2 class="mb-4">Bize Yazın</h2>
+                <p class="mb-4 text-muted">Sorularınız, önerileriniz veya geri bildirimleriniz için formu doldurun. Size en kısa sürede dönüş yapacağım.</p>
+              </div>
+              <div class="content-en">
+                <h2 class="mb-4">Contact Us</h2>
+                <p class="mb-4 text-muted">Fill out the form for your questions, suggestions, or feedback. I will get back to you as soon as possible.</p>
+              </div>
+              
+              <!-- Success Message -->
+              <div id="form-success" class="alert-modern alert-success-modern" role="alert">
+                <i class="fa fa-check-circle me-2"></i>
+                <span class="content-tr active">Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağım.</span>
+                <span class="content-en">Your message has been sent successfully! I will get back to you as soon as possible.</span>
+              </div>
+              
+              <!-- Error Message -->
+              <div id="form-error" class="alert-modern alert-error-modern" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>
+                <span id="error-message"></span>
+              </div>
+              
+              <form id="supportForm" novalidate>
+                <div class="form-group-modern">
+                  <label for="support-name" class="form-label-modern">
+                    <span class="content-tr active">Ad Soyad</span>
+                    <span class="content-en">Full Name</span>
+                    <span class="form-required">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control-modern" 
+                    id="support-name" 
+                    name="name" 
+                    required
+                    aria-required="true"
+                    aria-invalid="false"
+                  >
+                  <div class="invalid-feedback" id="name-error"></div>
+                </div>
+                
+                <div class="form-group-modern">
+                  <label for="support-email" class="form-label-modern">
+                    <span class="content-tr active">E-posta Adresi</span>
+                    <span class="content-en">Email Address</span>
+                    <span class="form-required">*</span>
+                  </label>
+                  <input 
+                    type="email" 
+                    class="form-control-modern" 
+                    id="support-email" 
+                    name="email" 
+                    required
+                    aria-required="true"
+                    aria-invalid="false"
+                  >
+                  <div class="invalid-feedback" id="email-error"></div>
+                </div>
+                
+                <div class="form-group-modern">
+                  <label for="support-subject" class="form-label-modern">
+                    <span class="content-tr active">Konu</span>
+                    <span class="content-en">Subject</span>
+                    <span class="form-required">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    class="form-control-modern" 
+                    id="support-subject" 
+                    name="subject" 
+                    required
+                    aria-required="true"
+                    aria-invalid="false"
+                  >
+                  <div class="invalid-feedback" id="subject-error"></div>
+                </div>
+                
+                <div class="form-group-modern">
+                  <label for="support-message" class="form-label-modern">
+                    <span class="content-tr active">Mesajınız</span>
+                    <span class="content-en">Your Message</span>
+                    <span class="form-required">*</span>
+                  </label>
+                  <textarea 
+                    class="form-control-modern" 
+                    id="support-message" 
+                    name="message" 
+                    rows="6" 
+                    required
+                    aria-required="true"
+                    aria-invalid="false"
+                  ></textarea>
+                  <div class="invalid-feedback" id="message-error"></div>
+                </div>
+                
+                <div class="form-group-modern">
+                  <button type="submit" class="btn-modern w-100" id="submit-btn">
+                    <i class="fa fa-paper-plane me-2"></i>
+                    <span class="content-tr active">Mesaj Gönder</span>
+                    <span class="content-en">Send Message</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="section-modern">
       <div class="container">
         <div class="contact-box animate-on-scroll">
           <div class="content-tr active">
-            <h2>İletişim</h2>
-            <p class="mb-4">Sorularınız, önerileriniz veya geri bildirimleriniz için benimle iletişime geçebilirsiniz.</p>
+            <h2>İletişim Bilgileri</h2>
+            <p class="mb-4">Alternatif olarak doğrudan iletişim kanallarımdan bana ulaşabilirsiniz.</p>
           </div>
           <div class="content-en">
-            <h2>Contact</h2>
-            <p class="mb-4">You can contact me for your questions, suggestions, or feedback.</p>
+            <h2>Contact Information</h2>
+            <p class="mb-4">Alternatively, you can reach me through my direct contact channels.</p>
           </div>
           
           <div class="status-badge status-operational">
@@ -832,6 +1081,288 @@
             }, (Math.random() * 5 + 5) * 1000);
           }, i * 200);
         }
+      }
+      
+      // Form handling
+      const supportForm = document.getElementById('supportForm');
+      const formSuccess = document.getElementById('form-success');
+      const formError = document.getElementById('form-error');
+      const errorMessage = document.getElementById('error-message');
+      const submitBtn = document.getElementById('submit-btn');
+      
+      // Get current language for error messages
+      function getCurrentLang() {
+        return document.documentElement.lang || 'tr';
+      }
+      
+      // Error messages
+      const errorMessages = {
+        tr: {
+          nameRequired: 'Lütfen adınızı giriniz.',
+          nameMinLength: 'Ad en az 2 karakter olmalıdır.',
+          emailRequired: 'Lütfen e-posta adresinizi giriniz.',
+          emailInvalid: 'Lütfen geçerli bir e-posta adresi giriniz.',
+          subjectRequired: 'Lütfen konu başlığını giriniz.',
+          subjectMinLength: 'Konu en az 5 karakter olmalıdır.',
+          messageRequired: 'Lütfen mesajınızı yazınız.',
+          messageMinLength: 'Mesaj en az 10 karakter olmalıdır.',
+          generic: 'Bir hata oluştu. Lütfen tekrar deneyiniz.'
+        },
+        en: {
+          nameRequired: 'Please enter your name.',
+          nameMinLength: 'Name must be at least 2 characters.',
+          emailRequired: 'Please enter your email address.',
+          emailInvalid: 'Please enter a valid email address.',
+          subjectRequired: 'Please enter a subject.',
+          subjectMinLength: 'Subject must be at least 5 characters.',
+          messageRequired: 'Please enter your message.',
+          messageMinLength: 'Message must be at least 10 characters.',
+          generic: 'An error occurred. Please try again.'
+        }
+      };
+      
+      // Validation functions
+      function validateName(name) {
+        if (!name || name.trim().length === 0) {
+          return errorMessages[getCurrentLang()].nameRequired;
+        }
+        if (name.trim().length < 2) {
+          return errorMessages[getCurrentLang()].nameMinLength;
+        }
+        return null;
+      }
+      
+      function validateEmail(email) {
+        if (!email || email.trim().length === 0) {
+          return errorMessages[getCurrentLang()].emailRequired;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          return errorMessages[getCurrentLang()].emailInvalid;
+        }
+        return null;
+      }
+      
+      function validateSubject(subject) {
+        if (!subject || subject.trim().length === 0) {
+          return errorMessages[getCurrentLang()].subjectRequired;
+        }
+        if (subject.trim().length < 5) {
+          return errorMessages[getCurrentLang()].subjectMinLength;
+        }
+        return null;
+      }
+      
+      function validateMessage(message) {
+        if (!message || message.trim().length === 0) {
+          return errorMessages[getCurrentLang()].messageRequired;
+        }
+        if (message.trim().length < 10) {
+          return errorMessages[getCurrentLang()].messageMinLength;
+        }
+        return null;
+      }
+      
+      // Show error
+      function showError(message) {
+        formError.classList.add('show');
+        formSuccess.classList.remove('show');
+        errorMessage.textContent = message;
+        
+        // Scroll to error
+        formError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        // Hide after 5 seconds
+        setTimeout(() => {
+          formError.classList.remove('show');
+        }, 5000);
+      }
+      
+      // Show success
+      function showSuccess() {
+        formSuccess.classList.add('show');
+        formError.classList.remove('show');
+        
+        // Scroll to success message
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        // Hide after 8 seconds
+        setTimeout(() => {
+          formSuccess.classList.remove('show');
+        }, 8000);
+      }
+      
+      // Clear validation errors
+      function clearValidationErrors() {
+        document.querySelectorAll('.form-control-modern').forEach(input => {
+          input.classList.remove('is-invalid');
+          input.setAttribute('aria-invalid', 'false');
+        });
+        document.querySelectorAll('.invalid-feedback').forEach(error => {
+          error.textContent = '';
+        });
+      }
+      
+      // Show field error
+      function showFieldError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorElement = document.getElementById(fieldId.replace('support-', '') + '-error');
+        
+        if (field) {
+          field.classList.add('is-invalid');
+          field.setAttribute('aria-invalid', 'true');
+        }
+        
+        if (errorElement) {
+          errorElement.textContent = message;
+          errorElement.style.display = 'block';
+        }
+      }
+      
+      // Form submit handler
+      if (supportForm) {
+        supportForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Clear previous errors
+          clearValidationErrors();
+          formError.classList.remove('show');
+          formSuccess.classList.remove('show');
+          
+          // Get form values
+          const name = document.getElementById('support-name').value.trim();
+          const email = document.getElementById('support-email').value.trim();
+          const subject = document.getElementById('support-subject').value.trim();
+          const message = document.getElementById('support-message').value.trim();
+          
+          // Validate all fields
+          let hasError = false;
+          
+          const nameError = validateName(name);
+          if (nameError) {
+            showFieldError('support-name', nameError);
+            hasError = true;
+          }
+          
+          const emailError = validateEmail(email);
+          if (emailError) {
+            showFieldError('support-email', emailError);
+            hasError = true;
+          }
+          
+          const subjectError = validateSubject(subject);
+          if (subjectError) {
+            showFieldError('support-subject', subjectError);
+            hasError = true;
+          }
+          
+          const messageError = validateMessage(message);
+          if (messageError) {
+            showFieldError('support-message', messageError);
+            hasError = true;
+          }
+          
+          if (hasError) {
+            const lang = getCurrentLang();
+            showError(errorMessages[lang].generic);
+            return;
+          }
+          
+          // Disable submit button
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i><span class="content-tr active">Gönderiliyor...</span><span class="content-en">Sending...</span>';
+          
+          // Create mailto link
+          const emailBody = encodeURIComponent(
+            `Merhaba,\n\n` +
+            `Ad Soyad: ${name}\n` +
+            `E-posta: ${email}\n\n` +
+            `Mesaj:\n${message}\n\n` +
+            `---\nBu mesaj support sayfasından gönderilmiştir.`
+          );
+          
+          const emailSubject = encodeURIComponent(subject);
+          const mailtoLink = `mailto:ibrahim.atmaca61@hotmail.com?subject=${emailSubject}&body=${emailBody}`;
+          
+          // Open mailto link
+          try {
+            window.location.href = mailtoLink;
+            
+            // Show success message after a short delay
+            setTimeout(() => {
+              showSuccess();
+              
+              // Reset form
+              supportForm.reset();
+              clearValidationErrors();
+              
+              // Re-enable submit button
+              submitBtn.disabled = false;
+              const lang = getCurrentLang();
+              submitBtn.innerHTML = '<i class="fa fa-paper-plane me-2"></i><span class="content-tr active">Mesaj Gönder</span><span class="content-en">Send Message</span>';
+            }, 500);
+          } catch (error) {
+            // If mailto fails, show error
+            const lang = getCurrentLang();
+            showError(errorMessages[lang].generic);
+            
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa fa-paper-plane me-2"></i><span class="content-tr active">Mesaj Gönder</span><span class="content-en">Send Message</span>';
+          }
+        });
+        
+        // Real-time validation on blur
+        const formFields = ['support-name', 'support-email', 'support-subject', 'support-message'];
+        formFields.forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          if (field) {
+            field.addEventListener('blur', function() {
+              const value = this.value.trim();
+              let error = null;
+              
+              switch(fieldId) {
+                case 'support-name':
+                  error = validateName(value);
+                  break;
+                case 'support-email':
+                  error = validateEmail(value);
+                  break;
+                case 'support-subject':
+                  error = validateSubject(value);
+                  break;
+                case 'support-message':
+                  error = validateMessage(value);
+                  break;
+              }
+              
+              if (error) {
+                showFieldError(fieldId, error);
+              } else {
+                this.classList.remove('is-invalid');
+                this.setAttribute('aria-invalid', 'false');
+                const errorElement = document.getElementById(fieldId.replace('support-', '') + '-error');
+                if (errorElement) {
+                  errorElement.textContent = '';
+                  errorElement.style.display = 'none';
+                }
+              }
+            });
+            
+            // Clear error on input
+            field.addEventListener('input', function() {
+              if (this.classList.contains('is-invalid')) {
+                this.classList.remove('is-invalid');
+                this.setAttribute('aria-invalid', 'false');
+                const errorElement = document.getElementById(fieldId.replace('support-', '') + '-error');
+                if (errorElement) {
+                  errorElement.textContent = '';
+                  errorElement.style.display = 'none';
+                }
+              }
+            });
+          }
+        });
       }
     });
   </script>
