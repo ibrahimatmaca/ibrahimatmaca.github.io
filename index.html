@@ -4,105 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>İbrahim Atmaca | Senior Mobile Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Outfit', 'sans-serif'],
-              mono: ['Space Grotesk', 'monospace'],
-            },
-            colors: {
-              brand: {
-                50: '#f0f9ff',
-                100: '#e0f2fe',
-                200: '#bae6fd',
-                300: '#7dd3fc',
-                400: '#38bdf8',
-                500: '#0ea5e9',
-                600: '#0284c7',
-                700: '#0369a1',
-                800: '#075985',
-                900: '#0c4a6e',
-              },
-              accent: {
-                500: '#8b5cf6',
-                600: '#7c3aed',
-              }
-            },
-            animation: {
-              'spin-slow': 'spin 8s linear infinite',
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              }
-            }
-          },
-        },
-      }
-    </script>
-    <style>
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #0f172a;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #38bdf8;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #0ea5e9;
-      }
-      body {
-        background-color: #020617;
-        color: #f8fafc;
-        overflow-x: hidden;
-      }
-      .preserve-3d {
-        transform-style: preserve-3d;
-      }
-      .backface-hidden {
-        backface-visibility: hidden;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.1/",
-    "react": "https://esm.sh/react@^19.2.1",
-    "lucide-react": "https://esm.sh/lucide-react@^0.560.0",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^6.28.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+  </head>
   <body>
     <div id="root"></div>
-  <script>
-    // Single Page Apps for GitHub Pages
-    // Handle redirects from 404.html
-    (function() {
-      var redirect = sessionStorage.redirect;
-      delete sessionStorage.redirect;
-      if (redirect && redirect !== location.href) {
-        history.replaceState(null, null, redirect);
-      }
-    })();
-  </script>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // Handle redirects from 404.html
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
