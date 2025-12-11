@@ -81,6 +81,9 @@ This project is automatically deployed to GitHub Pages using GitHub Actions. The
 2. GitHub Actions will automatically build and deploy to GitHub Pages
 3. Your site will be available at `https://ibrahimatmaca.github.io`
 
+**SSL/HTTPS:**
+GitHub Pages automatically provides SSL certificates for all sites. Your site is already accessible via HTTPS at `https://ibrahimatmaca.github.io`. No additional SSL configuration is needed. If you're using a custom domain, GitHub Pages will still provide SSL certificates automatically - just enable "Enforce HTTPS" in your repository settings.
+
 **Environment Variables:**
 Set the following secrets in your GitHub repository settings (Settings → Secrets and variables → Actions):
 - `GEMINI_API_KEY`
