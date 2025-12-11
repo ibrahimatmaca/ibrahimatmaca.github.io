@@ -1,0 +1,37 @@
+{
+  "name": "İbrahim Atmaca - Senior Mobile Engineer Portfolio",
+  "description": "Official portfolio of İbrahim Atmaca, a Senior Mobile Engineer expert in Flutter, Native Android/iOS, and Fintech solutions. Enhanced with Gemini AI and 3D interactivity.",
+  "keywords": [
+    "Senior Mobile Engineer",
+    "Flutter Developer",
+    "React Native Developer",
+    "Fintech Expert",
+    "Mobile Architecture",
+    "iOS",
+    "Android",
+    "AI Integration",
+    "Gemini AI",
+    "MoneyPay",
+    "Elevana",
+    "Cross-platform Development"
+  ],
+  "siteStructure": {
+    "hero": {
+      "title": "Senior Mobile Engineer & Creative Technologist",
+      "description": "Introduction to İbrahim Atmaca's expertise in crafting high-performance mobile experiences."
+    },
+    "projects": {
+      "title": "Featured Projects",
+      "description": "A showcase of mobile applications focusing on performance, user experience, and scalability."
+    },
+    "about": {
+      "title": "About Me",
+      "description": "Professional bio highlighting 5+ years of experience in fintech, payment systems, and mobile leadership."
+    },
+    "contact": {
+      "title": "Let's work together",
+      "description": "Contact channel for partnership opportunities and product design discussions."
+    }
+  },
+  "requestFramePermissions": []
+}

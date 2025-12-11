@@ -1,0 +1,59 @@
+import React from 'react';
+import PrivacyPolicy from './PrivacyPolicy';
+
+const elevanaHtmlContent = `
+    <h1>Elevana – Privacy Policy</h1>
+    <p><strong>Effective Date:</strong> May 18, 2025<br>
+    <strong>Developer:</strong> İbrahim Atmaca</p>
+
+    <h2>Introduction</h2>
+    <p>At Elevana, we value your privacy. Our intention is to help you stay focused and aligned through your personal goals — without tracking or collecting your personal data. This policy explains what data we do and do not collect, and how your information is handled.</p>
+
+    <h2>What We Do <em>Not</em> Collect</h2>
+    <ul>
+        <li>We do <strong>not</strong> collect your name, email address, or contact details</li>
+        <li>We do <strong>not</strong> collect your device identifiers or location</li>
+        <li>We do <strong>not</strong> use third-party analytics or advertising SDKs</li>
+        <li>We do <strong>not</strong> send any of your data to remote servers</li>
+    </ul>
+
+    <h2>What We Store (Locally)</h2>
+    <p>Elevana only stores your intention texts (goals) <strong>locally on your device</strong> using Apple's secure UserDefaults and optionally displays them on your lock screen using WidgetKit.</p>
+    <p>Your data <strong>never leaves your device</strong>, unless you manually back it up using iCloud or Apple's native backup systems.</p>
+
+    <h2>Internet Access</h2>
+    <p>Elevana does <strong>not</strong> require an internet connection for its core functionality. There is no in-app web browser, external API access, or online syncing feature. However, an internet connection may be required for in-app purchases through Apple's StoreKit.</p>
+
+    <h2>In-App Purchases and StoreKit</h2>
+    <p>Elevana uses Apple's StoreKit framework to offer in-app purchases and premium features. When you make a purchase:</p>
+    <ul>
+        <li><strong>Payment Processing:</strong> All payment transactions are processed entirely by Apple through their secure payment system. We do <strong>not</strong> have access to your payment information, credit card details, or billing address.</li>
+        <li><strong>Purchase Data:</strong> Apple handles and stores all purchase-related data, including transaction history and receipts. This information is managed according to Apple's privacy policy and terms of service.</li>
+        <li><strong>Local Purchase Status:</strong> Elevana may store your purchase status locally on your device (e.g., whether premium features are unlocked) to enable or disable features accordingly. This information is stored securely using Apple's UserDefaults and is <strong>not</strong> transmitted to any external servers.</li>
+        <li><strong>Restore Purchases:</strong> If you restore purchases, Elevana uses Apple's StoreKit to verify your purchase history with Apple's servers. This verification process is handled entirely by Apple, and we do not receive or store any personal information during this process.</li>
+    </ul>
+    <p>For more information about how Apple handles your payment and purchase data, please review <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener noreferrer">Apple's Privacy Policy</a>. Elevana is licensed to you under Apple's <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">Standard End User License Agreement</a>, which governs your use of the application.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>Elevana does not collect any data from users and is suitable for children aged 4 and above under Apple's App Store guidelines.</p>
+
+    <h2>Contact</h2>
+    <p>If you have any questions about this policy, feel free to reach out to:</p>
+    <p><strong>Email:</strong> ibrahim.atmaca61@hotmail.com<br>
+    <strong>Website:</strong> <a href="https://ibrahimatmaca.github.io" target="_blank" rel="noopener noreferrer">https://ibrahimatmaca.github.io</a></p>
+
+    <h2>Updates</h2>
+    <p>We may update this privacy policy if Elevana's features change. If we do, you'll find the latest version at:</p>
+    <p><a href="https://ibrahimatmaca.github.io/elevana_privacy_policy.html" target="_blank" rel="noopener noreferrer">https://ibrahimatmaca.github.io/elevana_privacy_policy.html</a></p>
+
+    <h2>Summary</h2>
+    <p><em>You stay private. Your intentions stay yours.</em><br>
+    Elevana never collects, stores, or shares your personal information.</p>
+`;
+
+const ElevanaPrivacy: React.FC = () => {
+  return <PrivacyPolicy title="Elevana Privacy Policy" htmlContent={elevanaHtmlContent} />;
+};
+
+export default ElevanaPrivacy;
+

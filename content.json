@@ -1,0 +1,81 @@
+{
+  "hero": {
+    "label": "Hello, I am",
+    "title": "İbrahim Atmaca",
+    "subtitle": "Senior Mobile Engineer & Creative Technologist",
+    "description": "Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native. Bridging the gap between design and engineering.",
+    "cta": "View Projects",
+    "status": {
+      "time": "9:41",
+      "platform": "iOS & Android",
+      "stability": "99.9% Crash Free",
+      "build": "Running build..."
+    }
+  },
+  "dreamBuilder": {
+    "title": "Architecting Your Digital Vision",
+    "slogan": "You Dream It, I Code It.",
+    "description": "Have a groundbreaking app idea? Whether it's a fintech revolution, a social platform, or an AI-powered tool, I transform abstract concepts into scalable, high-performance mobile realities. Let's turn your 'what if' into 'what is'.",
+    "cta": "Start Your Project"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "A selection of mobile applications I've engineered, focusing on performance, user experience, and scalability.",
+    "list": [
+      {
+        "id": "1",
+        "title": "Elevana",
+        "description": "Elevana helps you build good habits and break bad ones. With a minimalist design and powerful analytics, track your daily routines, set goals, and visualize your progress. Features include dark mode, iCloud sync, custom reminders, and comprehensive streak statistics to keep you motivated.",
+        "tech": ["SwiftUI", "Clean Architecture", "Local Storage"],
+        "imageUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1470&auto=format&fit=crop",
+        "link": "https://apps.apple.com/tr/app/elevana/id6745828686",
+        "appStoreUrl": "https://apps.apple.com/tr/app/elevana/id6745828686"
+      }
+    ]
+  },
+
+  "about": {
+    "title": "About Me",
+    "paragraphs": [
+      "I am a Senior Mobile Developer specializing in fintech, mobile architectures, and high-performance cross-platform applications. With more than five years of hands-on experience in Flutter and native integrations, I have contributed to the development of secure, scalable, and user-centric digital products—particularly in payment systems, POS devices, and financial technologies.",
+      "For the past 2.5 years, I have been part of the MoneyPay engineering team, and for the last year, I have served as a Senior Mobile Developer, leading critical initiatives and driving technical excellence across the mobile ecosystem. My work includes implementing Masterpass and KYC integrations, enhancing application performance, improving overall user experience, and contributing to core architecture decisions that support long-term scalability.",
+      "Beyond my professional background in mobile development, I am deeply passionate about AI-powered automation, SaaS product creation, and emerging crypto technologies. I enjoy transforming complex ideas into practical, market-ready solutions—whether through automated workflows, modern software platforms, or innovative financial tools.",
+      "I strongly believe in continuous learning and staying ahead of technological trends. Outside of work, I develop new side projects, experiment with AI tools, and follow global advancements in Web3, fintech, and mobile ecosystems. I also enjoy mentoring junior developers, fostering collaboration, and helping teams grow through knowledge sharing and leadership."
+    ],
+    "education": "B.S. Computer Engineering, 19 Mayıs University",
+    "stats": {
+      "experience": "5+",
+      "specialization": "Fintech"
+    },
+    "codeCard": {
+      "title": "MoneyPay Engineering",
+      "subtitle": "Masterpass, KYC & POS Integration",
+      "status": "System Active"
+    }
+  },
+  "contact": {
+    "title": "Let's work together",
+    "description": "I'm always open to discussing product design work or partnership opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
+    "email": "ibrahim.atmaca61@hotmail.com",
+    "location": "Turkey",
+    "socialTitle": "Follow me",
+    "form": {
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "button": "Send Message",
+      "success": "Redirecting to Mail...",
+      "sending": "Sending...",
+      "sent": "Message sent successfully!",
+      "error": "Failed to send message. Please try again."
+    },
+    "smtp": {
+      "host": "smtp-mail.outlook.com",
+      "port": 587,
+      "secure": false,
+      "user": "ibrahim.atmaca61@hotmail.com",
+      "from": "ibrahim.atmaca61@hotmail.com",
+      "to": "ibrahim.atmaca61@hotmail.com"
+    }
+  }
+}
