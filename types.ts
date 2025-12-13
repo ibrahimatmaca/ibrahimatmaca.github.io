@@ -7,6 +7,7 @@ export interface Project {
   link: string;
   appStoreUrl?: string;
   playStoreUrl?: string;
+  appStoreId?: string; // App Store ID for dynamic screenshot fetching (e.g., "6745828686")
 }
 
 export interface ChatMessage {

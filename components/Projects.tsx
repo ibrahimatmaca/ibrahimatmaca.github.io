@@ -1,10 +1,17 @@
-import React from 'react';
-import { motion, Variants } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, Variants, useMotionValue, useTransform } from 'framer-motion';
 import { ExternalLink, ArrowUpRight, Wifi, Battery, Signal, Bell } from 'lucide-react';
 import { Project } from '../types';
 import content from '../content.json';
 
 const projects: Project[] = content.projects.list;
+
+interface AppStoreData {
+  success: boolean;
+  screenshotUrls?: string[];
+  artworkUrl512?: string;
+  description?: string;
+}
 
 // Custom SVGs for Logos
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -20,6 +27,68 @@ const GooglePlayLogo = ({ className }: { className?: string }) => (
 );
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const [appStoreData, setAppStoreData] = useState<AppStoreData | null>(null);
+  const [imageError, setImageError] = useState(false);
+  const [currentScreenshotIndex, setCurrentScreenshotIndex] = useState(0);
+
+  // Fetch App Store screenshots if appStoreId is available
+  useEffect(() => {
+    if (project.appStoreId && typeof window !== 'undefined') {
+      const fetchAppStoreData = async () => {
+        try {
+          const response = await fetch(`/api/appstore-lookup?appId=${project.appStoreId}&country=tr`);
+          if (response.ok) {
+            const data = await response.json();
+            setAppStoreData(data);
+          }
+        } catch (error) {
+          console.error('Failed to fetch App Store data:', error);
+        }
+      };
+      fetchAppStoreData();
+    }
+  }, [project.appStoreId]);
+
+  // Determine image source: App Store screenshot > fallback imageUrl
+  const imageSource = appStoreData?.screenshotUrls?.[currentScreenshotIndex] || project.imageUrl;
+  const hasMultipleScreenshots = (appStoreData?.screenshotUrls?.length || 0) > 1;
+
+  // Motion values for parallax effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [2, -2]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-2, 2]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  // Rotate through screenshots on hover (only when hovering)
+  const [isHovering, setIsHovering] = useState(false);
+  const screenshotCount = appStoreData?.screenshotUrls?.length || 0;
+  
+  useEffect(() => {
+    if (screenshotCount <= 1 || !isHovering) return;
+    
+    const interval = setInterval(() => {
+      setCurrentScreenshotIndex((prev) => {
+        const maxIndex = screenshotCount - 1;
+        return prev < maxIndex ? prev + 1 : 0;
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [screenshotCount, isHovering]);
+
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -42,112 +111,176 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="group relative bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden hover:border-brand-500/30 transition-all duration-300 shadow-xl"
+      className="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800/50 rounded-3xl overflow-hidden hover:border-brand-500/40 transition-all duration-500 shadow-2xl hover:shadow-brand-500/10"
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: 'preserve-3d',
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => {
+        handleMouseLeave();
+        setIsHovering(false);
+      }}
+      onMouseEnter={() => setIsHovering(true)}
     >
+      {/* Sheen effect on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-30">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+      </div>
+
       {/* Interactive Preview Area */}
-      <a href={primaryLink} target="_blank" rel="noopener noreferrer" className="block relative h-72 overflow-hidden cursor-pointer bg-slate-950">
+      <a 
+        href={primaryLink} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="block relative h-72 overflow-hidden cursor-pointer bg-gradient-to-br from-slate-950 to-black"
+      >
+        {/* iPhone Frame Effect - Only show if we have App Store screenshots */}
+        {appStoreData?.screenshotUrls && appStoreData.screenshotUrls.length > 0 && (
+          <div className="absolute inset-4 rounded-[2.5rem] border-2 border-white/10 bg-black/20 backdrop-blur-sm z-10 pointer-events-none">
+            {/* Notch */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl border-x border-b border-white/10"></div>
+          </div>
+        )}
         
-        {/* The Project Image */}
-        <img 
-          src={project.imageUrl} 
-          alt={project.title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+        {/* The Project Image / Screenshot */}
+        <motion.img 
+          src={imageError ? project.imageUrl : imageSource}
+          alt={project.title}
+          onError={() => {
+            if (!imageError) setImageError(true);
+          }}
+          className={`absolute inset-0 w-full h-full ${
+            appStoreData?.screenshotUrls && appStoreData.screenshotUrls.length > 0
+              ? 'object-contain' 
+              : 'object-cover'
+          }`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          style={{
+            scale: appStoreData?.screenshotUrls && appStoreData.screenshotUrls.length > 0 ? 1 : 1.05,
+          }}
         />
 
-        {/* Live UI Overlay - Appears on Hover */}
-        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent z-5"></div>
+
+        {/* Live UI Overlay - Refined for modern look */}
+        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
            
-           {/* Status Bar */}
-           <div className="absolute top-0 w-full h-8 bg-black/40 backdrop-blur-sm flex justify-between px-6 items-center z-20">
-              <div className="text-[10px] text-white font-mono font-bold">19:23</div>
-              <div className="flex gap-1.5 items-center text-white">
-                 <Signal size={10} fill="currentColor" />
-                 <Wifi size={10} />
-                 <Battery size={10} fill="currentColor" />
+           {/* Status Bar - More subtle */}
+           <div className="absolute top-0 w-full h-7 bg-black/30 backdrop-blur-md flex justify-between px-5 items-center border-b border-white/5">
+              <div className="text-[9px] text-white/90 font-mono font-semibold">9:41</div>
+              <div className="flex gap-1 items-center text-white/90">
+                 <Signal size={9} fill="currentColor" />
+                 <Wifi size={9} />
+                 <Battery size={9} fill="currentColor" />
               </div>
            </div>
 
-           {/* Simulated Notification Animation */}
-           <div className="absolute top-12 left-0 right-0 px-4 z-20 overflow-hidden">
-             <div className="transform -translate-y-24 group-hover:translate-y-0 transition-transform duration-500 delay-100 ease-out">
-                <div className="bg-slate-900/90 backdrop-blur border border-slate-700 p-3 rounded-2xl shadow-xl flex items-center gap-3">
-                   <div className="w-8 h-8 rounded-xl bg-brand-500 flex items-center justify-center shrink-0">
-                      <Bell size={14} className="text-white fill-white" />
-                   </div>
-                   <div className="flex-1 min-w-0">
-                      <div className="text-xs font-bold text-white">New Activity</div>
-                      <div className="text-[10px] text-gray-300 truncate">Routine 'Morning Code' completed!</div>
-                   </div>
-                   <div className="text-[10px] text-gray-500">Now</div>
-                </div>
-             </div>
+           {/* Notification - More refined */}
+           <div className="absolute top-10 left-0 right-0 px-4 overflow-hidden">
+             <motion.div 
+               initial={{ y: -20, opacity: 0 }}
+               animate={{ y: 0, opacity: 1 }}
+               transition={{ delay: 0.2, duration: 0.4 }}
+               className="bg-slate-900/95 backdrop-blur-md border border-slate-700/50 p-2.5 rounded-xl shadow-xl flex items-center gap-2.5"
+             >
+               <div className="w-7 h-7 rounded-lg bg-brand-500/90 flex items-center justify-center shrink-0">
+                  <Bell size={12} className="text-white fill-white" />
+               </div>
+               <div className="flex-1 min-w-0">
+                  <div className="text-[10px] font-bold text-white">New Activity</div>
+                  <div className="text-[9px] text-gray-300 truncate">Routine completed!</div>
+               </div>
+               <div className="text-[9px] text-gray-400">Now</div>
+             </motion.div>
            </div>
 
-           {/* Home Indicator */}
-           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-32 h-1 bg-white/50 rounded-full z-20"></div>
-           
-           {/* Gradient Vignette */}
-           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-slate-900/30 z-10"></div>
+           {/* Home Indicator - More subtle */}
+           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/30 rounded-full"></div>
         </div>
 
-        {/* Static "Preview" Tag (Fades out on hover) */}
-        <div className="absolute bottom-4 right-4 bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full text-xs font-medium text-white flex items-center gap-1 group-hover:opacity-0 transition-opacity duration-300">
-          Preview App <ArrowUpRight size={12} />
+        {/* Screenshot indicator dots (if multiple screenshots) */}
+        {hasMultipleScreenshots && appStoreData?.screenshotUrls && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+            {appStoreData.screenshotUrls.map((_, idx) => (
+              <div
+                key={idx}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentScreenshotIndex 
+                    ? 'bg-brand-400 w-4' 
+                    : 'bg-white/30'
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Static "Preview" Tag - More refined */}
+        <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full text-[10px] font-medium text-white/90 flex items-center gap-1.5 group-hover:opacity-0 transition-opacity duration-300 z-20">
+          Preview <ArrowUpRight size={10} />
         </div>
       </a>
 
-      <div className="p-8">
-         <div className="flex flex-wrap gap-2 mb-4">
+      <div className="p-8 relative z-10">
+         <div className="flex flex-wrap gap-2 mb-5">
            {project.tech.map(t => (
-             <span key={t} className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-slate-800 text-brand-300 border border-slate-700">
+             <span key={t} className="text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-lg bg-slate-800/80 text-brand-300 border border-slate-700/50 backdrop-blur-sm">
                {t}
              </span>
            ))}
          </div>
 
-         <a href={primaryLink} target="_blank" rel="noopener noreferrer" className="block group-hover:text-brand-400 transition-colors">
-            <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
+         <a href={primaryLink} target="_blank" rel="noopener noreferrer" className="block group-hover:text-brand-400 transition-colors duration-300">
+            <h3 className="text-2xl font-bold text-white mb-3 group-hover:translate-x-1 transition-transform duration-300">{project.title}</h3>
          </a>
          
-         <p className="text-gray-400 text-sm leading-relaxed mb-8 border-l-2 border-slate-700 pl-4">
+         <p className="text-gray-400 text-sm leading-relaxed mb-8 border-l-2 border-brand-500/30 pl-4">
             {project.description}
          </p>
          
          {/* Store Buttons */}
          <div className="flex flex-col sm:flex-row gap-4 mt-auto">
            {project.appStoreUrl && (
-             <a 
+             <motion.a 
                href={project.appStoreUrl} 
                target="_blank" 
                rel="noopener noreferrer"
-               className="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-white hover:bg-gray-100 text-black rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] transform hover:-translate-y-0.5"
+               className="flex-1 flex items-center justify-center gap-3 px-6 py-3.5 bg-white hover:bg-gray-50 text-black rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+               whileHover={{ scale: 1.02 }}
+               whileTap={{ scale: 0.98 }}
              >
                <AppleLogo className="text-xl" /> 
                <div className="flex flex-col items-start leading-none">
                  <span className="text-[10px] uppercase font-medium text-gray-600">Download on the</span>
                  <span className="text-sm">App Store</span>
                </div>
-             </a>
+             </motion.a>
            )}
            
            {project.playStoreUrl && (
-             <a 
+             <motion.a 
                href={project.playStoreUrl} 
                target="_blank" 
                rel="noopener noreferrer"
-               className="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 text-white rounded-xl font-bold transition-all shadow-lg transform hover:-translate-y-0.5"
+               className="flex-1 flex items-center justify-center gap-3 px-6 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 text-white rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+               whileHover={{ scale: 1.02 }}
+               whileTap={{ scale: 0.98 }}
              >
                <GooglePlayLogo className="text-xl text-green-400" />
                <div className="flex flex-col items-start leading-none">
                  <span className="text-[10px] uppercase font-medium text-gray-400">Get it on</span>
                  <span className="text-sm">Google Play</span>
                </div>
-             </a>
+             </motion.a>
            )}
 
            {!project.appStoreUrl && !project.playStoreUrl && (
               <div className="flex gap-4">
-                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white font-medium hover:text-brand-400 transition-colors">
+                 <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white font-medium hover:text-brand-400 transition-colors duration-300">
                     <ExternalLink size={20} /> Visit Project
                  </a>
               </div>

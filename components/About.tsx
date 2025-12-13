@@ -39,39 +39,29 @@ const About: React.FC = () => {
 
   const codeSnippet = [
     "import SwiftUI",
-    "import MoneyPayKit",
     "",
-    "struct FinancialDashboard: View {",
-    "    @StateObject var viewModel = WalletViewModel()",
-    "    @EnvironmentObject var auth: BiometricAuth",
+    "struct ContentView: View {",
+    "    @State private var text = \"Hello, World!\"",
+    "    @State private var count = 0",
     "",
     "    var body: some View {",
-    "        ZStack {",
-    "            Color.brandBackground.ignoresSafeArea()",
-    "            ",
-    "            VStack(spacing: 24) {",
-    "                // Masterpass Integration Card",
-    "                CreditCardView(card: viewModel.primaryCard)",
-    "                    .rotation3DEffect(.degrees(10), axis: (x: 0, y: 1, z: 0))",
-    "                    .transition(.scale.combined(with: .opacity))",
-    "                    .shadow(color: .black.opacity(0.2), radius: 20)",
+    "        VStack(spacing: 20) {",
+    "            Text(text)",
+    "                .font(.largeTitle)",
+    "                .foregroundColor(.blue)",
     "",
-    "                // Recent Transactions with KYC Status",
-    "                ScrollView(.vertical, showsIndicators: false) {",
-    "                    LazyVStack(spacing: 16) {",
-    "                        ForEach(viewModel.transactions) { tx in",
-    "                            TransactionRow(data: tx)",
-    "                                .blur(radius: auth.isLocked ? 8 : 0)",
-    "                                .animation(.spring(), value: auth.isLocked)",
-    "                        }",
-    "                    }",
-    "                }",
+    "            Button(action: {",
+    "                count += 1",
+    "                text = \"Button tapped \\(count) times\"",
+    "            }) {",
+    "                Text(\"Tap Me\")",
+    "                    .padding()",
+    "                    .background(Color.blue)",
+    "                    .foregroundColor(.white)",
+    "                    .cornerRadius(10)",
     "            }",
-    "            .padding(.horizontal)",
     "        }",
-    "        .onAppear {",
-    "             await viewModel.syncWithMasterpass()",
-    "        }",
+    "        .padding()",
     "    }",
     "}"
   ];
@@ -156,12 +146,17 @@ const About: React.FC = () => {
                        </div>
                    </div>
 
-                   {/* Decorative 3D Elements */}
+                   {/* Tech Logos - 3D Elements */}
                    <div 
-                      className="absolute top-8 right-8 z-20 w-12 h-12 rounded-full border border-brand-500/30 flex items-center justify-center"
+                      className="absolute top-8 right-8 z-20 flex gap-3 items-center"
                       style={{ transform: "translateZ(20px)" }}
                    >
-                      <div className="w-8 h-8 rounded-full bg-brand-500/10"></div>
+                      <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-1.5">
+                         <img src="/swift-logo.svg" alt="Swift" className="w-full h-full object-contain" />
+                      </div>
+                      <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-1.5">
+                         <img src="/flutter-logo.svg" alt="Flutter" className="w-full h-full object-contain" />
+                      </div>
                    </div>
 
                 </motion.div>
