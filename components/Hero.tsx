@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
       onMouseLeave={handleMouseLeave}
       className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden pt-20"
     >
-      <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-6 md:gap-12 items-center">
         
         {/* Text Content */}
         <motion.div 
@@ -70,20 +70,20 @@ const Hero: React.FC = () => {
             <span className="w-12 h-[1px] bg-brand-400"></span>
             <span className="text-brand-400 tracking-widest text-sm font-mono uppercase">{content.hero.label}</span>
           </div>
-          <h1 className="text-6xl md:text-7xl font-bold leading-tight mb-6 font-sans bg-clip-text text-transparent bg-gradient-to-r from-white via-brand-100 to-brand-400">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 font-sans bg-clip-text text-transparent bg-gradient-to-r from-white via-brand-100 to-brand-400">
             {content.hero.title}
           </h1>
-          <h2 className="text-2xl md:text-3xl text-gray-400 mb-8 font-light" dangerouslySetInnerHTML={{ __html: content.hero.subtitle.replace("Mobile Engineer", '<span class="text-brand-400 font-semibold">Mobile Engineer</span>') }}>
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-400 mb-8 font-light" dangerouslySetInnerHTML={{ __html: content.hero.subtitle.replace("Mobile Engineer", '<span class="text-brand-400 font-semibold">Mobile Engineer</span>') }}>
           </h2>
           <p className="text-gray-400 max-w-lg mb-8 leading-relaxed">
             {content.hero.description}
           </p>
           
-          <div className="flex items-center gap-6">
-            <a href="#projects" className="bg-brand-500 hover:bg-brand-600 text-white px-8 py-3 rounded-full font-medium transition-all shadow-lg shadow-brand-500/25">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <a href="#projects" className="bg-brand-500 hover:bg-brand-600 text-white px-6 sm:px-8 py-3 rounded-full font-medium transition-all shadow-lg shadow-brand-500/25">
               {content.hero.cta}
             </a>
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               {socialLinks.map(({ Icon, href }, idx) => (
                 <a 
                   key={idx} 
@@ -100,7 +100,7 @@ const Hero: React.FC = () => {
         </motion.div>
 
         {/* 3D Phone Mockup */}
-        <div className="flex justify-center items-center h-[500px] [perspective:1000px]">
+        <div className="flex justify-center items-center h-[400px] sm:h-[450px] md:h-[500px] [perspective:1000px]">
           <motion.div
             style={{ 
               rotateX, 
@@ -111,7 +111,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, rotateZ: -5 }}
             animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
             transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-            className="relative w-[280px] h-[560px]"
+            className="relative w-[200px] sm:w-[240px] md:w-[280px] h-[400px] sm:h-[480px] md:h-[560px]"
           >
             {/* Phone Body */}
             <div className="absolute inset-0 bg-slate-900 rounded-[3rem] border-8 border-slate-800 shadow-2xl overflow-hidden backface-hidden"
@@ -167,26 +167,30 @@ const Hero: React.FC = () => {
 
 
           </motion.div>
-                      {/* Floating Elements */}
-            <motion.div 
-               animate={{ y: [0, -10, 0] }}
-               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-               className="absolute -right-12 top-20 bg-slate-800/90 backdrop-blur border border-slate-600 p-3 rounded-xl shadow-xl flex items-center gap-3 z-50"
-               style={{ transform: "translateZ(80px)" }}
-            >
+          {/* Floating Elements - Hidden on Mobile */}
+          <motion.div 
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            className="hidden md:block absolute -right-12 top-20 bg-slate-800/90 backdrop-blur border border-slate-600 p-3 rounded-xl shadow-xl z-50"
+            style={{ transform: "translateZ(80px)" }}
+          >
+            <div className="flex items-center gap-3">
               <Smartphone className="text-brand-400" size={20} />
               <span className="text-sm font-semibold text-white">{content.hero.status.platform}</span>
-            </motion.div>
+            </div>
+          </motion.div>
 
-             <motion.div 
-               animate={{ y: [0, 15, 0] }}
-               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-               className="absolute -left-12 bottom-40 bg-slate-800/90 backdrop-blur border border-slate-600 p-3 rounded-xl shadow-xl flex items-center gap-3 z-50"
-               style={{ transform: "translateZ(80px)" }}
-            >
+          <motion.div 
+            animate={{ y: [0, 15, 0] }}
+            transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+            className="hidden md:block absolute -left-12 bottom-40 bg-slate-800/90 backdrop-blur border border-slate-600 p-3 rounded-xl shadow-xl z-50"
+            style={{ transform: "translateZ(80px)" }}
+          >
+            <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
               <span className="text-sm font-semibold text-white">{content.hero.status.stability}</span>
-            </motion.div>
+            </div>
+          </motion.div>
         </div>
       </div>
 

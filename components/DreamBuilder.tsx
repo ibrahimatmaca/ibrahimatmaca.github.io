@@ -39,7 +39,7 @@ const DreamBuilder: React.FC = () => {
                 <span>{content.dreamBuilder.slogan}</span>
               </div>
               
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                 {content.dreamBuilder.title.split(' ').map((word, i) => (
                     <span key={i} className={i === 0 ? "text-brand-400" : ""}>{word} </span>
                 ))}
@@ -51,7 +51,7 @@ const DreamBuilder: React.FC = () => {
 
               <button 
                 onClick={scrollToContact}
-                className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-slate-950 rounded-2xl font-bold text-lg transition-all hover:bg-brand-50 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white text-slate-950 rounded-2xl font-bold text-base sm:text-lg transition-all hover:bg-brand-50 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
               >
                 <span>{content.dreamBuilder.cta}</span>
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
@@ -65,15 +65,15 @@ const DreamBuilder: React.FC = () => {
                 <motion.div 
                     animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="relative w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-slate-800 to-slate-900 rounded-[3rem] border border-slate-700 flex items-center justify-center shadow-2xl"
+                    className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 bg-gradient-to-br from-slate-800 to-slate-900 rounded-[3rem] border border-slate-700 flex items-center justify-center shadow-2xl"
                 >
-                    <Sparkles className="text-brand-400 w-32 h-32" strokeWidth={1} />
+                    <Sparkles className="text-brand-400 w-24 h-24 sm:w-32 sm:h-32" strokeWidth={1} />
                     
-                    {/* Floating Cards */}
+                    {/* Floating Cards - Hidden on Mobile */}
                     <motion.div 
                         animate={{ x: [0, 10, 0] }}
                         transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-                        className="absolute -right-8 top-12 bg-slate-800/90 backdrop-blur p-4 rounded-2xl border border-slate-600 shadow-xl"
+                        className="hidden md:block absolute -right-8 top-12 bg-slate-800/90 backdrop-blur p-4 rounded-2xl border border-slate-600 shadow-xl"
                     >
                         <div className="h-2 w-16 bg-brand-500/50 rounded mb-2"></div>
                         <div className="h-2 w-8 bg-slate-600 rounded"></div>
@@ -82,7 +82,7 @@ const DreamBuilder: React.FC = () => {
                     <motion.div 
                         animate={{ x: [0, -10, 0] }}
                         transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
-                        className="absolute -left-6 bottom-16 bg-slate-800/90 backdrop-blur p-4 rounded-2xl border border-slate-600 shadow-xl"
+                        className="hidden md:block absolute -left-6 bottom-16 bg-slate-800/90 backdrop-blur p-4 rounded-2xl border border-slate-600 shadow-xl"
                     >
                          <div className="flex gap-2">
                              <div className="w-8 h-8 rounded-full bg-accent-500/20"></div>

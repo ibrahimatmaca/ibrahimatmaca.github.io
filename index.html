@@ -21,10 +21,17 @@
       // Single Page Apps for GitHub Pages
       // Handle redirects from 404.html
       (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
+        var redirect = sessionStorage.getItem('redirect');
+        var is404 = sessionStorage.getItem('is404');
+        if (redirect) {
+          sessionStorage.removeItem('redirect');
+          if (redirect !== location.href) {
+            history.replaceState(null, null, redirect);
+          }
+        }
+        // If we came from 404, React Router will handle showing the 404 component
+        if (is404) {
+          // Keep the flag so NotFound component can detect it
         }
       })();
     </script>

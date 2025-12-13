@@ -9,6 +9,12 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        fs: {
+          strict: false,
+        },
+        mime: {
+          'application/javascript': ['js', 'mjs', 'ts', 'tsx'],
+        },
       },
       plugins: [react()],
       define: {
@@ -25,6 +31,12 @@ export default defineConfig(({ mode }) => {
         assetsDir: 'assets',
         sourcemap: false,
         minify: 'esbuild',
-      }
+        rollupOptions: {
+          output: {
+            manualChunks: undefined,
+          },
+        },
+      },
+      publicDir: 'public',
     };
 });

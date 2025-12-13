@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Send, HelpCircle } from 'lucide-react';
+import { Mail, Send, HelpCircle, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Background from './Background';
@@ -8,6 +8,7 @@ import content from '../content.json';
 const Support: React.FC = () => {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [formState, setFormState] = useState({
     name: '',
@@ -56,13 +57,16 @@ const Support: React.FC = () => {
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-40 bg-slate-950/50 backdrop-blur-md border-b border-white/5">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link 
             to="/" 
+            onClick={() => setIsMobileMenuOpen(false)}
             className="text-xl font-bold font-mono tracking-tighter text-white cursor-pointer"
           >
             IBRAHIM<span className="text-brand-400">DEV</span>
           </Link>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
             <Link 
               to="/#projects" 
@@ -83,8 +87,55 @@ const Support: React.FC = () => {
               Contact
             </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm md:hidden z-30"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Slide-in Menu */}
+          <div className="fixed top-16 right-0 bottom-0 w-64 bg-slate-950/95 backdrop-blur-md border-l border-white/5 md:hidden z-30">
+            <div className="flex flex-col gap-2 p-6">
+              <Link 
+                to="/#projects" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-lg font-medium text-gray-300 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-slate-800/50"
+              >
+                Work
+              </Link>
+              <Link 
+                to="/#about" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-lg font-medium text-gray-300 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-slate-800/50"
+              >
+                About
+              </Link>
+              <Link 
+                to="/#contact" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-lg font-medium text-gray-300 hover:text-white transition-colors py-3 px-4 rounded-lg hover:bg-slate-800/50"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
 
       <main className="relative pt-20">
         <section className="py-24 relative min-h-screen flex items-center">

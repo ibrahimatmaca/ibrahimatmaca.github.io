@@ -75,7 +75,7 @@ const About: React.FC = () => {
           <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-start">
              {/* Text Content */}
              <div>
-                <h2 className="text-3xl font-bold mb-6 text-white">{content.about.title}</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-white">{content.about.title}</h2>
                 <div className="space-y-4 text-gray-400 leading-relaxed text-sm md:text-base">
                   {content.about.paragraphs.map((p, i) => (
                     <p key={i}>{p}</p>
@@ -84,7 +84,7 @@ const About: React.FC = () => {
                      {content.about.education}
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                    <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50 hover:bg-slate-800 transition-colors">
                       <div className="text-2xl font-bold text-white mb-1">{content.about.stats.experience}</div>
                       <div className="text-xs text-gray-500 uppercase tracking-wide">Years Exp</div>
@@ -97,7 +97,7 @@ const About: React.FC = () => {
              </div>
 
              {/* 3D Visual Element */}
-             <div className="h-full min-h-[400px] w-full flex items-center justify-center [perspective:1000px]">
+             <div className="h-full min-h-[300px] md:min-h-[400px] w-full flex items-center justify-center [perspective:1000px]">
                 <motion.div
                    ref={cardRef}
                    onMouseMove={handleMouseMove}
@@ -107,7 +107,7 @@ const About: React.FC = () => {
                      rotateY,
                      transformStyle: "preserve-3d"
                    }}
-                   className="relative w-full h-full min-h-[400px] rounded-2xl bg-slate-800 border border-slate-700 overflow-hidden shadow-2xl cursor-pointer"
+                   className="relative w-full h-full min-h-[300px] md:min-h-[400px] rounded-2xl bg-slate-800 border border-slate-700 overflow-hidden shadow-2xl cursor-pointer"
                 >
                    {/* Background Code - Deep Layer */}
                    <div 
@@ -146,16 +146,28 @@ const About: React.FC = () => {
                        </div>
                    </div>
 
-                   {/* Tech Logos - 3D Elements */}
+                   {/* Tech Logos - Responsive Positioning */}
                    <div 
-                      className="absolute top-8 right-8 z-20 flex gap-3 items-center"
+                      className="absolute top-4 right-4 md:top-8 md:right-8 z-20 flex flex-col gap-1.5 md:gap-2.5"
                       style={{ transform: "translateZ(20px)" }}
                    >
-                      <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-1.5">
-                         <img src="/swift-logo.svg" alt="Swift" className="w-full h-full object-contain" />
+                      <div className="flex items-center gap-1.5 md:gap-2.5 px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-lg md:rounded-xl bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 shadow-lg">
+                         <div className="w-6 h-6 md:w-10 md:h-10 flex items-center justify-center shrink-0">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968371.png" alt="Swift" className="w-full h-full object-contain" />
+                         </div>
+                         <span className="text-xs md:text-lg font-semibold text-slate-200 whitespace-nowrap">Swift</span>
                       </div>
-                      <div className="w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center p-1.5">
-                         <img src="/flutter-logo.svg" alt="Flutter" className="w-full h-full object-contain" />
+                      <div className="flex items-center gap-1.5 md:gap-2.5 px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-lg md:rounded-xl bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 shadow-lg">
+                         <div className="w-6 h-6 md:w-10 md:h-10 flex items-center justify-center shrink-0">
+                            <img src="https://juststickers.in/wp-content/uploads/2019/01/flutter.png" alt="Flutter" className="w-full h-full object-contain" />
+                         </div>
+                         <span className="text-xs md:text-lg font-semibold text-slate-200 whitespace-nowrap">Flutter</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 md:gap-2.5 px-2.5 py-1.5 md:px-4 md:py-2.5 rounded-lg md:rounded-xl bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 shadow-lg">
+                         <div className="w-6 h-6 md:w-10 md:h-10 flex items-center justify-center shrink-0">
+                            <img src="https://logos-world.net/wp-content/uploads/2021/08/Android-Logo-2008-2014.png" alt="Android" className="w-full h-full object-contain" />
+                         </div>
+                         <span className="text-xs md:text-lg font-semibold text-slate-200 whitespace-nowrap">Android</span>
                       </div>
                    </div>
 
