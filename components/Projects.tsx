@@ -6,12 +6,33 @@ import content from '../content.json';
 
 const projects: Project[] = content.projects.list;
 
-interface AppStoreData {
-  success: boolean;
-  screenshotUrls?: string[];
-  artworkUrl512?: string;
-  description?: string;
+interface iTunesResponse {
+  resultCount: number;
+  results: Array<{
+    screenshotUrls?: string[];
+    ipadScreenshotUrls?: string[];
+    artworkUrl512?: string;
+    artworkUrl100?: string;
+    artworkUrl60?: string;
+    trackName?: string;
+    description?: string;
+    formattedPrice?: string;
+    price?: number;
+    primaryGenreName?: string;
+    averageUserRating?: number;
+    userRatingCount?: number;
+    contentAdvisoryRating?: string;
+    releaseNotes?: string;
+    version?: string;
+  }>;
 }
+
+// App Store Icon - Modern Apple App Store icon
+const AppStoreIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} height="1em" width="1em">
+    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+  </svg>
+);
 
 // Custom SVGs for Logos
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -26,30 +47,61 @@ const GooglePlayLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const [appStoreData, setAppStoreData] = useState<AppStoreData | null>(null);
-  const [imageError, setImageError] = useState(false);
+interface AppStoreInfo {
+  icon: string | null;
+  screenshots: string[];
+  name: string;
+  price: string;
+  genre: string;
+  rating: number;
+  ratingCount: number;
+  contentRating: string;
+}
 
-  // Fetch App Store screenshots if appStoreId is available
+const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const [appStoreInfo, setAppStoreInfo] = useState<AppStoreInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch App Store data directly from iTunes API
   useEffect(() => {
     if (project.appStoreId && typeof window !== 'undefined') {
       const fetchAppStoreData = async () => {
         try {
-          const response = await fetch(`/api/appstore-lookup?appId=${project.appStoreId}&country=tr`);
-          if (response.ok) {
-            const data = await response.json();
-            setAppStoreData(data);
+          setLoading(true);
+          const response = await fetch(`https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`);
+          const data: iTunesResponse = await response.json();
+          
+          if (data.resultCount > 0 && data.results[0]) {
+            const appData = data.results[0];
+            const appScreenshots = appData.screenshotUrls || appData.ipadScreenshotUrls || [];
+            const icon = appData.artworkUrl512 || appData.artworkUrl100 || appData.artworkUrl60 || null;
+            
+            setAppStoreInfo({
+              icon,
+              screenshots: appScreenshots,
+              name: appData.trackName || project.title,
+              price: appData.formattedPrice || (appData.price === 0 ? 'Free' : 'Paid'),
+              genre: appData.primaryGenreName || '',
+              rating: appData.averageUserRating || 0,
+              ratingCount: appData.userRatingCount || 0,
+              contentRating: appData.contentAdvisoryRating || '',
+            });
           }
         } catch (error) {
           console.error('Failed to fetch App Store data:', error);
+        } finally {
+          setLoading(false);
         }
       };
       fetchAppStoreData();
+    } else {
+      setLoading(false);
     }
   }, [project.appStoreId]);
 
-  // Determine image source: App Store screenshot > fallback imageUrl
-  const imageSource = appStoreData?.screenshotUrls?.[0] || project.imageUrl;
+  const hasScreenshots = appStoreInfo?.screenshots.length ? appStoreInfo.screenshots.length > 0 : false;
+  const screenshots = appStoreInfo?.screenshots || [];
+  const appIcon = appStoreInfo?.icon || null;
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -75,103 +127,97 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       viewport={{ once: true }}
       className="group relative bg-slate-900/50 border border-slate-800/30 rounded-xl overflow-hidden hover:border-slate-700/50 transition-all duration-300 backdrop-blur-sm"
     >
-      {/* Compact Image Preview */}
-      <a 
-        href={primaryLink} 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="block relative h-40 sm:h-48 overflow-hidden bg-slate-950/50"
-      >
-        <motion.img 
-          src={imageError ? project.imageUrl : imageSource}
-          alt={project.title}
-          onError={() => {
-            if (!imageError) setImageError(true);
-          }}
-          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-        />
-        
-        {/* Minimal external link indicator */}
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <div className="bg-black/70 backdrop-blur-sm rounded-md p-1.5">
-            <ArrowUpRight size={14} className="text-white" />
+      {loading ? (
+        <div className="p-4 flex items-center justify-center h-32">
+          <div className="animate-pulse text-slate-500 text-sm">Loading...</div>
+        </div>
+      ) : (
+        <div className="flex gap-3 p-4">
+          {/* App Icon - Left Side */}
+          <div className="flex-shrink-0">
+            {appIcon ? (
+              <motion.img 
+                src={appIcon}
+                alt={appStoreInfo?.name || project.title}
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl shadow-lg"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+            ) : (
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-800 flex items-center justify-center">
+                <span className="text-slate-500 text-xs">No Icon</span>
+              </div>
+            )}
+          </div>
+
+          {/* App Info - Right Side */}
+          <div className="flex-1 flex flex-col justify-between min-w-0">
+            <div>
+              {/* App Name */}
+              <a 
+                href={primaryLink} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="group/title block"
+              >
+                <h3 className="text-lg sm:text-xl font-bold text-white group-hover/title:text-brand-400 transition-colors duration-200 mb-1 truncate">
+                  {appStoreInfo?.name || project.title}
+                </h3>
+              </a>
+
+              {/* Subtitle/Genre */}
+              {appStoreInfo?.genre && (
+                <p className="text-xs sm:text-sm text-slate-400 mb-2">
+                  {appStoreInfo.genre}
+                </p>
+              )}
+
+              {/* Platform & Price Info */}
+              <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                <span>Only for iPhone</span>
+                {appStoreInfo?.price && (
+                  <>
+                    <span>·</span>
+                    <span>{appStoreInfo.price}</span>
+                  </>
+                )}
+                {appStoreInfo?.contentRating && (
+                  <>
+                    <span>·</span>
+                    <span>{appStoreInfo.contentRating}</span>
+                  </>
+                )}
+              </div>
+
+              {/* Rating */}
+              {appStoreInfo?.rating && appStoreInfo.rating > 0 && (
+                <div className="flex items-center gap-1 mb-3">
+                  <span className="text-yellow-400 text-xs">★</span>
+                  <span className="text-xs text-slate-400">
+                    {appStoreInfo.rating.toFixed(1)}
+                    {appStoreInfo.ratingCount > 0 && ` (${appStoreInfo.ratingCount})`}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* App Store Button */}
+            {project.appStoreUrl && (
+              <a 
+                href={project.appStoreUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 px-3 py-2 bg-black hover:bg-gray-900 text-white rounded-lg font-semibold text-sm transition-all duration-200 hover:scale-[1.02] w-full whitespace-nowrap"
+              >
+                <AppStoreIcon className="w-4 h-4 flex-shrink-0" /> 
+                <span>View in App Store</span>
+                <ArrowUpRight size={12} className="flex-shrink-0" />
+              </a>
+            )}
           </div>
         </div>
-      </a>
-
-      {/* Compact Content Section */}
-      <div className="p-4">
-        {/* Title and Tech Tags - Compact */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <a 
-            href={primaryLink} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="flex-1 group/title"
-          >
-            <h3 className="text-base sm:text-lg font-semibold text-white group-hover/title:text-brand-400 transition-colors duration-200">
-              {project.title}
-            </h3>
-          </a>
-          <div className="flex flex-wrap gap-1.5">
-            {project.tech.slice(0, 2).map(t => (
-              <span key={t} className="text-[10px] font-medium px-2 py-0.5 rounded bg-slate-800/50 text-slate-300 border border-slate-700/30">
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-        
-        {/* Description - 120 chars max */}
-        <p className="text-xs text-slate-400 leading-relaxed mb-4 line-clamp-2">
-          {project.description.length > 120 
-            ? project.description.substring(0, 120).trim() + '...'
-            : project.description
-          }
-        </p>
-        
-        {/* Store Buttons - Compact */}
-        <div className="flex gap-2">
-          {project.appStoreUrl && (
-            <a 
-              href={project.appStoreUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-white hover:bg-gray-50 text-black rounded-lg font-medium text-xs transition-all duration-200 hover:scale-[1.02]"
-            >
-              <AppleLogo className="text-base" /> 
-              <span>App Store</span>
-            </a>
-          )}
-          
-          {project.playStoreUrl && (
-            <a 
-              href={project.playStoreUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700/50 text-white rounded-lg font-medium text-xs transition-all duration-200 hover:scale-[1.02]"
-            >
-              <GooglePlayLogo className="text-base text-green-400" />
-              <span>Play Store</span>
-            </a>
-          )}
-
-          {!project.appStoreUrl && !project.playStoreUrl && (
-            <a 
-              href={project.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="flex items-center justify-center gap-1.5 px-3 py-2 text-slate-300 hover:text-brand-400 transition-colors duration-200 text-xs font-medium"
-            >
-              <ExternalLink size={14} /> 
-              <span>Visit</span>
-            </a>
-          )}
-        </div>
-      </div>
+      )}
     </motion.div>
   );
 };
@@ -190,7 +236,7 @@ const Projects: React.FC = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
           {projects.map((p, idx) => (
             <ProjectCard key={p.id} project={p} index={idx} />
           ))}
