@@ -13,15 +13,6 @@ export default defineConfig(({ mode }) => {
         fs: {
           strict: false,
         },
-        mime: {
-          'application/javascript': ['js', 'mjs', 'ts', 'tsx'],
-          'text/javascript': ['js', 'mjs'],
-          'application/json': ['json'],
-          'image/svg+xml': ['svg'],
-        },
-        headers: {
-          'X-Content-Type-Options': 'nosniff',
-        },
       },
       plugins: [react()],
       define: {
