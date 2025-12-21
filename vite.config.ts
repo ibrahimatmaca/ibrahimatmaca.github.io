@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       base: '/',
+      root: '.',
       server: {
         port: 3000,
         host: '0.0.0.0',
@@ -14,6 +15,12 @@ export default defineConfig(({ mode }) => {
         },
         mime: {
           'application/javascript': ['js', 'mjs', 'ts', 'tsx'],
+          'text/javascript': ['js', 'mjs'],
+          'application/json': ['json'],
+          'image/svg+xml': ['svg'],
+        },
+        headers: {
+          'X-Content-Type-Options': 'nosniff',
         },
       },
       plugins: [react()],
@@ -31,9 +38,13 @@ export default defineConfig(({ mode }) => {
         assetsDir: 'assets',
         sourcemap: false,
         minify: 'esbuild',
+        emptyOutDir: true,
         rollupOptions: {
           output: {
             manualChunks: undefined,
+            assetFileNames: 'assets/[name].[hash].[ext]',
+            chunkFileNames: 'assets/[name].[hash].js',
+            entryFileNames: 'assets/[name].[hash].js',
           },
         },
       },
