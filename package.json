@@ -1,0 +1,23 @@
+{
+  "name": "ibrahimatmaca-portfolio",
+  "version": "1.0.0",
+  "description": "İbrahim Atmaca - Senior Mobile Developer Portfolio Website",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "validate": "node build.js --validate",
+    "serve": "python3 -m http.server 8000 || python -m SimpleHTTPServer 8000"
+  },
+  "keywords": [
+    "portfolio",
+    "mobile-developer",
+    "flutter",
+    "ios"
+  ],
+  "author": "İbrahim Atmaca",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+
