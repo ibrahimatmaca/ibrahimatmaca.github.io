@@ -62,14 +62,63 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   const [appStoreInfo, setAppStoreInfo] = useState<AppStoreInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch App Store data directly from iTunes API
+  /**
+   * Fetch App Store data via CORS proxy
+   * 
+   * CURRENT IMPLEMENTATION: Using public CORS proxy (api.allorigins.win)
+   * - Works immediately without additional setup
+   * - Suitable for GitHub Pages static hosting (no serverless functions supported)
+   * - Note: Public proxies may have rate limits and reliability concerns
+   * 
+   * ALTERNATIVE OPTIONS (if you want to use your own API endpoint):
+   * 
+   * Since GitHub Pages only supports static files, you have these options:
+   * 
+   * Option 1: Deploy API separately to a serverless platform
+   * - Deploy api/appstore-lookup.ts to Netlify Functions, Cloudflare Workers, or Vercel
+   * - Update the fetch URL below to point to your deployed API
+   * - Example: const response = await fetch(`https://your-api.netlify.app/.netlify/functions/appstore-lookup?appId=${project.appStoreId}&country=tr`);
+   * 
+   * Option 2: Use GitHub Actions to deploy API to a separate service
+   * - Set up automated deployment of the API endpoint
+   * - Keep frontend on GitHub Pages, API on another platform
+   * 
+   * Benefits of using your own API:
+   * - Better security (no third-party proxy)
+   * - More reliable (no dependency on external proxy services)
+   * - Better performance (caching headers already configured in api/appstore-lookup.ts)
+   * - Full control over error handling and rate limiting
+   * 
+   * For now, the CORS proxy solution works well for GitHub Pages deployment.
+   */
   useEffect(() => {
     if (project.appStoreId && typeof window !== 'undefined') {
       const fetchAppStoreData = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`);
-          const data: iTunesResponse = await response.json();
+          // Use CORS proxy to fetch iTunes API data
+          const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`;
+          
+          const response = await fetch(proxyUrl);
+          if (!response.ok) {
+            throw new Error(`Proxy request failed: ${response.status}`);
+          }
+          
+          const proxyData = await response.json();
+          
+          // Validate proxy response structure
+          if (!proxyData || !proxyData.contents) {
+            throw new Error('Invalid proxy response format');
+          }
+          
+          // Parse the actual iTunes API response from proxy's contents field
+          let data: iTunesResponse;
+          try {
+            data = JSON.parse(proxyData.contents);
+          } catch (parseError) {
+            throw new Error('Failed to parse iTunes API response');
+          }
           
           if (data.resultCount > 0 && data.results[0]) {
             const appData = data.results[0];
