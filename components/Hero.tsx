@@ -1,7 +1,89 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Smartphone, Instagram } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Instagram } from 'lucide-react';
 import content from '../content.json';
+import { Project } from '../types';
+
+const projects: Project[] = content.projects.list;
+
+interface iTunesResponse {
+  resultCount: number;
+  results: Array<{
+    artworkUrl512?: string;
+    artworkUrl100?: string;
+    artworkUrl60?: string;
+    trackName?: string;
+  }>;
+}
+
+// Minimal Project App Icon Component (Moved from Projects.tsx)
+const ProjectAppIcon: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const [iconUrl, setIconUrl] = useState<string | null>(null);
+  const [appName, setAppName] = useState<string>(project.title);
+
+  useEffect(() => {
+    if (project.appStoreId && typeof window !== 'undefined') {
+      const fetchAppStoreData = async () => {
+        try {
+          const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+          let fetchUrl: string;
+
+          if (isDev) {
+            fetchUrl = `/itunes-api/lookup?id=${project.appStoreId}&country=tr`;
+          } else {
+            const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
+            fetchUrl = `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`;
+          }
+          
+          const response = await fetch(fetchUrl);
+          if (!response.ok) throw new Error('Failed');
+           
+          const data: iTunesResponse = await response.json();
+          
+          if (data.resultCount > 0 && data.results[0]) {
+            const appData = data.results[0];
+            const icon = appData.artworkUrl512 || appData.artworkUrl100 || appData.artworkUrl60 || null;
+            setIconUrl(icon);
+            setAppName(appData.trackName || project.title);
+          }
+        } catch (error) {
+          // Silent fail, use default
+        }
+      };
+      fetchAppStoreData();
+    }
+  }, [project.appStoreId, project.title]);
+
+  const primaryLink = project.appStoreUrl || project.playStoreUrl || project.link;
+
+  return (
+    <a 
+      href={primaryLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex flex-col items-center gap-2 group transition-transform duration-200 hover:scale-105"
+    >
+      <div className="relative w-[3.5rem] h-[3.5rem] xs:w-16 xs:h-16 sm:w-[4.5rem] sm:h-[4.5rem] bg-slate-800 rounded-[14px] sm:rounded-2xl shadow-lg border border-white/5 overflow-hidden">
+        {iconUrl ? (
+          <img 
+            src={iconUrl} 
+            alt={appName} 
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800">
+             <span className="text-xl sm:text-2xl font-bold text-slate-500">
+               {project.title.charAt(0)}
+             </span>
+          </div>
+        )}
+      </div>
+      <span className="text-[10px] sm:text-xs text-white/90 font-medium text-center line-clamp-2 max-w-[4.5rem] leading-tight">
+        {appName}
+      </span>
+    </a>
+  );
+};
 
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -100,7 +182,7 @@ const Hero: React.FC = () => {
         </motion.div>
 
         {/* 3D Phone Mockup */}
-        <div className="flex justify-center items-center h-[400px] sm:h-[450px] md:h-[500px] [perspective:1000px]">
+        <div className="flex justify-center items-center h-[600px] sm:h-[680px] md:h-[720px] [perspective:1000px]">
           <motion.div
             style={{ 
               rotateX, 
@@ -111,85 +193,86 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, rotateZ: -5 }}
             animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
             transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-            className="relative w-[200px] sm:w-[240px] md:w-[280px] h-[400px] sm:h-[480px] md:h-[560px]"
+            className="relative w-[300px] sm:w-[340px] md:w-[360px] h-[600px] sm:h-[680px] md:h-[720px]"
           >
             {/* Phone Body */}
-            <div className="absolute inset-0 bg-slate-900 rounded-[3rem] border-8 border-slate-800 shadow-2xl overflow-hidden backface-hidden"
+            <div className="absolute inset-0 bg-slate-950 rounded-[3rem] border-8 border-slate-900 shadow-2xl overflow-hidden backface-hidden ring-1 ring-white/10"
               style={{ transform: "translateZ(20px)" }}
             >
+              {/* Dynamic Island / Notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-7 bg-black rounded-b-2xl z-30 flex justify-center items-center gap-2">
+                 <div className="w-16 h-4 bg-black rounded-full" />
+              </div>
+
+               {/* Status Bar (Simulated) */}
+               <div className="absolute top-3 left-6 right-6 flex justify-between text-[10px] font-medium text-white z-20">
+                 <span>9:41</span>
+                 <div className="flex gap-1">
+                    <div className="w-4 h-2.5 bg-white rounded-[2px]" />
+                    <div className="w-0.5 h-2.5 bg-white rounded-[1px]" />
+                 </div>
+               </div>
+
               {/* Screen Content */}
-              <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-950 flex flex-col overflow-hidden">
-                {/* Status Bar */}
-                <div className="h-8 w-full flex justify-between px-6 items-center pt-2">
-                  <div className="text-[10px] text-white font-mono">{content.hero.status.time}</div>
-                  <div className="flex gap-1">
-                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                    <div className="w-3 h-3 rounded-full bg-white/20"></div>
-                  </div>
+              <div className="w-full h-full bg-slate-900 pt-16 pb-24 px-5 overflow-y-auto no-scrollbar relative flex flex-col">
+                {/* Wallpaper Gradient Effect */}
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-900/20 to-transparent pointer-events-none" />
+                
+                {/* App Grid */}
+                <div className="grid grid-cols-4 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8 relative z-10">
+                  {projects.map((p, idx) => (
+                    <ProjectAppIcon key={p.id} project={p} index={idx} />
+                  ))}
                 </div>
                 
-                {/* App UI */}
-                <div className="p-6 flex-1 flex flex-col gap-4">
-                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-400 to-accent-600 mb-4 shadow-lg shadow-brand-500/20"></div>
-                   <div className="space-y-2">
-                     <div className="h-6 w-3/4 bg-slate-800 rounded animate-pulse"></div>
-                     <div className="h-4 w-1/2 bg-slate-800/60 rounded animate-pulse"></div>
-                   </div>
-                   
-                   <div className="mt-8 grid grid-cols-2 gap-3">
-                     {[1,2,3,4].map(i => (
-                       <div key={i} className="aspect-square rounded-2xl bg-slate-800/40 border border-slate-700/50 p-3 relative overflow-hidden group">
-                         <div className="absolute inset-0 bg-brand-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                         <div className="w-8 h-8 rounded-full bg-slate-700 mb-2"></div>
-                         <div className="h-2 w-12 bg-slate-700/50 rounded"></div>
-                       </div>
-                     ))}
-                   </div>
-                   
-                   <div className="mt-auto bg-slate-800/80 backdrop-blur-md rounded-2xl p-4 border border-slate-700">
-                      <div className="flex justify-between items-center text-xs text-gray-400 font-mono">
-                         <span>{content.hero.status.build}</span>
-                         <span className="text-green-400">98%</span>
-                      </div>
-                      <div className="w-full h-1 bg-slate-700 mt-2 rounded-full overflow-hidden">
-                        <div className="h-full bg-brand-400 w-[98%]"></div>
-                      </div>
-                   </div>
+                 {/* Bottom Progress Widget */}
+                 <div className="mt-auto relative z-10 bg-slate-800/80 backdrop-blur-md rounded-2xl p-4 border border-white/5">
+                  <div className="flex justify-between items-center mb-2">
+                     <span className="text-xs text-slate-300 font-medium">Running build...</span>
+                     <span className="text-xs text-brand-400 font-bold">98%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
+                     <motion.div 
+                       className="h-full bg-brand-500 rounded-full"
+                       initial={{ width: "0%" }}
+                       whileInView={{ width: "98%" }}
+                       transition={{ duration: 2, ease: "circOut" }}
+                     />
+                  </div>
                 </div>
               </div>
+              
+              {/* Home Indicator */}
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1/3 h-1 bg-white/20 rounded-full z-30" />
             </div>
 
             {/* Depth Layers for 3D Feel */}
-            <div className="absolute inset-0 bg-slate-700 rounded-[3rem] -z-10" style={{ transform: "translateZ(0px)" }}></div>
-            <div className="absolute inset-0 bg-slate-800 rounded-[3rem] -z-20" style={{ transform: "translateZ(-10px)" }}></div>
+            <div className="absolute inset-0 bg-slate-800 rounded-[3rem] -z-10" style={{ transform: "translateZ(0px)" }}></div>
+            <div className="absolute inset-0 bg-slate-900 rounded-[3rem] -z-20" style={{ transform: "translateZ(-10px)" }}></div>
             <div className="absolute inset-0 bg-black/50 blur-xl rounded-[3rem] -z-30 translate-y-12" style={{ transform: "translateZ(-60px) scale(0.9)" }}></div>
-            
-
-
           </motion.div>
+          
           {/* Floating Elements - Hidden on Mobile */}
           <motion.div 
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="hidden md:block absolute -right-12 top-20 bg-slate-800/90 backdrop-blur border border-slate-600 p-3 rounded-xl shadow-xl z-50"
+            className="hidden md:flex absolute -right-16 top-1/4 bg-slate-900/80 backdrop-blur-md border border-slate-700/50 px-4 py-3 rounded-2xl shadow-xl z-50 items-center gap-3"
             style={{ transform: "translateZ(80px)" }}
           >
-            <div className="flex items-center gap-3">
-              <Smartphone className="text-brand-400" size={20} />
-              <span className="text-sm font-semibold text-white">{content.hero.status.platform}</span>
-            </div>
+             <svg className="w-5 h-5 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+             </svg>
+             <span className="text-white font-medium text-sm">iOS & Android</span>
           </motion.div>
 
           <motion.div 
             animate={{ y: [0, 15, 0] }}
             transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-            className="hidden md:block absolute -left-12 bottom-40 bg-slate-800/90 backdrop-blur border border-slate-600 p-3 rounded-xl shadow-xl z-50"
+            className="hidden md:flex absolute -left-16 bottom-1/3 bg-slate-900/80 backdrop-blur-md border border-slate-700/50 px-4 py-3 rounded-2xl shadow-xl z-50 items-center gap-3"
             style={{ transform: "translateZ(80px)" }}
           >
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-sm font-semibold text-white">{content.hero.status.stability}</span>
-            </div>
+             <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+             <span className="text-white font-medium text-sm">99.9% Crash Free</span>
           </motion.div>
         </div>
       </div>

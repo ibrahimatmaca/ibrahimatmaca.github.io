@@ -34,19 +34,6 @@ const AppStoreIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Custom SVGs for Logos
-const AppleLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 384 512" fill="currentColor" className={className} height="1em" width="1em">
-    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5c0 66.2 23.9 149.4 58.5 202.7 17.2 26.5 42.6 54.3 68.8 54.3 26.1 0 34.6-17.6 67.5-17.6 33.5 0 41.5 17.6 67.5 17.6 28.1 0 55.1-32.3 71.3-58.4 8.7-13.8 24-40.4 25.1-42-57.1-23.7-64.4-96.6-44-161.4zM222 101.9c16.2-22.2 27.6-49.7 23.8-77.8-24.8 2.8-54.7 18.2-70.6 40.5-14.8 21.6-26.6 53.6-22.5 77.2 28.4 3.7 54-19.1 69.3-39.9z"/>
-  </svg>
-);
-
-const GooglePlayLogo = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 512 512" fill="currentColor" className={className} height="1em" width="1em">
-    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
-  </svg>
-);
-
 interface AppStoreInfo {
   icon: string | null;
   screenshots: string[];
@@ -62,49 +49,17 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   const [appStoreInfo, setAppStoreInfo] = useState<AppStoreInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Fetch App Store data via CORS proxy
-   * 
-   * CURRENT IMPLEMENTATION: Using public CORS proxy (api.allorigins.win)
-   * - Works immediately without additional setup
-   * - Suitable for GitHub Pages static hosting (no serverless functions supported)
-   * - Note: Public proxies may have rate limits and reliability concerns
-   * 
-   * ALTERNATIVE OPTIONS (if you want to use your own API endpoint):
-   * 
-   * Since GitHub Pages only supports static files, you have these options:
-   * 
-   * Option 1: Deploy API separately to a serverless platform
-   * - Deploy api/appstore-lookup.ts to Netlify Functions, Cloudflare Workers, or Vercel
-   * - Update the fetch URL below to point to your deployed API
-   * - Example: const response = await fetch(`https://your-api.netlify.app/.netlify/functions/appstore-lookup?appId=${project.appStoreId}&country=tr`);
-   * 
-   * Option 2: Use GitHub Actions to deploy API to a separate service
-   * - Set up automated deployment of the API endpoint
-   * - Keep frontend on GitHub Pages, API on another platform
-   * 
-   * Benefits of using your own API:
-   * - Better security (no third-party proxy)
-   * - More reliable (no dependency on external proxy services)
-   * - Better performance (caching headers already configured in api/appstore-lookup.ts)
-   * - Full control over error handling and rate limiting
-   * 
-   * For now, the CORS proxy solution works well for GitHub Pages deployment.
-   */
   useEffect(() => {
     if (project.appStoreId && typeof window !== 'undefined') {
       const fetchAppStoreData = async () => {
         try {
           setLoading(true);
-          // Determine URL based on environment
-          const isDev = import.meta.env.DEV;
+          const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
           let fetchUrl: string;
 
           if (isDev) {
-            // Local proxy during development
             fetchUrl = `/itunes-api/lookup?id=${project.appStoreId}&country=tr`;
           } else {
-             // Production: use reliable CORS proxy
             const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
             fetchUrl = `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`;
           }
@@ -115,7 +70,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             throw new Error(`Request failed: ${response.status}`);
           }
            
-          // Parse directly as both local proxy and corsproxy.io return the raw JSON
           const data: iTunesResponse = await response.json();
           
           if (data.resultCount > 0 && data.results[0]) {
@@ -146,8 +100,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     }
   }, [project.appStoreId]);
 
-  const hasScreenshots = appStoreInfo?.screenshots.length ? appStoreInfo.screenshots.length > 0 : false;
-  const screenshots = appStoreInfo?.screenshots || [];
   const appIcon = appStoreInfo?.icon || null;
 
   const cardVariants: Variants = {
@@ -172,7 +124,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="group relative bg-slate-900/50 border border-slate-800/30 rounded-xl overflow-hidden hover:border-slate-700/50 transition-all duration-300 backdrop-blur-sm"
+      className="group relative bg-slate-800/80 border border-slate-700/60 rounded-2xl overflow-hidden hover:border-brand-500/40 hover:shadow-xl hover:shadow-brand-500/10 transition-all duration-300 backdrop-blur-sm"
     >
       {loading ? (
         <div className="p-4 flex items-center justify-center h-32">
@@ -272,15 +224,12 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 const Projects: React.FC = () => {
   return (
     <section className="py-24 relative scroll-mt-24" id="projects">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-white">{content.projects.title}</h2>
-            <div className="w-20 h-1 bg-brand-500 mb-4"></div>
-            <p className="text-gray-400 max-w-xl">
-               {content.projects.description}
-            </p>
-          </div>
+      <div className="container mx-auto px-4">
+        <div className="mb-12">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-white">{content.projects.title}</h2>
+          <p className="text-gray-400 text-lg max-w-2xl">
+             {content.projects.description}
+          </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
