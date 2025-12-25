@@ -54,30 +54,71 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       const fetchAppStoreData = async () => {
         try {
           setLoading(true);
+          
+          // Check localStorage cache first (cache for 24 hours)
+          const cacheKey = `appstore_${project.appStoreId}`;
+          const cached = localStorage.getItem(cacheKey);
+          if (cached) {
+            const { data, timestamp } = JSON.parse(cached);
+            const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000; // 24 hours
+            if (!isExpired) {
+              setAppStoreInfo(data);
+              setLoading(false);
+              return;
+            }
+          }
+
           const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          let fetchUrl: string;
+          const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
+          
+          let response: Response | null = null;
+          let data: iTunesResponse | null = null;
 
           if (isDev) {
-            fetchUrl = `/itunes-api/lookup?id=${project.appStoreId}&country=tr`;
+            // Development: use Vite proxy
+            response = await fetch(`/itunes-api/lookup?id=${project.appStoreId}&country=tr`);
           } else {
-            const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
-            fetchUrl = `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`;
+            // Production: try multiple CORS proxies with fallbacks
+            const proxies = [
+              `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`,
+              `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`,
+            ];
+
+            for (const proxyUrl of proxies) {
+              try {
+                response = await fetch(proxyUrl);
+                if (response.ok) {
+                  const result = await response.json();
+                  // allorigins.win wraps response in { contents: "..." }
+                  if (result.contents) {
+                    data = JSON.parse(result.contents);
+                  } else {
+                    data = result;
+                  }
+                  break;
+                }
+              } catch (err) {
+                console.warn(`Proxy ${proxyUrl} failed, trying next...`, err);
+                continue;
+              }
+            }
           }
           
-          const response = await fetch(fetchUrl);
-          
-          if (!response.ok) {
-            throw new Error(`Request failed: ${response.status}`);
+          // Parse response for dev mode
+          if (isDev && response && response.ok) {
+            data = await response.json();
           }
-           
-          const data: iTunesResponse = await response.json();
+          
+          if (!data) {
+            throw new Error('All CORS proxies failed');
+          }
           
           if (data.resultCount > 0 && data.results[0]) {
             const appData = data.results[0];
             const appScreenshots = appData.screenshotUrls || appData.ipadScreenshotUrls || [];
             const icon = appData.artworkUrl512 || appData.artworkUrl100 || appData.artworkUrl60 || null;
             
-            setAppStoreInfo({
+            const appInfo: AppStoreInfo = {
               icon,
               screenshots: appScreenshots,
               name: appData.trackName || project.title,
@@ -86,7 +127,15 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               rating: appData.averageUserRating || 0,
               ratingCount: appData.userRatingCount || 0,
               contentRating: appData.contentAdvisoryRating || '',
-            });
+            };
+            
+            setAppStoreInfo(appInfo);
+            
+            // Cache the result
+            localStorage.setItem(cacheKey, JSON.stringify({
+              data: appInfo,
+              timestamp: Date.now()
+            }));
           }
         } catch (error) {
           console.error('Failed to fetch App Store data:', error);
@@ -98,7 +147,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     } else {
       setLoading(false);
     }
-  }, [project.appStoreId]);
+  }, [project.appStoreId, project.title]);
 
   const appIcon = appStoreInfo?.icon || null;
 

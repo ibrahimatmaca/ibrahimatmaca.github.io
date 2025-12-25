@@ -45,7 +45,11 @@ export default defineConfig(({ mode }) => {
             entryFileNames: 'assets/[name].[hash].js',
           },
         },
+        // Ensure all assets are copied correctly
+        copyPublicDir: true,
       },
       publicDir: 'public',
+      // Ensure proper MIME types for all file types
+      assetsInclude: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
     };
 });
