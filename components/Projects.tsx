@@ -96,29 +96,27 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       const fetchAppStoreData = async () => {
         try {
           setLoading(true);
-          // Use CORS proxy to fetch iTunes API data
-          const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
-          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`;
+          // Determine URL based on environment
+          const isDev = import.meta.env.DEV;
+          let fetchUrl: string;
+
+          if (isDev) {
+            // Local proxy during development
+            fetchUrl = `/itunes-api/lookup?id=${project.appStoreId}&country=tr`;
+          } else {
+             // Production: use reliable CORS proxy
+            const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
+            fetchUrl = `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`;
+          }
           
-          const response = await fetch(proxyUrl);
+          const response = await fetch(fetchUrl);
+          
           if (!response.ok) {
-            throw new Error(`Proxy request failed: ${response.status}`);
+            throw new Error(`Request failed: ${response.status}`);
           }
-          
-          const proxyData = await response.json();
-          
-          // Validate proxy response structure
-          if (!proxyData || !proxyData.contents) {
-            throw new Error('Invalid proxy response format');
-          }
-          
-          // Parse the actual iTunes API response from proxy's contents field
-          let data: iTunesResponse;
-          try {
-            data = JSON.parse(proxyData.contents);
-          } catch (parseError) {
-            throw new Error('Failed to parse iTunes API response');
-          }
+           
+          // Parse directly as both local proxy and corsproxy.io return the raw JSON
+          const data: iTunesResponse = await response.json();
           
           if (data.resultCount > 0 && data.results[0]) {
             const appData = data.results[0];

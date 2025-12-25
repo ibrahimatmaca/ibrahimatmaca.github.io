@@ -13,6 +13,13 @@ export default defineConfig(({ mode }) => {
         fs: {
           strict: false,
         },
+        proxy: {
+          '/itunes-api': {
+            target: 'https://itunes.apple.com',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/itunes-api/, ''),
+          },
+        },
       },
       plugins: [react()],
       define: {
