@@ -78,28 +78,92 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             // Development: use Vite proxy
             response = await fetch(`/itunes-api/lookup?id=${project.appStoreId}&country=tr`);
           } else {
-            // Production: try multiple CORS proxies with fallbacks
-            const proxies = [
-              `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`,
-              `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`,
-            ];
-
-            for (const proxyUrl of proxies) {
+            
+            // Production: Try multiple approaches with better error handling
+            // Since GitHub Pages is static, we need to use CORS proxies or a separately deployed API
+            
+            // Try Vercel API endpoint if deployed separately (check for custom API URL)
+            // Users can set this via environment variable or deploy API separately
+            const customApiUrl = typeof window !== 'undefined' && (window as any).APPSTORE_API_URL;
+            const vercelApiUrl = typeof window !== 'undefined' && window.location.origin.includes('vercel.app') 
+              ? `${window.location.origin}/api/appstore-lookup?appId=${project.appStoreId}&country=tr`
+              : customApiUrl 
+                ? `${customApiUrl}?appId=${project.appStoreId}&country=tr`
+                : null;
+            
+            const possibleApiUrls = vercelApiUrl ? [vercelApiUrl] : [];
+            
+            // Try API endpoint first if available
+            for (const apiUrl of possibleApiUrls) {
               try {
-                response = await fetch(proxyUrl);
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                response = await fetch(apiUrl, { signal: controller.signal });
+                clearTimeout(timeoutId);
                 if (response.ok) {
-                  const result = await response.json();
-                  // allorigins.win wraps response in { contents: "..." }
-                  if (result.contents) {
-                    data = JSON.parse(result.contents);
-                  } else {
-                    data = result;
-                  }
+                  const apiResult = await response.json();
+                  data = apiResult;
                   break;
                 }
               } catch (err) {
-                console.warn(`Proxy ${proxyUrl} failed, trying next...`, err);
-                continue;
+                // Continue to next method
+              }
+            }
+            
+            // If API didn't work, try CORS proxies with better error handling and more options
+            if (!data) {
+              // Use multiple CORS proxy options with different formats
+              const proxies = [
+                // Try allorigins raw endpoint first (most reliable, returns JSON directly)
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(itunesUrl)}`,
+                // Try allorigins get endpoint (wraps in { contents: "..." })
+                `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`,
+                // Try alternative proxy format
+                `https://api.allorigins.win/raw?url=${itunesUrl}`,
+              ];
+
+              for (let i = 0; i < proxies.length; i++) {
+                const proxyUrl = proxies[i];
+                try {
+                  // Add timeout to prevent hanging
+                  const controller = new AbortController();
+                  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                  
+                  response = await fetch(proxyUrl, { 
+                    signal: controller.signal,
+                    mode: 'cors',
+                    cache: 'no-cache'
+                  });
+                  clearTimeout(timeoutId);
+                  
+                  if (response.ok) {
+                    let result;
+                    // Handle different proxy response formats
+                    if (proxyUrl.includes('allorigins.win/raw')) {
+                      // Raw response is direct JSON
+                      result = await response.json();
+                      data = result;
+                    } else if (proxyUrl.includes('allorigins.win/get')) {
+                      // Wrapped in { contents: "..." }
+                      result = await response.json();
+                      if (result.contents) {
+                        data = JSON.parse(result.contents);
+                      } else {
+                        data = result;
+                      }
+                    } else {
+                      // Other proxies return direct JSON
+                      result = await response.json();
+                      data = result;
+                    }
+                    break;
+                  }
+                } catch (err) {
+                  if (err instanceof Error && err.name !== 'AbortError') {
+                    console.warn(`Proxy ${proxyUrl} failed, trying next...`, err);
+                  }
+                  continue;
+                }
               }
             }
           }
@@ -110,7 +174,10 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           }
           
           if (!data) {
-            throw new Error('All CORS proxies failed');
+            // Don't throw error - gracefully handle failure by showing default UI
+            // The component will show the project info without App Store data
+            setLoading(false);
+            return;
           }
           
           if (data.resultCount > 0 && data.results[0]) {

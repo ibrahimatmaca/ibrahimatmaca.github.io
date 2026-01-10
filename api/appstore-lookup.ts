@@ -77,16 +77,9 @@ export default async function handler(
         if (fallbackResponse.ok) {
           const fallbackData: AppStoreLookupResponse = await fallbackResponse.json();
           if (fallbackData.resultCount > 0 && fallbackData.results.length > 0) {
-            const app = fallbackData.results[0];
             response.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-            response.status(200).json({
-              success: true,
-              screenshotUrls: app.screenshotUrls || [],
-              ipadScreenshotUrls: app.ipadScreenshotUrls || [],
-              artworkUrl512: app.artworkUrl512 || app.artworkUrl100 || null,
-              description: app.description || null,
-              trackName: app.trackName || null,
-            });
+            // Return the full iTunes API response format
+            response.status(200).json(fallbackData);
             return;
           }
         }
@@ -99,22 +92,11 @@ export default async function handler(
       return;
     }
 
-    const app = data.results[0];
-
-    // Extract screenshot URLs (prioritize iPhone screenshots, fallback to iPad)
-    const screenshotUrls = app.screenshotUrls || app.ipadScreenshotUrls || [];
-
     // Cache for 1 hour, allow stale for 24 hours
     response.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
 
-    response.status(200).json({
-      success: true,
-      screenshotUrls,
-      ipadScreenshotUrls: app.ipadScreenshotUrls || [],
-      artworkUrl512: app.artworkUrl512 || app.artworkUrl100 || null,
-      description: app.description || null,
-      trackName: app.trackName || null,
-    });
+    // Return the full iTunes API response format for compatibility with frontend
+    response.status(200).json(data);
 
   } catch (error: any) {
     console.error('Error fetching App Store data:', error);
