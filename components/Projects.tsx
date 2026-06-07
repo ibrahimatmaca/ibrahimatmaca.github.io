@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, Variants } from 'framer-motion';
-import { ArrowUpRight, Shield } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Project } from '../types';
 import content from '../content.json';
 
@@ -292,16 +291,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 <span>View in App Store</span>
                 <ArrowUpRight size={12} className="flex-shrink-0" />
               </a>
-            )}
-
-            {project.privacyPolicyUrl && (
-              <Link
-                to={project.privacyPolicyUrl}
-                className="mt-2 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-gray-300 hover:text-white rounded-lg font-medium text-sm transition-all duration-200 w-full whitespace-nowrap border border-slate-700"
-              >
-                <Shield size={14} className="flex-shrink-0" />
-                <span>Privacy Policy</span>
-              </Link>
             )}
           </div>
         </div>

@@ -35,7 +35,6 @@
         "link": "https://apps.apple.com/tr/app/elevana/id6745828686",
         "appStoreUrl": "https://apps.apple.com/tr/app/elevana/id6745828686",
         "appStoreId": "6745828686",
-        "privacyPolicyUrl": "/elevana-privacy",
         "appStoreCache": {
           "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/2b/a8/672ba8fe-5ebe-887f-9d2d-eee651a515ca/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg",
           "name": "Elevana",
@@ -58,8 +57,7 @@
           "COPPA Compliance"
         ],
         "imageUrl": "https://images.unsplash.com/photo-1512820790802-83ca734da794?q=80&w=1000&auto=format&fit=crop",
-        "link": "https://ibrahimatmaca.github.io/kidtales-privacy",
-        "privacyPolicyUrl": "/kidtales-privacy"
+        "link": "https://ibrahimatmaca.github.io/kidtales-privacy"
       }
     ]
   },

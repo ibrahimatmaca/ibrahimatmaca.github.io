@@ -19,6 +19,5 @@ export interface Project {
   appStoreUrl?: string;
   playStoreUrl?: string;
   appStoreId?: string;
-  privacyPolicyUrl?: string;
   appStoreCache?: AppStoreCache;
 }
