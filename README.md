@@ -145,13 +145,14 @@ The built files will be in the `dist` directory, ready to be deployed to any sta
 - `/support` - Support page
 - `/elevana-privacy` - Elevana app privacy policy
 - `/kidtales-privacy` - KidTales AI privacy policy
+- `/kidtales-terms` - KidTales AI terms of use
 - `/privacy-policy` - Mobile game privacy policy
 
 ## Privacy Policy Pages
 
 The portfolio includes privacy policy pages for mobile applications:
 - **Elevana** - Habit tracking app privacy policy
-- **KidTales AI** - AI story generation app privacy policy (English/Turkish)
+- **KidTales AI** - AI story generation app privacy policy and terms of use (English/Turkish)
 - **Mobile Games** - General mobile game privacy policy
 
 These pages are accessible via direct URLs but are not linked in the main navigation.

@@ -4,6 +4,7 @@ import HomePage from './components/HomePage';
 import Support from './components/Support';
 import ElevanaPrivacy from './components/privacy/ElevanaPrivacy';
 import KidTalesPrivacy from './components/privacy/KidTalesPrivacy';
+import KidTalesTerms from './components/privacy/KidTalesTerms';
 import GeneralPrivacy from './components/privacy/GeneralPrivacy';
 
 const NotFound: React.FC = () => {
@@ -135,6 +136,7 @@ export const App: React.FC = () => {
       <Route path="/support" element={<Support />} />
       <Route path="/elevana-privacy" element={<ElevanaPrivacy />} />
       <Route path="/kidtales-privacy" element={<KidTalesPrivacy />} />
+      <Route path="/kidtales-terms" element={<KidTalesTerms />} />
       <Route path="/privacy-policy" element={<GeneralPrivacy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
