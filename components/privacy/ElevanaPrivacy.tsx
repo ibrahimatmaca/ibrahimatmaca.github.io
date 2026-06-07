@@ -44,7 +44,7 @@ const elevanaHtmlContent = `
 
     <h2>Updates</h2>
     <p>We may update this privacy policy if Elevana's features change. If we do, you'll find the latest version at:</p>
-    <p><a href="https://ibrahimatmaca.github.io/elevana_privacy_policy.html" target="_blank" rel="noopener noreferrer">https://ibrahimatmaca.github.io/elevana_privacy_policy.html</a></p>
+    <p><a href="https://ibrahimatmaca.github.io/elevana-privacy" target="_blank" rel="noopener noreferrer">https://ibrahimatmaca.github.io/elevana-privacy</a></p>
 
     <h2>Summary</h2>
     <p><em>You stay private. Your intentions stay yours.</em><br>

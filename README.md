@@ -4,19 +4,19 @@
   <img width="1200" height="475" alt="Portfolio Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-A modern, responsive portfolio website showcasing my work as a Senior Mobile Engineer. Built with React, TypeScript, Tailwind CSS, and powered by Gemini AI.
+A modern, responsive portfolio website showcasing my work as a Senior Mobile Engineer. Built with React, TypeScript, and Tailwind CSS, deployed as a static site on GitHub Pages.
 
 🌐 **Live Site:** [https://ibrahimatmaca.github.io](https://ibrahimatmaca.github.io)
 
 ## Features
 
-- 🎨 Modern, dark-themed UI with smooth animations
-- 📱 Fully responsive design
-- 🚀 Fast performance with Vite
-- 🤖 AI-powered features with Google Gemini
-- 📧 Contact form with SMTP email integration
-- 🔒 Privacy policy pages for mobile apps
-- 🎯 SEO optimized
+- Modern, dark-themed UI with smooth animations (Framer Motion)
+- Fully responsive design
+- Fast performance with Vite
+- Contact form via native `mailto:` integration
+- App Store metadata with build-time cache and CORS proxy fallback
+- Privacy policy and terms pages for mobile apps (including bilingual KidTales AI pages)
+- SEO meta tags, sitemap, and GitHub Pages SPA routing
 
 ## Tech Stack
 
@@ -25,15 +25,14 @@ A modern, responsive portfolio website showcasing my work as a Senior Mobile Eng
 - **Animations:** Framer Motion
 - **Routing:** React Router DOM
 - **Build Tool:** Vite
-- **AI:** Google Gemini API
-- **Email:** Nodemailer (SMTP)
+- **Hosting:** GitHub Pages (static)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v20 or higher)
-- npm or yarn
+- Node.js v20 or higher
+- npm
 
 ### Installation
 
@@ -48,22 +47,7 @@ A modern, responsive portfolio website showcasing my work as a Senior Mobile Eng
    npm install
    ```
 
-3. Set up environment variables:
-   ```bash
-   cp env.example .env.local
-   ```
-   
-   Edit `.env.local` and add your configuration:
-   - `GEMINI_API_KEY`: Your Gemini API key
-   - `SMTP_HOST`: SMTP server host (e.g., smtp-mail.outlook.com)
-   - `SMTP_PORT`: SMTP port (usually 587)
-   - `SMTP_SECURE`: false for TLS, true for SSL
-   - `SMTP_USER`: Your email address
-   - `SMTP_PASSWORD`: Your email app password
-   - `SMTP_FROM`: Sender email address
-   - `SMTP_TO`: Recipient email address
-
-4. Run the development server:
+3. Run the development server:
    ```bash
    npm run dev
    ```
@@ -74,45 +58,35 @@ A modern, responsive portfolio website showcasing my work as a Senior Mobile Eng
 
 ### GitHub Pages
 
-This project is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow runs on every push to the `main` or `master` branch.
+This project is automatically deployed to GitHub Pages using GitHub Actions on every push to `main` or `master`.
 
-**Deployment Steps:**
-1. Push your changes to the repository
-2. GitHub Actions will automatically build and deploy to GitHub Pages
-3. Your site will be available at `https://ibrahimatmaca.github.io`
+**Deployment flow:**
+1. Push changes to the repository
+2. GitHub Actions runs `npm run fetch-appstore` then `npm run build`
+3. The site is published at `https://ibrahimatmaca.github.io`
 
-**SSL/HTTPS:**
-GitHub Pages automatically provides SSL certificates for all sites. Your site is already accessible via HTTPS at `https://ibrahimatmaca.github.io`. No additional SSL configuration is needed. If you're using a custom domain, GitHub Pages will still provide SSL certificates automatically - just enable "Enforce HTTPS" in your repository settings.
-
-**Environment Variables:**
-Set the following secrets in your GitHub repository settings (Settings → Secrets and variables → Actions):
-- `GEMINI_API_KEY`
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_SECURE`
-- `SMTP_USER`
-- `SMTP_PASSWORD`
-- `SMTP_FROM`
-- `SMTP_TO`
+**SSL/HTTPS:** GitHub Pages provides HTTPS automatically. No extra configuration is required.
 
 ### Manual Deployment
 
-To deploy manually:
-
 ```bash
+npm run fetch-appstore
 npm run build
+npm run preview
 ```
 
-The built files will be in the `dist` directory, ready to be deployed to any static hosting service.
+Built files are output to the `dist` directory.
 
 ## Project Structure
 
 ```
 ├── components/
-│   ├── privacy/          # Privacy policy pages
+│   ├── privacy/
 │   │   ├── PrivacyPolicy.tsx
+│   │   ├── KidTalesLegalLayout.tsx
 │   │   ├── ElevanaPrivacy.tsx
 │   │   ├── KidTalesPrivacy.tsx
+│   │   ├── KidTalesTerms.tsx
 │   │   └── GeneralPrivacy.tsx
 │   ├── About.tsx
 │   ├── Background.tsx
@@ -122,67 +96,53 @@ The built files will be in the `dist` directory, ready to be deployed to any sta
 │   ├── Projects.tsx
 │   ├── Support.tsx
 │   └── ...
-├── api/                   # Serverless functions (Vercel)
-│   └── send-email.ts
-├── utils/                 # Utility functions
-│   └── emailTemplate.ts
-├── .github/
-│   └── workflows/
-│       └── deploy.yml     # GitHub Actions workflow
+├── hooks/
+│   └── usePageTitle.ts
+├── scripts/
+│   └── fetch-appstore-metadata.mjs
+├── .github/workflows/
+│   └── deploy.yml
+├── content.json
 └── public/
-    └── 404.html           # SPA routing fallback
+    ├── 404.html
+    ├── .nojekyll
+    ├── robots.txt
+    └── sitemap.xml
 ```
 
 ## Routes
 
 ### Public Routes
-- `/` - Home page
-- `/#projects` - Projects section
-- `/#about` - About section
-- `/#contact` - Contact section
+- `/` — Home page
+- `/#projects` — Projects section
+- `/#about` — About section
+- `/#contact` — Contact section
 
-### Hidden Routes (Privacy Policies)
-- `/support` - Support page
-- `/elevana-privacy` - Elevana app privacy policy
-- `/kidtales-privacy` - KidTales AI privacy policy
-- `/kidtales-terms` - KidTales AI terms of use
-- `/privacy-policy` - Mobile game privacy policy
+### Hidden Routes (Legal & Support)
+- `/support` — Support page
+- `/elevana-privacy` — Elevana privacy policy
+- `/kidtales-privacy` — KidTales AI privacy policy (English/Turkish)
+- `/kidtales-terms` — KidTales AI terms of use (English/Turkish)
+- `/privacy-policy` — General mobile game privacy policy
 
-## Privacy Policy Pages
+These pages are accessible via direct URLs (e.g. App Store links) but are not shown in the main navigation.
 
-The portfolio includes privacy policy pages for mobile applications:
-- **Elevana** - Habit tracking app privacy policy
-- **KidTales AI** - AI story generation app privacy policy and terms of use (English/Turkish)
-- **Mobile Games** - General mobile game privacy policy
+## App Store Metadata
 
-These pages are accessible via direct URLs but are not linked in the main navigation.
+In production (GitHub Pages), live App Store lookups use a CORS proxy (`api.allorigins.win`) with graceful fallback to static images in `content.json`.
+
+At build time, `npm run fetch-appstore` caches iTunes metadata into `content.json` (`appStoreCache`) so the site works even when the proxy is unavailable.
 
 ## Contact Form
 
-The contact form sends emails via SMTP. Configure your SMTP settings in `.env.local` for local development or GitHub Secrets for production.
+The contact form opens the user's default email client via `mailto:` — no server-side email API is required for GitHub Pages hosting.
 
 ## Development
 
-### Local Development
-
-For local development with API functions, you can use Vercel CLI:
-
 ```bash
-npm install -g vercel
-vercel dev
-```
-
-Or run normally (API will work in production):
-
-```bash
-npm run dev
-```
-
-### Building for Production
-
-```bash
-npm run build
-npm run preview
+npm run dev      # Start dev server (port 3000, iTunes API proxy enabled)
+npm run lint     # Run ESLint
+npm run build    # Production build
 ```
 
 ## License
@@ -197,4 +157,4 @@ This project is private and proprietary.
 
 ---
 
-Built with ❤️ by İbrahim Atmaca
+Built with care by İbrahim Atmaca

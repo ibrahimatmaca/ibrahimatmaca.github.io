@@ -10,6 +10,15 @@
     <link rel="alternate icon" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
     <meta name="theme-color" content="#020617" />
+    <meta name="description" content="Senior Mobile Engineer portfolio by İbrahim Atmaca. Swift, Kotlin, React Native, and high-performance iOS & Android apps." />
+    <meta property="og:title" content="İbrahim Atmaca | Senior Mobile Engineer" />
+    <meta property="og:description" content="Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ibrahimatmaca.github.io/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="İbrahim Atmaca | Senior Mobile Engineer" />
+    <meta name="twitter:description" content="Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native." />
+    <link rel="canonical" href="https://ibrahimatmaca.github.io/" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,22 +28,15 @@
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
     <script>
-      // Single Page Apps for GitHub Pages
-      // Handle redirects from 404.html
-      (function() {
-        var redirect = sessionStorage.getItem('redirect');
-        var is404 = sessionStorage.getItem('is404');
-        if (redirect) {
-          sessionStorage.removeItem('redirect');
-          if (redirect !== location.href) {
-            history.replaceState(null, null, redirect);
-          }
+      // Single Page Apps for GitHub Pages (rafgraph/spa-github-pages)
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
         }
-        // If we came from 404, React Router will handle showing the 404 component
-        if (is404) {
-          // Keep the flag so NotFound component can detect it
-        }
-      })();
+      })(window.location);
     </script>
   </body>
 </html>

@@ -26,15 +26,43 @@
         "id": "1",
         "title": "Elevana",
         "description": "A beautifully designed manifestation assistant that helps you set clear intentions and stay aligned with your goals.",
-        "tech": ["SwiftUI", "Clean Architecture", "Local Storage"],
+        "tech": [
+          "SwiftUI",
+          "Clean Architecture",
+          "Local Storage"
+        ],
         "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
         "link": "https://apps.apple.com/tr/app/elevana/id6745828686",
         "appStoreUrl": "https://apps.apple.com/tr/app/elevana/id6745828686",
-        "appStoreId": "6745828686"
+        "appStoreId": "6745828686",
+        "privacyPolicyUrl": "/elevana-privacy",
+        "appStoreCache": {
+          "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/67/2b/a8/672ba8fe-5ebe-887f-9d2d-eee651a515ca/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg",
+          "name": "Elevana",
+          "price": "Free",
+          "genre": "Lifestyle",
+          "rating": 5,
+          "ratingCount": 4,
+          "contentRating": "4+",
+          "fetchedAt": "2026-06-07T06:59:50.739Z"
+        }
+      },
+      {
+        "id": "2",
+        "title": "KidTales AI",
+        "description": "A child-friendly AI story generation app with COPPA-compliant privacy, bilingual legal pages, and StoreKit subscriptions.",
+        "tech": [
+          "SwiftUI",
+          "StoreKit",
+          "AI Integration",
+          "COPPA Compliance"
+        ],
+        "imageUrl": "https://images.unsplash.com/photo-1512820790802-83ca734da794?q=80&w=1000&auto=format&fit=crop",
+        "link": "https://ibrahimatmaca.github.io/kidtales-privacy",
+        "privacyPolicyUrl": "/kidtales-privacy"
       }
     ]
   },
-
   "about": {
     "title": "About Me",
     "paragraphs": [
@@ -69,14 +97,6 @@
       "sending": "Sending...",
       "sent": "Message sent successfully!",
       "error": "Failed to send message. Please try again."
-    },
-    "smtp": {
-      "host": "smtp-mail.outlook.com",
-      "port": 587,
-      "secure": false,
-      "user": "ibrahim.atmaca61@hotmail.com",
-      "from": "ibrahim.atmaca61@hotmail.com",
-      "to": "ibrahim.atmaca61@hotmail.com"
     }
   }
 }

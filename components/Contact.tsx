@@ -101,13 +101,13 @@ const Contact: React.FC = () => {
             <div className="mt-12">
                <h3 className="text-white font-semibold mb-4">{content.contact.socialTitle}</h3>
                <div className="flex gap-3 sm:gap-4">
-                  <a href="https://github.com/ibrahimatmaca" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
+                  <a href="https://github.com/ibrahimatmaca" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
                     <Github size={20} />
                   </a>
-                  <a href="https://www.linkedin.com/in/ibrahimatmaca" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
+                  <a href="https://www.linkedin.com/in/ibrahimatmaca" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
                     <Linkedin size={20} />
                   </a>
-                  <a href="https://www.instagram.com/com.ibrahimatmaca" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
+                  <a href="https://www.instagram.com/com.ibrahimatmaca" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
                     <Instagram size={20} />
                   </a>
                </div>
@@ -159,6 +159,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 {/* Status Messages */}
+                <div aria-live="polite" aria-atomic="true">
                 {submitStatus === 'success' && (
                   <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 flex items-center gap-3">
                     <CheckCircle className="text-green-400" size={20} />
@@ -176,6 +177,7 @@ const Contact: React.FC = () => {
                     </span>
                   </div>
                 )}
+                </div>
 
                 <button
                   type="submit"

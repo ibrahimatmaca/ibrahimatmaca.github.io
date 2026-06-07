@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, Variants } from 'framer-motion';
-import { ExternalLink, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Shield } from 'lucide-react';
 import { Project } from '../types';
 import content from '../content.json';
 
@@ -46,177 +47,137 @@ interface AppStoreInfo {
 }
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const [appStoreInfo, setAppStoreInfo] = useState<AppStoreInfo | null>(null);
-  const [loading, setLoading] = useState(true);
+  const cachedInfo = useMemo(
+    () =>
+      project.appStoreCache
+        ? {
+            icon: project.appStoreCache.icon,
+            screenshots: [] as string[],
+            name: project.appStoreCache.name,
+            price: project.appStoreCache.price,
+            genre: project.appStoreCache.genre,
+            rating: project.appStoreCache.rating,
+            ratingCount: project.appStoreCache.ratingCount,
+            contentRating: project.appStoreCache.contentRating,
+          }
+        : null,
+    [project.appStoreCache],
+  );
+
+  const [appStoreInfo, setAppStoreInfo] = useState<AppStoreInfo | null>(cachedInfo);
+  const [loading, setLoading] = useState(Boolean(project.appStoreId && !cachedInfo));
 
   useEffect(() => {
-    if (project.appStoreId && typeof window !== 'undefined') {
-      const fetchAppStoreData = async () => {
-        try {
-          setLoading(true);
-          
-          // Check localStorage cache first (cache for 24 hours)
-          const cacheKey = `appstore_${project.appStoreId}`;
-          const cached = localStorage.getItem(cacheKey);
-          if (cached) {
-            const { data, timestamp } = JSON.parse(cached);
-            const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000; // 24 hours
-            if (!isExpired) {
-              setAppStoreInfo(data);
-              setLoading(false);
-              return;
-            }
-          }
+    if (!project.appStoreId || typeof window === 'undefined') {
+      setLoading(false);
+      return;
+    }
 
-          const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
-          
-          let response: Response | null = null;
-          let data: iTunesResponse | null = null;
+    const fetchAppStoreData = async () => {
+      try {
+        setLoading(!cachedInfo);
 
-          if (isDev) {
-            // Development: use Vite proxy
-            response = await fetch(`/itunes-api/lookup?id=${project.appStoreId}&country=tr`);
-          } else {
-            
-            // Production: Try multiple approaches with better error handling
-            // Since GitHub Pages is static, we need to use CORS proxies or a separately deployed API
-            
-            // Try Vercel API endpoint if deployed separately (check for custom API URL)
-            // Users can set this via environment variable or deploy API separately
-            const customApiUrl = typeof window !== 'undefined' && (window as any).APPSTORE_API_URL;
-            const vercelApiUrl = typeof window !== 'undefined' && window.location.origin.includes('vercel.app') 
-              ? `${window.location.origin}/api/appstore-lookup?appId=${project.appStoreId}&country=tr`
-              : customApiUrl 
-                ? `${customApiUrl}?appId=${project.appStoreId}&country=tr`
-                : null;
-            
-            const possibleApiUrls = vercelApiUrl ? [vercelApiUrl] : [];
-            
-            // Try API endpoint first if available
-            for (const apiUrl of possibleApiUrls) {
-              try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000);
-                response = await fetch(apiUrl, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                if (response.ok) {
-                  const apiResult = await response.json();
-                  data = apiResult;
-                  break;
-                }
-              } catch (err) {
-                // Continue to next method
-              }
-            }
-            
-            // If API didn't work, try CORS proxies with better error handling and more options
-            if (!data) {
-              // Use multiple CORS proxy options with different formats
-              const proxies = [
-                // Try allorigins raw endpoint first (most reliable, returns JSON directly)
-                `https://api.allorigins.win/raw?url=${encodeURIComponent(itunesUrl)}`,
-                // Try allorigins get endpoint (wraps in { contents: "..." })
-                `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`,
-                // Try alternative proxy format
-                `https://api.allorigins.win/raw?url=${itunesUrl}`,
-              ];
-
-              for (let i = 0; i < proxies.length; i++) {
-                const proxyUrl = proxies[i];
-                try {
-                  // Add timeout to prevent hanging
-                  const controller = new AbortController();
-                  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-                  
-                  response = await fetch(proxyUrl, { 
-                    signal: controller.signal,
-                    mode: 'cors',
-                    cache: 'no-cache'
-                  });
-                  clearTimeout(timeoutId);
-                  
-                  if (response.ok) {
-                    let result;
-                    // Handle different proxy response formats
-                    if (proxyUrl.includes('allorigins.win/raw')) {
-                      // Raw response is direct JSON
-                      result = await response.json();
-                      data = result;
-                    } else if (proxyUrl.includes('allorigins.win/get')) {
-                      // Wrapped in { contents: "..." }
-                      result = await response.json();
-                      if (result.contents) {
-                        data = JSON.parse(result.contents);
-                      } else {
-                        data = result;
-                      }
-                    } else {
-                      // Other proxies return direct JSON
-                      result = await response.json();
-                      data = result;
-                    }
-                    break;
-                  }
-                } catch (err) {
-                  if (err instanceof Error && err.name !== 'AbortError') {
-                    console.warn(`Proxy ${proxyUrl} failed, trying next...`, err);
-                  }
-                  continue;
-                }
-              }
-            }
-          }
-          
-          // Parse response for dev mode
-          if (isDev && response && response.ok) {
-            data = await response.json();
-          }
-          
-          if (!data) {
-            // Don't throw error - gracefully handle failure by showing default UI
-            // The component will show the project info without App Store data
+        const cacheKey = `appstore_${project.appStoreId}`;
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached) as {
+            data: AppStoreInfo;
+            timestamp: number;
+          };
+          const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000;
+          if (!isExpired) {
+            setAppStoreInfo(data);
             setLoading(false);
             return;
           }
-          
-          if (data.resultCount > 0 && data.results[0]) {
-            const appData = data.results[0];
-            const appScreenshots = appData.screenshotUrls || appData.ipadScreenshotUrls || [];
-            const icon = appData.artworkUrl512 || appData.artworkUrl100 || appData.artworkUrl60 || null;
-            
-            const appInfo: AppStoreInfo = {
-              icon,
-              screenshots: appScreenshots,
-              name: appData.trackName || project.title,
-              price: appData.formattedPrice || (appData.price === 0 ? 'Free' : 'Paid'),
-              genre: appData.primaryGenreName || '',
-              rating: appData.averageUserRating || 0,
-              ratingCount: appData.userRatingCount || 0,
-              contentRating: appData.contentAdvisoryRating || '',
-            };
-            
-            setAppStoreInfo(appInfo);
-            
-            // Cache the result
-            localStorage.setItem(cacheKey, JSON.stringify({
-              data: appInfo,
-              timestamp: Date.now()
-            }));
-          }
-        } catch (error) {
-          console.error('Failed to fetch App Store data:', error);
-        } finally {
-          setLoading(false);
         }
-      };
-      fetchAppStoreData();
-    } else {
-      setLoading(false);
-    }
-  }, [project.appStoreId, project.title]);
 
-  const appIcon = appStoreInfo?.icon || null;
+        const isDev =
+          window.location.hostname === 'localhost' ||
+          window.location.hostname === '127.0.0.1';
+        const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
+
+        let data: iTunesResponse | null = null;
+
+        if (isDev) {
+          const response = await fetch(
+            `/itunes-api/lookup?id=${project.appStoreId}&country=tr`,
+          );
+          if (response.ok) {
+            data = await response.json();
+          }
+        } else {
+          const proxies = [
+            `https://api.allorigins.win/raw?url=${encodeURIComponent(itunesUrl)}`,
+            `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`,
+          ];
+
+          for (const proxyUrl of proxies) {
+            try {
+              const controller = new AbortController();
+              const timeoutId = setTimeout(() => controller.abort(), 10000);
+              const response = await fetch(proxyUrl, {
+                signal: controller.signal,
+                mode: 'cors',
+                cache: 'no-cache',
+              });
+              clearTimeout(timeoutId);
+
+              if (!response.ok) {
+                continue;
+              }
+
+              if (proxyUrl.includes('/get?')) {
+                const result = (await response.json()) as { contents?: string };
+                data = result.contents
+                  ? (JSON.parse(result.contents) as iTunesResponse)
+                  : (result as unknown as iTunesResponse);
+              } else {
+                data = (await response.json()) as iTunesResponse;
+              }
+              break;
+            } catch {
+              continue;
+            }
+          }
+        }
+
+        if (!data?.resultCount || !data.results[0]) {
+          return;
+        }
+
+        const appData = data.results[0];
+        const appInfo: AppStoreInfo = {
+          icon:
+            appData.artworkUrl512 ||
+            appData.artworkUrl100 ||
+            appData.artworkUrl60 ||
+            null,
+          screenshots: appData.screenshotUrls || appData.ipadScreenshotUrls || [],
+          name: appData.trackName || project.title,
+          price: appData.formattedPrice || (appData.price === 0 ? 'Free' : 'Paid'),
+          genre: appData.primaryGenreName || '',
+          rating: appData.averageUserRating || 0,
+          ratingCount: appData.userRatingCount || 0,
+          contentRating: appData.contentAdvisoryRating || '',
+        };
+
+        setAppStoreInfo(appInfo);
+        localStorage.setItem(
+          cacheKey,
+          JSON.stringify({ data: appInfo, timestamp: Date.now() }),
+        );
+      } catch (error) {
+        console.error('Failed to fetch App Store data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchAppStoreData();
+  }, [project.appStoreId, project.title, cachedInfo]);
+
+  const appIcon = appStoreInfo?.icon || project.imageUrl || null;
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -260,9 +221,11 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 transition={{ duration: 0.3 }}
               />
             ) : (
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-800 flex items-center justify-center">
-                <span className="text-slate-500 text-xs">No Icon</span>
-              </div>
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover shadow-lg"
+              />
             )}
           </div>
 
@@ -329,6 +292,16 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 <span>View in App Store</span>
                 <ArrowUpRight size={12} className="flex-shrink-0" />
               </a>
+            )}
+
+            {project.privacyPolicyUrl && (
+              <Link
+                to={project.privacyPolicyUrl}
+                className="mt-2 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-gray-300 hover:text-white rounded-lg font-medium text-sm transition-all duration-200 w-full whitespace-nowrap border border-slate-700"
+              >
+                <Shield size={14} className="flex-shrink-0" />
+                <span>Privacy Policy</span>
+              </Link>
             )}
           </div>
         </div>

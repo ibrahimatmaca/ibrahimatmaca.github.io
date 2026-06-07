@@ -126,9 +126,9 @@ const Hero: React.FC = () => {
   };
 
   const socialLinks = [
-    { Icon: Github, href: "https://github.com/ibrahimatmaca" },
-    { Icon: Linkedin, href: "https://www.linkedin.com/in/ibrahimatmaca" },
-    { Icon: Instagram, href: "https://www.instagram.com/com.ibrahimatmaca" }
+    { Icon: Github, href: "https://github.com/ibrahimatmaca", label: "GitHub" },
+    { Icon: Linkedin, href: "https://www.linkedin.com/in/ibrahimatmaca", label: "LinkedIn" },
+    { Icon: Instagram, href: "https://www.instagram.com/com.ibrahimatmaca", label: "Instagram" }
   ];
 
   return (
@@ -166,12 +166,13 @@ const Hero: React.FC = () => {
               {content.hero.cta}
             </a>
             <div className="flex gap-3 sm:gap-4">
-              {socialLinks.map(({ Icon, href }, idx) => (
+              {socialLinks.map(({ Icon, href, label }) => (
                 <a 
-                  key={idx} 
+                  key={label}
                   href={href} 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  aria-label={label}
                   className="p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 text-gray-300 hover:text-white transition-colors border border-slate-700"
                 >
                   <Icon size={20} />

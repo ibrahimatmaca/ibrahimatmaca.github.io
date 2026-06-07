@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import Support from './components/Support';
 import ElevanaPrivacy from './components/privacy/ElevanaPrivacy';
@@ -8,16 +8,6 @@ import KidTalesTerms from './components/privacy/KidTalesTerms';
 import GeneralPrivacy from './components/privacy/GeneralPrivacy';
 
 const NotFound: React.FC = () => {
-  const location = useLocation();
-  
-  React.useEffect(() => {
-    // Check if we came from 404.html
-    const is404 = sessionStorage.getItem('is404');
-    if (is404) {
-      sessionStorage.removeItem('is404');
-    }
-  }, []);
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white px-4 relative overflow-hidden">
       {/* Animated Background */}

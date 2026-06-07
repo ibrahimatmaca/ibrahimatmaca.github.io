@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Background from './Background';
 import content from '../content.json';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Support: React.FC = () => {
+  usePageTitle('Support | İbrahim Atmaca');
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
