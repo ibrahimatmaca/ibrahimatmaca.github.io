@@ -67,6 +67,8 @@ This project is automatically deployed to GitHub Pages using GitHub Actions on e
 
 **SSL/HTTPS:** GitHub Pages provides HTTPS automatically. No extra configuration is required.
 
+**Important:** In repository **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions** (not "Deploy from a branch"). If Pages serves the repo root directly, the browser will try to load raw `/index.tsx` and fail with a MIME type error.
+
 ### Manual Deployment
 
 ```bash
