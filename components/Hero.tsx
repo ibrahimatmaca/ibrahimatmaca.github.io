@@ -3,6 +3,8 @@ import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'fram
 import { ArrowDown, Github, Linkedin, Instagram } from 'lucide-react';
 import content from '../content.json';
 import { Project } from '../types';
+import ProjectPlaceholder from './ProjectPlaceholder';
+import { isInProgressProject } from '../lib/projectUtils';
 
 const projects: Project[] = content.projects.list;
 
@@ -54,16 +56,24 @@ const ProjectAppIcon: React.FC<{ project: Project; index: number }> = ({ project
     }
   }, [project.appStoreId, project.title]);
 
+  const isInProgress = isInProgressProject(project);
   const primaryLink = project.appStoreUrl || project.playStoreUrl || project.link;
+  const Wrapper = isInProgress && !primaryLink ? 'div' : 'a';
+  const wrapperProps =
+    isInProgress && !primaryLink
+      ? {}
+      : {
+          href: primaryLink,
+          target: '_blank' as const,
+          rel: 'noopener noreferrer',
+        };
 
   return (
-    <a 
-      href={primaryLink}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Wrapper
+      {...wrapperProps}
       className="flex flex-col items-center gap-2 group transition-transform duration-200 hover:scale-105"
     >
-      <div className="relative w-[3.5rem] h-[3.5rem] xs:w-16 xs:h-16 sm:w-[4.5rem] sm:h-[4.5rem] bg-slate-800 rounded-[14px] sm:rounded-2xl shadow-lg border border-white/5 overflow-hidden">
+      <div className="relative w-[3.5rem] h-[3.5rem] xs:w-16 xs:h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-[14px] sm:rounded-2xl shadow-lg border border-white/5 overflow-hidden">
         {iconUrl ? (
           <img 
             src={iconUrl} 
@@ -71,17 +81,16 @@ const ProjectAppIcon: React.FC<{ project: Project; index: number }> = ({ project
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800">
-             <span className="text-xl sm:text-2xl font-bold text-slate-500">
-               {project.title.charAt(0)}
-             </span>
-          </div>
+          <ProjectPlaceholder title={project.title} className="h-full w-full rounded-[14px] sm:rounded-2xl" />
+        )}
+        {isInProgress && (
+          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border border-slate-900 bg-amber-400" />
         )}
       </div>
       <span className="text-[10px] sm:text-xs text-white/90 font-medium text-center line-clamp-2 max-w-[4.5rem] leading-tight">
         {appName}
       </span>
-    </a>
+    </Wrapper>
   );
 };
 

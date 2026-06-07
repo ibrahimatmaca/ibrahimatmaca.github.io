@@ -3,6 +3,9 @@ import { motion, Variants } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Project } from '../types';
 import content from '../content.json';
+import ProjectPlaceholder from './ProjectPlaceholder';
+import InProgressBadge from './InProgressBadge';
+import { isInProgressProject } from '../lib/projectUtils';
 
 const projects: Project[] = content.projects.list;
 
@@ -176,7 +179,8 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     void fetchAppStoreData();
   }, [project.appStoreId, project.title, cachedInfo]);
 
-  const appIcon = appStoreInfo?.icon || project.imageUrl || null;
+  const isInProgress = isInProgressProject(project);
+  const appIcon = appStoreInfo?.icon || (!isInProgress ? project.imageUrl : null);
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -202,6 +206,11 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       viewport={{ once: true }}
       className="group relative bg-slate-800/80 border border-slate-700/60 rounded-2xl overflow-hidden hover:border-brand-500/40 hover:shadow-xl hover:shadow-brand-500/10 transition-all duration-300 backdrop-blur-sm"
     >
+      {isInProgress && (
+        <div className="absolute right-3 top-3 z-10">
+          <InProgressBadge />
+        </div>
+      )}
       {loading ? (
         <div className="p-4 flex items-center justify-center h-32">
           <div className="animate-pulse text-slate-500 text-sm">Loading...</div>
@@ -220,10 +229,9 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 transition={{ duration: 0.3 }}
               />
             ) : (
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover shadow-lg"
+              <ProjectPlaceholder
+                title={project.title}
+                className="w-24 h-24 sm:w-28 sm:h-28"
               />
             )}
           </div>
@@ -243,39 +251,61 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 </h3>
               </a>
 
-              {/* Subtitle/Genre */}
-              {appStoreInfo?.genre && (
-                <p className="text-xs sm:text-sm text-slate-400 mb-2">
-                  {appStoreInfo.genre}
-                </p>
-              )}
+              {isInProgress ? (
+                <>
+                  <p className="mb-2 line-clamp-3 text-xs text-slate-400 sm:text-sm">
+                    {project.description}
+                  </p>
+                  {project.tech.length > 0 && (
+                    <div className="mb-3 flex flex-wrap gap-1.5">
+                      {project.tech.slice(0, 3).map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded-md bg-slate-700/60 px-2 py-0.5 text-[10px] text-slate-300 sm:text-xs"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* Subtitle/Genre */}
+                  {appStoreInfo?.genre && (
+                    <p className="text-xs sm:text-sm text-slate-400 mb-2">
+                      {appStoreInfo.genre}
+                    </p>
+                  )}
 
-              {/* Platform & Price Info */}
-              <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
-                <span>Only for iPhone</span>
-                {appStoreInfo?.price && (
-                  <>
-                    <span>·</span>
-                    <span>{appStoreInfo.price}</span>
-                  </>
-                )}
-                {appStoreInfo?.contentRating && (
-                  <>
-                    <span>·</span>
-                    <span>{appStoreInfo.contentRating}</span>
-                  </>
-                )}
-              </div>
+                  {/* Platform & Price Info */}
+                  <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                    <span>Only for iPhone</span>
+                    {appStoreInfo?.price && (
+                      <>
+                        <span>·</span>
+                        <span>{appStoreInfo.price}</span>
+                      </>
+                    )}
+                    {appStoreInfo?.contentRating && (
+                      <>
+                        <span>·</span>
+                        <span>{appStoreInfo.contentRating}</span>
+                      </>
+                    )}
+                  </div>
 
-              {/* Rating */}
-              {appStoreInfo?.rating && appStoreInfo.rating > 0 && (
-                <div className="flex items-center gap-1 mb-3">
-                  <span className="text-yellow-400 text-xs">★</span>
-                  <span className="text-xs text-slate-400">
-                    {appStoreInfo.rating.toFixed(1)}
-                    {appStoreInfo.ratingCount > 0 && ` (${appStoreInfo.ratingCount})`}
-                  </span>
-                </div>
+                  {/* Rating */}
+                  {appStoreInfo?.rating && appStoreInfo.rating > 0 && (
+                    <div className="flex items-center gap-1 mb-3">
+                      <span className="text-yellow-400 text-xs">★</span>
+                      <span className="text-xs text-slate-400">
+                        {appStoreInfo.rating.toFixed(1)}
+                        {appStoreInfo.ratingCount > 0 && ` (${appStoreInfo.ratingCount})`}
+                      </span>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
