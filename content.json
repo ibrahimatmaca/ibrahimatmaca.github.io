@@ -43,12 +43,12 @@
           "rating": 5,
           "ratingCount": 4,
           "contentRating": "4+",
-          "fetchedAt": "2026-06-07T06:59:50.739Z"
+          "fetchedAt": "2026-07-04T08:51:57.626Z"
         }
       },
       {
         "id": "2",
-        "title": "KidTales AI",
+        "title": "KidTales AI: Bedtime Stories",
         "description": "A child-friendly AI story generation app with COPPA-compliant privacy, bilingual legal pages, and StoreKit subscriptions.",
         "tech": [
           "SwiftUI",
@@ -57,7 +57,9 @@
           "COPPA Compliance"
         ],
         "imageUrl": "https://images.unsplash.com/photo-1512820790802-83ca734da794?q=80&w=1000&auto=format&fit=crop",
-        "link": "https://ibrahimatmaca.github.io/kidtales-privacy"
+        "link": "https://apps.apple.com/app/id6755661560",
+        "appStoreUrl": "https://apps.apple.com/app/id6755661560",
+        "appStoreId": "6755661560"
       }
     ]
   },
