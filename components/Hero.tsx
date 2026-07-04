@@ -4,7 +4,7 @@ import { ArrowDown, Github, Linkedin, Instagram } from 'lucide-react';
 import content from '../content.json';
 import { Project } from '../types';
 import ProjectPlaceholder from './ProjectPlaceholder';
-import { isInProgressProject } from '../lib/projectUtils';
+import { isInProgressProject, getProjectStoreUrl } from '../lib/projectUtils';
 
 const projects: Project[] = content.projects.list;
 
@@ -57,21 +57,21 @@ const ProjectAppIcon: React.FC<{ project: Project; index: number }> = ({ project
   }, [project.appStoreId, project.title]);
 
   const isInProgress = isInProgressProject(project);
-  const primaryLink = project.appStoreUrl || project.playStoreUrl || project.link;
-  const Wrapper = isInProgress && !primaryLink ? 'div' : 'a';
-  const wrapperProps =
-    isInProgress && !primaryLink
-      ? {}
-      : {
-          href: primaryLink,
-          target: '_blank' as const,
-          rel: 'noopener noreferrer',
-        };
+  const storeUrl = getProjectStoreUrl(project);
+  const Wrapper = storeUrl ? 'a' : 'div';
+  const wrapperProps = storeUrl
+    ? {
+        href: storeUrl,
+        target: '_blank' as const,
+        rel: 'noopener noreferrer',
+      }
+    : {};
 
   return (
     <Wrapper
       {...wrapperProps}
-      className="flex flex-col items-center gap-2 group transition-transform duration-200 hover:scale-105"
+      className="flex flex-col items-center gap-2 group transition-transform duration-200 hover:scale-105 pointer-events-auto relative z-20"
+      style={{ transform: 'translateZ(40px)' }}
     >
       <div className="relative w-[3.5rem] h-[3.5rem] xs:w-16 xs:h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-[14px] sm:rounded-2xl shadow-lg border border-white/5 overflow-hidden">
         {iconUrl ? (

@@ -5,7 +5,7 @@ import { Project } from '../types';
 import content from '../content.json';
 import ProjectPlaceholder from './ProjectPlaceholder';
 import InProgressBadge from './InProgressBadge';
-import { isInProgressProject } from '../lib/projectUtils';
+import { isInProgressProject, getProjectStoreUrl } from '../lib/projectUtils';
 
 const projects: Project[] = content.projects.list;
 
@@ -180,6 +180,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   }, [project.appStoreId, project.title, cachedInfo]);
 
   const isInProgress = isInProgressProject(project);
+  const storeUrl = getProjectStoreUrl(project);
   const appIcon = appStoreInfo?.icon || (!isInProgress ? project.imageUrl : null);
 
   const cardVariants: Variants = {
@@ -196,16 +197,13 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   };
 
   // Determine primary link for the card click
-  const primaryLink = project.appStoreUrl || project.playStoreUrl || project.link;
+  const primaryLink = storeUrl;
 
-  return (
-    <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      className="group relative bg-slate-800/80 border border-slate-700/60 rounded-2xl overflow-hidden hover:border-brand-500/40 hover:shadow-xl hover:shadow-brand-500/10 transition-all duration-300 backdrop-blur-sm"
-    >
+  const cardClassName =
+    'group relative bg-slate-800/80 border border-slate-700/60 rounded-2xl overflow-hidden hover:border-brand-500/40 hover:shadow-xl hover:shadow-brand-500/10 transition-all duration-300 backdrop-blur-sm';
+
+  const cardContent = (
+    <>
       {isInProgress && (
         <div className="absolute right-3 top-3 z-10">
           <InProgressBadge />
@@ -220,7 +218,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           {/* App Icon - Left Side */}
           <div className="flex-shrink-0">
             {appIcon ? (
-              <motion.img 
+              <motion.img
                 src={appIcon}
                 alt={appStoreInfo?.name || project.title}
                 className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl shadow-lg"
@@ -239,17 +237,9 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           {/* App Info - Right Side */}
           <div className="flex-1 flex flex-col justify-between min-w-0">
             <div>
-              {/* App Name */}
-              <a 
-                href={primaryLink} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="group/title block"
-              >
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover/title:text-brand-400 transition-colors duration-200 mb-1 truncate">
-                  {appStoreInfo?.name || project.title}
-                </h3>
-              </a>
+              <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-400 transition-colors duration-200 mb-1 truncate">
+                {appStoreInfo?.name || project.title}
+              </h3>
 
               {isInProgress ? (
                 <>
@@ -271,14 +261,12 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                 </>
               ) : (
                 <>
-                  {/* Subtitle/Genre */}
                   {appStoreInfo?.genre && (
                     <p className="text-xs sm:text-sm text-slate-400 mb-2">
                       {appStoreInfo.genre}
                     </p>
                   )}
 
-                  {/* Platform & Price Info */}
                   <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
                     <span>Only for iPhone</span>
                     {appStoreInfo?.price && (
@@ -295,7 +283,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
                     )}
                   </div>
 
-                  {/* Rating */}
                   {appStoreInfo?.rating && appStoreInfo.rating > 0 && (
                     <div className="flex items-center gap-1 mb-3">
                       <span className="text-yellow-400 text-xs">★</span>
@@ -309,21 +296,42 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               )}
             </div>
 
-            {/* App Store Button */}
-            {project.appStoreUrl && (
-              <a 
-                href={project.appStoreUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 px-3 py-2 bg-black hover:bg-gray-900 text-white rounded-lg font-semibold text-sm transition-all duration-200 hover:scale-[1.02] w-full whitespace-nowrap"
-              >
-                <AppStoreIcon className="w-4 h-4 flex-shrink-0" /> 
+            {storeUrl && !isInProgress && (
+              <div className="flex items-center justify-center gap-1.5 px-3 py-2 bg-black group-hover:bg-gray-900 text-white rounded-lg font-semibold text-sm transition-all duration-200 group-hover:scale-[1.02] w-full whitespace-nowrap">
+                <AppStoreIcon className="w-4 h-4 flex-shrink-0" />
                 <span>View in App Store</span>
                 <ArrowUpRight size={12} className="flex-shrink-0" />
-              </a>
+              </div>
             )}
           </div>
         </div>
+      )}
+    </>
+  );
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+    >
+      {primaryLink ? (
+        <a
+          href={primaryLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${cardClassName} block cursor-pointer`}
+          aria-label={
+            isInProgress
+              ? `Open ${project.title}`
+              : `Open ${appStoreInfo?.name || project.title} in the App Store`
+          }
+        >
+          {cardContent}
+        </a>
+      ) : (
+        <div className={cardClassName}>{cardContent}</div>
       )}
     </motion.div>
   );

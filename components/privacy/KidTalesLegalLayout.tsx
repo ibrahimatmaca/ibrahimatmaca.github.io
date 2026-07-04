@@ -6,7 +6,7 @@ import Background from '../Background';
 import { usePageTitle } from '../../hooks/usePageTitle';
 
 const contentClassName =
-  'bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-8 md:p-12 max-w-none ' +
+  'bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-8 md:p-12 max-w-none overflow-x-auto ' +
   '[&_h1]:hidden ' +
   '[&_h2]:text-white [&_h2]:text-3xl [&_h2]:md:text-4xl [&_h2]:font-bold [&_h2]:mt-12 [&_h2]:mb-6 [&_h2]:leading-tight [&_h2]:border-b [&_h2]:border-slate-700 [&_h2]:pb-3 [&_h2]:first:mt-0 ' +
   '[&_h3]:text-white [&_h3]:text-xl [&_h3]:md:text-2xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-4 [&_h3]:leading-tight ' +
@@ -15,7 +15,11 @@ const contentClassName =
   '[&_li]:text-gray-300 [&_li]:mb-2 [&_li]:leading-relaxed [&_li]:text-base [&_li]:md:text-lg ' +
   '[&_strong]:text-white [&_strong]:font-semibold ' +
   '[&_em]:text-gray-400 [&_em]:italic ' +
-  '[&_a]:text-brand-400 [&_a]:no-underline [&_a]:hover:text-brand-300 [&_a]:transition-colors';
+  '[&_a]:text-brand-400 [&_a]:no-underline [&_a]:hover:text-brand-300 [&_a]:transition-colors ' +
+  '[&_table]:w-full [&_table]:border-collapse [&_table]:my-6 [&_table]:text-sm [&_table]:md:text-base ' +
+  '[&_thead]:bg-slate-800 ' +
+  '[&_th]:border [&_th]:border-slate-700 [&_th]:text-white [&_th]:p-3 [&_th]:text-left [&_th]:align-top [&_th]:font-semibold ' +
+  '[&_td]:border [&_td]:border-slate-700 [&_td]:text-gray-300 [&_td]:p-3 [&_td]:align-top';
 
 interface KidTalesLegalLayoutProps {
   englishContent: string;

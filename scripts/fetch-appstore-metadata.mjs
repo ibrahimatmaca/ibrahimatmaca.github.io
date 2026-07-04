@@ -30,6 +30,9 @@ for (const project of projects) {
     const data = await response.json();
     if (data.resultCount > 0 && data.results[0]) {
       const app = data.results[0];
+      const appStoreUrl = `https://apps.apple.com/app/id${project.appStoreId}`;
+      project.appStoreUrl = appStoreUrl;
+      project.link = appStoreUrl;
       project.appStoreCache = {
         icon: app.artworkUrl512 || app.artworkUrl100 || app.artworkUrl60 || null,
         name: app.trackName || project.title,
