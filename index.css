@@ -26,6 +26,14 @@ body {
   overflow-x: hidden;
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .preserve-3d {
   transform-style: preserve-3d;
 }

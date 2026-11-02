@@ -17,7 +17,7 @@ const Contact: React.FC = () => {
     // Validate form
     if (!formState.name.trim() || !formState.message.trim()) {
       setSubmitStatus('error');
-      setErrorMessage('Lütfen isim ve mesaj alanlarını doldurun.');
+      setErrorMessage('Please enter your name and message.');
       setTimeout(() => {
         setSubmitStatus('idle');
         setErrorMessage('');
@@ -26,12 +26,12 @@ const Contact: React.FC = () => {
     }
 
     // Prepare email content
-    const subject = `Müşteri: ${formState.name}`;
+    const subject = `Contact from ${formState.name}`;
     
     // Build message body - include email if provided
     let body = formState.message;
     if (formState.email.trim()) {
-      body += `\n\n---\nE-posta: ${formState.email}`;
+      body += `\n\n---\nEmail: ${formState.email}`;
     }
     
     // Encode for mailto URL
@@ -141,7 +141,7 @@ const Contact: React.FC = () => {
                     value={formState.email}
                     onChange={handleChange}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all placeholder-gray-600"
-                    placeholder="john@example.com (opsiyonel)"
+                    placeholder="john@example.com (optional)"
                   />
                 </div>
                 <div>
@@ -164,7 +164,7 @@ const Contact: React.FC = () => {
                   <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 flex items-center gap-3">
                     <CheckCircle className="text-green-400" size={20} />
                     <span className="text-green-400 text-sm font-medium">
-                      {content.contact.form.success || 'E-posta uygulamanız açılıyor...'}
+                      {content.contact.form.success}
                     </span>
                   </div>
                 )}

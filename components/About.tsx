@@ -6,32 +6,32 @@ const About: React.FC = () => {
   const techStack = [
     {
       name: 'Swift',
-      icon: 'https://cdn-icons-png.flaticon.com/512/5968/5968371.png',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/swift/swift-original.svg',
       color: 'from-orange-500 to-red-500'
     },
     {
       name: 'Flutter',
-      icon: 'https://juststickers.in/wp-content/uploads/2019/01/flutter.png',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flutter/flutter-original.svg',
       color: 'from-blue-400 to-cyan-500'
     },
     {
       name: 'Android',
-      icon: 'https://logos-world.net/wp-content/uploads/2021/08/Android-Logo-2008-2014.png',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/android/android-original.svg',
       color: 'from-green-400 to-emerald-500'
     },
     {
       name: 'Kotlin',
-      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/kotlin/kotlin-original.svg',
       color: 'from-purple-500 to-pink-500'
     },
     {
       name: 'React',
-      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/react/react-original.svg',
       color: 'from-cyan-400 to-blue-500'
     },
     {
       name: 'Firebase',
-      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg',
+      icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/firebase/firebase-plain.svg',
       color: 'from-yellow-500 to-orange-500'
     }
   ];
@@ -57,9 +57,9 @@ const About: React.FC = () => {
                        <p key={i}>{p}</p>
                      ))}
                    </div>
-                   <a href="#" className="inline-block mt-6 font-bold text-brand-400 text-lg hover:text-brand-300 transition-colors">
+                   <p className="mt-6 font-bold text-brand-400 text-lg">
                       {content.about.education}
-                   </a>
+                   </p>
                 </div>
 
                 {/* Stats Cards - Vertical Stack on Right */}

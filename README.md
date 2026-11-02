@@ -14,7 +14,7 @@ A modern, responsive portfolio website showcasing my work as a Senior Mobile Eng
 - Fully responsive design
 - Fast performance with Vite
 - Contact form via native `mailto:` integration
-- App Store metadata with build-time cache and CORS proxy fallback
+- App Store metadata cached at build time
 - Privacy policy and terms pages for mobile apps (including bilingual KidTales AI pages)
 - SEO meta tags, sitemap, and GitHub Pages SPA routing
 
@@ -31,7 +31,7 @@ A modern, responsive portfolio website showcasing my work as a Senior Mobile Eng
 
 ### Prerequisites
 
-- Node.js v20 or higher
+- Node.js v22 or higher
 - npm
 
 ### Installation
@@ -58,7 +58,7 @@ A modern, responsive portfolio website showcasing my work as a Senior Mobile Eng
 
 ### GitHub Pages
 
-This project is automatically deployed to GitHub Pages using GitHub Actions on every push to `main` or `master`.
+This project is automatically deployed to GitHub Pages using GitHub Actions on every push to `main`.
 
 **Deployment flow:**
 1. Push changes to the repository
@@ -77,7 +77,7 @@ npm run build
 npm run preview
 ```
 
-Built files are output to the `dist` directory.
+Built files are output to the `dist` directory. The build also copies `index.html` to `dist/<route>.html` for each hidden route so GitHub Pages serves them with HTTP 200. When you add a route, add it to the `build` script in `package.json`.
 
 ## Project Structure
 
@@ -131,9 +131,7 @@ These pages are accessible via direct URLs (e.g. App Store links) but are not sh
 
 ## App Store Metadata
 
-In production (GitHub Pages), live App Store lookups use a CORS proxy (`api.allorigins.win`) with graceful fallback to static images in `content.json`.
-
-At build time, `npm run fetch-appstore` caches iTunes metadata into `content.json` (`appStoreCache`) so the site works even when the proxy is unavailable.
+At build time, `npm run fetch-appstore` caches iTunes metadata into `content.json` (`appStoreCache`). The site reads only this cache and makes no App Store requests at runtime, so ratings refresh on each deploy.
 
 ## Contact Form
 
@@ -142,7 +140,7 @@ The contact form opens the user's default email client via `mailto:` — no serv
 ## Development
 
 ```bash
-npm run dev      # Start dev server (port 3000, iTunes API proxy enabled)
+npm run dev      # Start dev server on localhost:3000 (add -- --host to test from another device)
 npm run lint     # Run ESLint
 npm run build    # Production build
 ```

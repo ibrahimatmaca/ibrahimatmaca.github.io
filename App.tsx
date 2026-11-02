@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import Support from './components/Support';
 import ElevanaPrivacy from './components/privacy/ElevanaPrivacy';
@@ -90,8 +90,7 @@ const NotFound: React.FC = () => {
           <div className="mb-2"><span className="text-gray-500 italic">// Page not found</span></div>
           <div className="mb-2"><span className="text-purple-400 font-semibold">if</span> (<span className="text-green-400">'page'</span> === <span className="text-green-400">'not found'</span>) {'{'}</div>
           <div className="mb-2 ml-4"><span className="text-purple-400 font-semibold">return</span> <span className="text-green-400">'404'</span>;</div>
-          <div className="mb-2">{'}'}</div>
-          <div><span className="text-gray-500 italic">// Redirecting to home...</span></div>
+          <div>{'}'}</div>
         </div>
       </div>
       
@@ -119,16 +118,33 @@ const NotFound: React.FC = () => {
   );
 };
 
+const ScrollManager: React.FC = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView();
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
+};
+
 export const App: React.FC = () => {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/support" element={<Support />} />
-      <Route path="/elevana-privacy" element={<ElevanaPrivacy />} />
-      <Route path="/kidtales-privacy" element={<KidTalesPrivacy />} />
-      <Route path="/kidtales-terms" element={<KidTalesTerms />} />
-      <Route path="/privacy-policy" element={<GeneralPrivacy />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <ScrollManager />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/elevana-privacy" element={<ElevanaPrivacy />} />
+        <Route path="/kidtales-privacy" element={<KidTalesPrivacy />} />
+        <Route path="/kidtales-terms" element={<KidTalesTerms />} />
+        <Route path="/privacy-policy" element={<GeneralPrivacy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 };

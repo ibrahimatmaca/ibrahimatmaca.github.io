@@ -18,6 +18,8 @@ const Background: React.FC = () => {
     const particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
     const particleCount = 60;
     const connectionDistance = 150;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let animationId = 0;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -64,7 +66,9 @@ const Background: React.FC = () => {
         }
       });
 
-      requestAnimationFrame(animate);
+      if (!reduceMotion) {
+        animationId = requestAnimationFrame(animate);
+      }
     };
 
     const handleResize = () => {
@@ -72,10 +76,13 @@ const Background: React.FC = () => {
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
+      if (reduceMotion) {
+        animationId = requestAnimationFrame(animate);
+      }
     };
 
     window.addEventListener('resize', handleResize);
-    const animationId = requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', handleResize);
