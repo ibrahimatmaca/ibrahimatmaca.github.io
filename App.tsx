@@ -140,6 +140,8 @@ export const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/support" element={<Support />} />
         <Route path="/elevana-privacy" element={<ElevanaPrivacy />} />
+        {/* Elevana paywall links to this legacy URL. */}
+        <Route path="/elevana_privacy_policy.html" element={<ElevanaPrivacy />} />
         <Route path="/kidtales-privacy" element={<KidTalesPrivacy />} />
         <Route path="/kidtales-terms" element={<KidTalesTerms />} />
         <Route path="/privacy-policy" element={<GeneralPrivacy />} />

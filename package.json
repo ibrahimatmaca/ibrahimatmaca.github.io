@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && for r in support elevana-privacy kidtales-privacy kidtales-terms privacy-policy; do cp dist/index.html dist/$r.html; done",
+    "build": "vite build && for r in support elevana-privacy elevana_privacy_policy kidtales-privacy kidtales-terms privacy-policy; do cp dist/index.html dist/$r.html; done",
     "preview": "vite preview",
     "deploy": "npm run build",
     "fetch-appstore": "node scripts/fetch-appstore-metadata.mjs",
