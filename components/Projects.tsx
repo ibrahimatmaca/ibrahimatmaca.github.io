@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Project } from '../types';
@@ -9,27 +9,6 @@ import { isInProgressProject, getProjectStoreUrl } from '../lib/projectUtils';
 
 const projects: Project[] = content.projects.list;
 
-interface iTunesResponse {
-  resultCount: number;
-  results: Array<{
-    screenshotUrls?: string[];
-    ipadScreenshotUrls?: string[];
-    artworkUrl512?: string;
-    artworkUrl100?: string;
-    artworkUrl60?: string;
-    trackName?: string;
-    description?: string;
-    formattedPrice?: string;
-    price?: number;
-    primaryGenreName?: string;
-    averageUserRating?: number;
-    userRatingCount?: number;
-    contentAdvisoryRating?: string;
-    releaseNotes?: string;
-    version?: string;
-  }>;
-}
-
 // App Store Icon - Modern Apple App Store icon
 const AppStoreIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} height="1em" width="1em">
@@ -37,147 +16,8 @@ const AppStoreIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-interface AppStoreInfo {
-  icon: string | null;
-  screenshots: string[];
-  name: string;
-  price: string;
-  genre: string;
-  rating: number;
-  ratingCount: number;
-  contentRating: string;
-}
-
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const cachedInfo = useMemo(
-    () =>
-      project.appStoreCache
-        ? {
-            icon: project.appStoreCache.icon,
-            screenshots: [] as string[],
-            name: project.appStoreCache.name,
-            price: project.appStoreCache.price,
-            genre: project.appStoreCache.genre,
-            rating: project.appStoreCache.rating,
-            ratingCount: project.appStoreCache.ratingCount,
-            contentRating: project.appStoreCache.contentRating,
-          }
-        : null,
-    [project.appStoreCache],
-  );
-
-  const [appStoreInfo, setAppStoreInfo] = useState<AppStoreInfo | null>(cachedInfo);
-  const [loading, setLoading] = useState(Boolean(project.appStoreId && !cachedInfo));
-
-  useEffect(() => {
-    if (!project.appStoreId || typeof window === 'undefined') {
-      setLoading(false);
-      return;
-    }
-
-    const fetchAppStoreData = async () => {
-      try {
-        setLoading(!cachedInfo);
-
-        const cacheKey = `appstore_${project.appStoreId}`;
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          const { data, timestamp } = JSON.parse(cached) as {
-            data: AppStoreInfo;
-            timestamp: number;
-          };
-          const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000;
-          if (!isExpired) {
-            setAppStoreInfo(data);
-            setLoading(false);
-            return;
-          }
-        }
-
-        const isDev =
-          window.location.hostname === 'localhost' ||
-          window.location.hostname === '127.0.0.1';
-        const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
-
-        let data: iTunesResponse | null = null;
-
-        if (isDev) {
-          const response = await fetch(
-            `/itunes-api/lookup?id=${project.appStoreId}&country=tr`,
-          );
-          if (response.ok) {
-            data = await response.json();
-          }
-        } else {
-          const proxies = [
-            `https://api.allorigins.win/raw?url=${encodeURIComponent(itunesUrl)}`,
-            `https://api.allorigins.win/get?url=${encodeURIComponent(itunesUrl)}`,
-          ];
-
-          for (const proxyUrl of proxies) {
-            try {
-              const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 10000);
-              const response = await fetch(proxyUrl, {
-                signal: controller.signal,
-                mode: 'cors',
-                cache: 'no-cache',
-              });
-              clearTimeout(timeoutId);
-
-              if (!response.ok) {
-                continue;
-              }
-
-              if (proxyUrl.includes('/get?')) {
-                const result = (await response.json()) as { contents?: string };
-                data = result.contents
-                  ? (JSON.parse(result.contents) as iTunesResponse)
-                  : (result as unknown as iTunesResponse);
-              } else {
-                data = (await response.json()) as iTunesResponse;
-              }
-              break;
-            } catch {
-              continue;
-            }
-          }
-        }
-
-        if (!data?.resultCount || !data.results[0]) {
-          return;
-        }
-
-        const appData = data.results[0];
-        const appInfo: AppStoreInfo = {
-          icon:
-            appData.artworkUrl512 ||
-            appData.artworkUrl100 ||
-            appData.artworkUrl60 ||
-            null,
-          screenshots: appData.screenshotUrls || appData.ipadScreenshotUrls || [],
-          name: appData.trackName || project.title,
-          price: appData.formattedPrice || (appData.price === 0 ? 'Free' : 'Paid'),
-          genre: appData.primaryGenreName || '',
-          rating: appData.averageUserRating || 0,
-          ratingCount: appData.userRatingCount || 0,
-          contentRating: appData.contentAdvisoryRating || '',
-        };
-
-        setAppStoreInfo(appInfo);
-        localStorage.setItem(
-          cacheKey,
-          JSON.stringify({ data: appInfo, timestamp: Date.now() }),
-        );
-      } catch (error) {
-        console.error('Failed to fetch App Store data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void fetchAppStoreData();
-  }, [project.appStoreId, project.title, cachedInfo]);
+  const appStoreInfo = project.appStoreCache;
 
   const isInProgress = isInProgressProject(project);
   const storeUrl = getProjectStoreUrl(project);
@@ -204,108 +44,102 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
   const cardContent = (
     <>
-      {isInProgress && (
-        <div className="absolute right-3 top-3 z-10">
-          <InProgressBadge />
+      <div className="flex gap-3 p-4">
+        {/* App Icon - Left Side */}
+        <div className="flex-shrink-0">
+          {appIcon ? (
+            <motion.img
+              src={appIcon}
+              alt={appStoreInfo?.name || project.title}
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl shadow-lg"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+          ) : (
+            <ProjectPlaceholder
+              title={project.title}
+              className="w-24 h-24 sm:w-28 sm:h-28"
+            />
+          )}
         </div>
-      )}
-      {loading ? (
-        <div className="p-4 flex items-center justify-center h-32">
-          <div className="animate-pulse text-slate-500 text-sm">Loading...</div>
-        </div>
-      ) : (
-        <div className="flex gap-3 p-4">
-          {/* App Icon - Left Side */}
-          <div className="flex-shrink-0">
-            {appIcon ? (
-              <motion.img
-                src={appIcon}
-                alt={appStoreInfo?.name || project.title}
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl shadow-lg"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-            ) : (
-              <ProjectPlaceholder
-                title={project.title}
-                className="w-24 h-24 sm:w-28 sm:h-28"
-              />
-            )}
-          </div>
 
-          {/* App Info - Right Side */}
-          <div className="flex-1 flex flex-col justify-between min-w-0">
-            <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-400 transition-colors duration-200 mb-1 truncate">
-                {appStoreInfo?.name || project.title}
-              </h3>
-
-              {isInProgress ? (
-                <>
-                  <p className="mb-2 line-clamp-3 text-xs text-slate-400 sm:text-sm">
-                    {project.description}
-                  </p>
-                  {project.tech.length > 0 && (
-                    <div className="mb-3 flex flex-wrap gap-1.5">
-                      {project.tech.slice(0, 3).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-md bg-slate-700/60 px-2 py-0.5 text-[10px] text-slate-300 sm:text-xs"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  {appStoreInfo?.genre && (
-                    <p className="text-xs sm:text-sm text-slate-400 mb-2">
-                      {appStoreInfo.genre}
-                    </p>
-                  )}
-
-                  <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
-                    <span>Only for iPhone</span>
-                    {appStoreInfo?.price && (
-                      <>
-                        <span>·</span>
-                        <span>{appStoreInfo.price}</span>
-                      </>
-                    )}
-                    {appStoreInfo?.contentRating && (
-                      <>
-                        <span>·</span>
-                        <span>{appStoreInfo.contentRating}</span>
-                      </>
-                    )}
-                  </div>
-
-                  {appStoreInfo?.rating && appStoreInfo.rating > 0 && (
-                    <div className="flex items-center gap-1 mb-3">
-                      <span className="text-yellow-400 text-xs">★</span>
-                      <span className="text-xs text-slate-400">
-                        {appStoreInfo.rating.toFixed(1)}
-                        {appStoreInfo.ratingCount > 0 && ` (${appStoreInfo.ratingCount})`}
-                      </span>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-
-            {storeUrl && !isInProgress && (
-              <div className="flex items-center justify-center gap-1.5 px-3 py-2 bg-black group-hover:bg-gray-900 text-white rounded-lg font-semibold text-sm transition-all duration-200 group-hover:scale-[1.02] w-full whitespace-nowrap">
-                <AppStoreIcon className="w-4 h-4 flex-shrink-0" />
-                <span>View in App Store</span>
-                <ArrowUpRight size={12} className="flex-shrink-0" />
+        {/* App Info - Right Side */}
+        <div className="flex-1 flex flex-col justify-between min-w-0">
+          <div>
+            {isInProgress && (
+              <div className="mb-1.5">
+                <InProgressBadge />
               </div>
             )}
+            <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-brand-400 transition-colors duration-200 mb-1 line-clamp-2">
+              {appStoreInfo?.name || project.title}
+            </h3>
+
+            {isInProgress ? (
+              <>
+                <p className="mb-2 line-clamp-3 text-xs text-slate-400 sm:text-sm">
+                  {project.description}
+                </p>
+                {project.tech.length > 0 && (
+                  <div className="mb-3 flex flex-wrap gap-1.5">
+                    {project.tech.slice(0, 3).map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md bg-slate-700/60 px-2 py-0.5 text-[10px] text-slate-300 sm:text-xs"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {appStoreInfo?.genre && (
+                  <p className="text-xs sm:text-sm text-slate-400 mb-2">
+                    {appStoreInfo.genre}
+                  </p>
+                )}
+
+                <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                  <span>Only for iPhone</span>
+                  {appStoreInfo?.price && (
+                    <>
+                      <span>·</span>
+                      <span>{appStoreInfo.price}</span>
+                    </>
+                  )}
+                  {appStoreInfo?.contentRating && (
+                    <>
+                      <span>·</span>
+                      <span>{appStoreInfo.contentRating}</span>
+                    </>
+                  )}
+                </div>
+
+                {appStoreInfo && appStoreInfo.rating > 0 && (
+                  <div className="flex items-center gap-1 mb-3">
+                    <span className="text-yellow-400 text-xs">★</span>
+                    <span className="text-xs text-slate-400">
+                      {appStoreInfo.rating.toFixed(1)}
+                      {appStoreInfo.ratingCount > 0 && ` (${appStoreInfo.ratingCount})`}
+                    </span>
+                  </div>
+                )}
+              </>
+            )}
           </div>
+
+          {storeUrl && !isInProgress && (
+            <div className="flex items-center justify-center gap-1.5 px-3 py-2 bg-black group-hover:bg-gray-900 text-white rounded-lg font-semibold text-sm transition-all duration-200 group-hover:scale-[1.02] w-full whitespace-nowrap">
+              <AppStoreIcon className="w-4 h-4 flex-shrink-0" />
+              <span>View in App Store</span>
+              <ArrowUpRight size={12} className="flex-shrink-0" />
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 

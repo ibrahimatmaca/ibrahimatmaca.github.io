@@ -14,8 +14,8 @@ export interface Project {
   title: string;
   description: string;
   tech: string[];
-  imageUrl: string;
-  link: string;
+  imageUrl?: string;
+  link?: string;
   appStoreUrl?: string;
   playStoreUrl?: string;
   appStoreId?: string;

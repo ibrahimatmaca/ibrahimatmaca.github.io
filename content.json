@@ -4,13 +4,7 @@
     "title": "İbrahim Atmaca",
     "subtitle": "Senior Mobile Engineer & Creative Technologist",
     "description": "Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native. Bridging the gap between design and engineering.",
-    "cta": "View Projects",
-    "status": {
-      "time": "9:41",
-      "platform": "iOS & Android",
-      "stability": "99.9% Crash Free",
-      "build": "Running build..."
-    }
+    "cta": "View Projects"
   },
   "dreamBuilder": {
     "title": "Architecting Your Digital Vision",
@@ -55,11 +49,7 @@
           "StoreKit",
           "AI Integration",
           "COPPA Compliance"
-        ],
-        "imageUrl": "https://images.unsplash.com/photo-1512820790802-83ca734da794?q=80&w=1000&auto=format&fit=crop",
-        "link": "https://apps.apple.com/app/id6755661560",
-        "appStoreUrl": "https://apps.apple.com/app/id6755661560",
-        "appStoreId": "6755661560"
+        ]
       }
     ]
   },
@@ -75,11 +65,6 @@
     "stats": {
       "experience": "5+",
       "specialization": "Fintech"
-    },
-    "codeCard": {
-      "title": "Mobile Development",
-      "subtitle": "SwiftUI & Flutter Expertise",
-      "status": "System Active"
     }
   },
   "contact": {
@@ -93,10 +78,7 @@
       "emailLabel": "Email",
       "messageLabel": "Message",
       "button": "Send Message",
-      "success": "Redirecting to Mail...",
-      "sending": "Sending...",
-      "sent": "Message sent successfully!",
-      "error": "Failed to send message. Please try again."
+      "success": "Redirecting to Mail..."
     }
   }
 }

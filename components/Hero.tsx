@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Instagram } from 'lucide-react';
 import content from '../content.json';
@@ -7,54 +7,12 @@ import ProjectPlaceholder from './ProjectPlaceholder';
 import { isInProgressProject, getProjectStoreUrl } from '../lib/projectUtils';
 
 const projects: Project[] = content.projects.list;
-
-interface iTunesResponse {
-  resultCount: number;
-  results: Array<{
-    artworkUrl512?: string;
-    artworkUrl100?: string;
-    artworkUrl60?: string;
-    trackName?: string;
-  }>;
-}
+const [subtitleStart, subtitleEnd] = content.hero.subtitle.split('Mobile Engineer');
 
 // Minimal Project App Icon Component (Moved from Projects.tsx)
-const ProjectAppIcon: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const [iconUrl, setIconUrl] = useState<string | null>(null);
-  const [appName, setAppName] = useState<string>(project.title);
-
-  useEffect(() => {
-    if (project.appStoreId && typeof window !== 'undefined') {
-      const fetchAppStoreData = async () => {
-        try {
-          const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          let fetchUrl: string;
-
-          if (isDev) {
-            fetchUrl = `/itunes-api/lookup?id=${project.appStoreId}&country=tr`;
-          } else {
-            const itunesUrl = `https://itunes.apple.com/lookup?id=${project.appStoreId}&country=tr`;
-            fetchUrl = `https://corsproxy.io/?${encodeURIComponent(itunesUrl)}`;
-          }
-          
-          const response = await fetch(fetchUrl);
-          if (!response.ok) throw new Error('Failed');
-           
-          const data: iTunesResponse = await response.json();
-          
-          if (data.resultCount > 0 && data.results[0]) {
-            const appData = data.results[0];
-            const icon = appData.artworkUrl512 || appData.artworkUrl100 || appData.artworkUrl60 || null;
-            setIconUrl(icon);
-            setAppName(appData.trackName || project.title);
-          }
-        } catch (error) {
-          // Silent fail, use default
-        }
-      };
-      fetchAppStoreData();
-    }
-  }, [project.appStoreId, project.title]);
+const ProjectAppIcon: React.FC<{ project: Project }> = ({ project }) => {
+  const iconUrl = project.appStoreCache?.icon;
+  const appName = project.appStoreCache?.name ?? project.title;
 
   const isInProgress = isInProgressProject(project);
   const storeUrl = getProjectStoreUrl(project);
@@ -73,7 +31,7 @@ const ProjectAppIcon: React.FC<{ project: Project; index: number }> = ({ project
       className="flex flex-col items-center gap-2 group transition-transform duration-200 hover:scale-105 pointer-events-auto relative z-20"
       style={{ transform: 'translateZ(40px)' }}
     >
-      <div className="relative w-[3.5rem] h-[3.5rem] xs:w-16 xs:h-16 sm:w-[4.5rem] sm:h-[4.5rem] rounded-[14px] sm:rounded-2xl shadow-lg border border-white/5 overflow-hidden">
+      <div className="relative w-[3.5rem] h-[3.5rem] sm:w-[4.5rem] sm:h-[4.5rem] rounded-[14px] sm:rounded-2xl shadow-lg border border-white/5 overflow-hidden">
         {iconUrl ? (
           <img 
             src={iconUrl} 
@@ -164,7 +122,8 @@ const Hero: React.FC = () => {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 font-sans bg-clip-text text-transparent bg-gradient-to-r from-white via-brand-100 to-brand-400">
             {content.hero.title}
           </h1>
-          <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-400 mb-8 font-light" dangerouslySetInnerHTML={{ __html: content.hero.subtitle.replace("Mobile Engineer", '<span class="text-brand-400 font-semibold">Mobile Engineer</span>') }}>
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-400 mb-8 font-light">
+            {subtitleStart}<span className="text-brand-400 font-semibold">Mobile Engineer</span>{subtitleEnd}
           </h2>
           <p className="text-gray-400 max-w-lg mb-8 leading-relaxed">
             {content.hero.description}
@@ -230,8 +189,8 @@ const Hero: React.FC = () => {
                 
                 {/* App Grid */}
                 <div className="grid grid-cols-4 gap-x-4 gap-y-6 sm:gap-x-5 sm:gap-y-8 relative z-10">
-                  {projects.map((p, idx) => (
-                    <ProjectAppIcon key={p.id} project={p} index={idx} />
+                  {projects.map((p) => (
+                    <ProjectAppIcon key={p.id} project={p} />
                   ))}
                 </div>
                 
