@@ -7,17 +7,6 @@ export default defineConfig({
   root: '.',
   server: {
     port: 3000,
-    host: '0.0.0.0',
-    fs: {
-      strict: false,
-    },
-    proxy: {
-      '/itunes-api': {
-        target: 'https://itunes.apple.com',
-        changeOrigin: true,
-        rewrite: (requestPath) => requestPath.replace(/^\/itunes-api/, ''),
-      },
-    },
   },
   plugins: [react()],
   resolve: {

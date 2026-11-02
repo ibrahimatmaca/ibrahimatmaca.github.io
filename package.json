@@ -1,11 +1,11 @@
 {
-  "name": "i̇brahim-atmaca---senior-mobile-engineer-portfolio",
+  "name": "ibrahimatmaca-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && for r in support elevana-privacy kidtales-privacy kidtales-terms privacy-policy; do cp dist/index.html dist/$r.html; done",
     "preview": "vite preview",
     "deploy": "npm run build",
     "fetch-appstore": "node scripts/fetch-appstore-metadata.mjs",
@@ -16,23 +16,26 @@
     "lucide-react": "^0.560.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^9.39.5",
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.0.0",
+    "@vitejs/plugin-react": "^5.2.0",
     "autoprefixer": "^10.4.22",
-    "eslint": "^9.28.0",
+    "eslint": "^9.39.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.2.0",
-    "postcss": "^8.5.6",
+    "postcss": "^8.5.32",
     "tailwindcss": "^3.4.19",
     "typescript": "~5.8.2",
     "typescript-eslint": "^8.33.1",
-    "vite": "^6.2.0"
+    "vite": "^6.4.5"
+  },
+  "overrides": {
+    "minimatch": "^11.0.4"
   }
 }
