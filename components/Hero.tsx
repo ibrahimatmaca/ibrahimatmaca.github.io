@@ -123,7 +123,9 @@ const Hero: React.FC = () => {
             {content.hero.title}
           </h1>
           <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-400 mb-8 font-light">
-            {subtitleStart}<span className="text-brand-400 font-semibold">Mobile Engineer</span>{subtitleEnd}
+            {subtitleEnd === undefined ? subtitleStart : (
+              <>{subtitleStart}<span className="text-brand-400 font-semibold">Mobile Engineer</span>{subtitleEnd}</>
+            )}
           </h2>
           <p className="text-gray-400 max-w-lg mb-8 leading-relaxed">
             {content.hero.description}
