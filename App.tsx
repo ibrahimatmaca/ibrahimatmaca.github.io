@@ -7,6 +7,14 @@ import KidTalesPrivacy from './components/privacy/KidTalesPrivacy';
 import KidTalesTerms from './components/privacy/KidTalesTerms';
 import GeneralPrivacy from './components/privacy/GeneralPrivacy';
 
+// Computed once so particles keep their positions when NotFound re-renders.
+const PARTICLE_STYLES = Array.from({ length: 20 }, () => ({
+  left: `${Math.random() * 100}%`,
+  top: `${Math.random() * 100}%`,
+  animationDelay: `${Math.random() * 3}s`,
+  animationDuration: `${2 + Math.random() * 3}s`
+}));
+
 const NotFound: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white px-4 relative overflow-hidden">
@@ -17,16 +25,11 @@ const NotFound: React.FC = () => {
       
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {PARTICLE_STYLES.map((style, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-brand-400/30 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
-            }}
+            style={style}
           />
         ))}
       </div>
