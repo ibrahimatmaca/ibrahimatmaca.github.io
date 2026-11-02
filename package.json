@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && for r in support elevana-privacy kidtales-privacy kidtales-terms privacy-policy; do cp dist/index.html dist/$r.html; done",
+    "build": "vite build && for r in support elevana-privacy elevana_privacy_policy kidtales-privacy kidtales-terms privacy-policy; do cp dist/index.html dist/$r.html; done",
     "preview": "vite preview",
     "deploy": "npm run build",
     "fetch-appstore": "node scripts/fetch-appstore-metadata.mjs",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "framer-motion": "^12.23.26",
-    "lucide-react": "^0.560.0",
+    "lucide-react": "^0.577.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.18.5"
@@ -27,11 +27,11 @@
     "autoprefixer": "^10.4.22",
     "eslint": "^10.14.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^16.2.0",
     "postcss": "^8.5.32",
     "tailwindcss": "^3.4.19",
-    "typescript": "~5.8.2",
+    "typescript": "~5.9.3",
     "typescript-eslint": "^8.72.1",
     "vite": "^6.4.5"
   },
