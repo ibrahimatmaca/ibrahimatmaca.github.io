@@ -248,7 +248,7 @@ const Support: React.FC = () => {
         {/* Footer */}
         <footer className="py-8 text-center text-gray-500 text-sm border-t border-slate-900 bg-slate-950">
           <div className="container mx-auto px-4">
-            <p>© {new Date().getFullYear()} İbrahim Atmaca. Built with React, Tailwind & Gemini AI.</p>
+            <p>© {new Date().getFullYear()} İbrahim Atmaca. Built with React & Tailwind.</p>
           </div>
         </footer>
       </main>
