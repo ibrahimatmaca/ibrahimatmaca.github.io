@@ -20,7 +20,7 @@
     "label": "Merhaba, ben",
     "title": "İbrahim Atmaca",
     "subtitle": "Kıdemli Mobil Mühendis & Yaratıcı Teknolog",
-    "buildsLabel": "Geliştiriyorum:",
+    "buildsLabel": "Geliştirdiklerim:",
     "builds": [
       "Swift ile iOS uygulamaları",
       "Kotlin ile Android uygulamaları",
@@ -45,17 +45,21 @@
       "Ödeme sistemleri",
       "App Store",
       "Clean Architecture"
-    ]
+    ],
+    "phone": {
+      "building": "Derleniyor...",
+      "built": "Derleme başarılı"
+    }
   },
   "services": {
     "kicker": "Hizmetler",
     "title": "Birlikte neler geliştirebiliriz",
-    "description": "İlk fikirden cilalı bir sürüme kadar, girişimcilerin ve ekiplerin kalıcı mobil ürünler çıkarmasına yardım ediyorum.",
+    "description": "İlk fikirden kusursuz bir yayına kadar, girişimcilerin ve ekiplerin kalıcı mobil ürünler yayınlamasına yardımcı oluyorum.",
     "items": [
       {
         "id": "ios",
         "title": "Native iOS",
-        "text": "iPhone'da evinde gibi hissettiren SwiftUI uygulamaları; ilk taslaktan App Store'a."
+        "text": "iPhone'da doğal hissettiren SwiftUI uygulamaları; ilk taslaktan App Store'a."
       },
       {
         "id": "android",
@@ -65,7 +69,7 @@
       {
         "id": "flutter",
         "title": "Çapraz platform",
-        "text": "Ciladan ödün vermeden iOS ve Android için tek Flutter kod tabanı."
+        "text": "Kaliteden ödün vermeden iOS ve Android için tek Flutter kod tabanı."
       },
       {
         "id": "fintech",
@@ -75,9 +79,10 @@
       {
         "id": "mvp",
         "title": "Fikirden App Store'a",
-        "text": "Kaba bir fikri yayınlanmış bir MVP'ye taşıyorum: kapsam, geliştirme ve yayın."
+        "text": "Ham bir fikri yayındaki bir MVP'ye dönüştürüyorum: kapsam, geliştirme ve yayın."
       }
-    ]
+    ],
+    "codebase": "Tek kod tabanı"
   },
   "projects": {
     "title": "Projeler",
@@ -86,7 +91,7 @@
     "list": [
       {
         "id": "1",
-        "description": "Net niyetler belirlemene ve hedeflerinle uyumlu kalmana yardım eden, özenle tasarlanmış bir manifestasyon asistanı.",
+        "description": "Net niyetler belirlemenize ve hedeflerinizle uyumlu kalmanıza yardımcı olan, özenle tasarlanmış bir manifestasyon asistanı.",
         "tech": [
           "SwiftUI",
           "Clean Architecture",
@@ -115,7 +120,7 @@
       },
       {
         "title": "Tasarım",
-        "text": "Platform kurallarına uyan akışlar ve ekranlar; gerçek cihazlarda erkenden denenir."
+        "text": "Platform kurallarına uygun akışlar ve ekranlar; erken aşamada gerçek cihazlarda denenir."
       },
       {
         "title": "Geliştirme",
@@ -187,7 +192,7 @@
   "notFound": {
     "pageTitle": "Sayfa Bulunamadı | İbrahim Atmaca",
     "title": "Sayfa bulunamadı",
-    "text": "Bu ekran sürüme girmemiş. Taşınmış olabilir ya da bağlantı hatalı olabilir.",
+    "text": "Bu ekran uygulamaya eklenmemiş. Taşınmış olabilir ya da bağlantı hatalı olabilir.",
     "home": "Anasayfaya dön",
     "back": "Geri git"
   }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 
 export type Theme = 'light' | 'dark';
@@ -15,35 +15,22 @@ function readStored(): Theme | null {
   }
 }
 
-function systemTheme(): Theme {
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
-
 function applyTheme(theme: Theme): void {
   document.documentElement.setAttribute('data-theme', theme);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[theme]);
 }
 
 /**
- * Light/dark theme for the page that calls it. Follows the system until the
- * user picks one, and goes back to dark on unmount so other pages stay dark.
+ * Light/dark theme for the page that calls it. Light until the visitor picks
+ * one, and back to dark on unmount so the other pages stay dark.
  */
 export function useTheme(): { theme: Theme; toggleTheme: () => void } {
-  const [theme, setTheme] = useState<Theme>(() => readStored() ?? systemTheme());
+  const [theme, setTheme] = useState<Theme>(() => readStored() ?? 'light');
 
   useLayoutEffect(() => {
     applyTheme(theme);
     return () => applyTheme('dark');
   }, [theme]);
-
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-color-scheme: light)');
-    const onChange = () => {
-      if (!readStored()) setTheme(systemTheme());
-    };
-    query.addEventListener('change', onChange);
-    return () => query.removeEventListener('change', onChange);
-  }, []);
 
   const toggleTheme = useCallback(() => {
     const next: Theme = theme === 'light' ? 'dark' : 'light';

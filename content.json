@@ -45,7 +45,11 @@
       "Payments",
       "App Store",
       "Clean Architecture"
-    ]
+    ],
+    "phone": {
+      "building": "Running build...",
+      "built": "Build succeeded"
+    }
   },
   "services": {
     "kicker": "Services",
@@ -77,7 +81,8 @@
         "title": "Idea to App Store",
         "text": "I take a rough idea to a shipped MVP: scope, build and release."
       }
-    ]
+    ],
+    "codebase": "1 codebase"
   },
   "projects": {
     "title": "Projects",

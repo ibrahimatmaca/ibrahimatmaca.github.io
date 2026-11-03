@@ -14,6 +14,13 @@ import { FINE_POINTER, useMediaQuery } from '../../hooks/useMediaQuery';
 
 const PERCH = '[data-fox-perch]';
 const IDLE_MS = 6500;
+
+/** True while the card the fox sits on is still comfortably on screen. */
+function isOnScreen(perch: HTMLElement | null): boolean {
+  if (!perch || !perch.isConnected) return false;
+  const top = perch.getBoundingClientRect().top;
+  return top > 70 && top < window.innerHeight - 60;
+}
 const EDGE = 12;
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -25,7 +32,7 @@ function pickPerch(exclude: HTMLElement | null, foxWidth: number): HTMLElement |
   const candidates = Array.from(document.querySelectorAll<HTMLElement>(PERCH)).filter((element) => {
     if (element === exclude) return false;
     const rect = element.getBoundingClientRect();
-    return rect.width > foxWidth + EDGE * 2 && rect.top > 110 && rect.top < viewport - 150;
+    return rect.width > foxWidth + EDGE * 2 && rect.top > 100 && rect.top < viewport - 90;
   });
   return candidates.length ? candidates[Math.floor(Math.random() * candidates.length)] : null;
 }
@@ -64,6 +71,7 @@ const FoxMascot: React.FC<{ active: boolean }> = ({ active }) => {
   });
 
   const { scrollY } = useScroll();
+  const hopRef = useRef<() => void>(() => {});
 
   const targetFor = useCallback(
     (perch: HTMLElement, offset: number) => {
@@ -97,7 +105,7 @@ const FoxMascot: React.FC<{ active: boolean }> = ({ active }) => {
 
     const dx = target.x - fromX;
     const distance = Math.hypot(dx, target.y - fromY);
-    const duration = clamp(0.55 + distance / 2200, 0.6, 1.05);
+    const duration = clamp(0.4 + distance / 3200, 0.45, 0.8);
     const apex = Math.min(fromY, target.y) - clamp(60 + Math.abs(dx) * 0.12, 60, 140);
 
     s.jumping = true;
@@ -119,15 +127,22 @@ const FoxMascot: React.FC<{ active: boolean }> = ({ active }) => {
       s.jumping = false;
       animate(squashY, [1, 0.84, 1], { duration: 0.3, ease: 'easeOut' });
       animate(squashX, [1, 1.12, 1], { duration: 0.3, ease: 'easeOut' });
+      // The page may have scrolled on during the flight. Catch up right away.
+      if (!isOnScreen(s.perch)) window.setTimeout(() => hopRef.current(), 0);
     });
   }, [active, foxHeight, foxWidth, squashX, squashY, targetFor, x, y]);
+
+  useEffect(() => {
+    hopRef.current = hop;
+  }, [hop]);
 
   // A hop for every stretch of scrolling.
   useMotionValueEvent(scrollY, 'change', (value) => {
     if (reduceMotion || !active) return;
     const s = state.current;
     if (!finePointer) rawLookY.set(clamp((value - s.lastScrollY) / 60, -2, 2));
-    if (!s.jumping && Math.abs(value - s.lastScrollY) > (isWide ? 420 : 340)) hop();
+    // Hop as soon as the card it sits on scrolls away, or after a short stretch of scrolling.
+    if (!s.jumping && (!isOnScreen(s.perch) || Math.abs(value - s.lastScrollY) > (isWide ? 240 : 180))) hop();
   });
 
   // First landing, and a hop now and then when the page is still.
@@ -136,8 +151,8 @@ const FoxMascot: React.FC<{ active: boolean }> = ({ active }) => {
     const timer = window.setInterval(() => {
       const s = state.current;
       if (document.hidden || s.jumping) return;
-      if (!s.perch || performance.now() - s.lastJumpAt > IDLE_MS) hop();
-    }, 1200);
+      if (!isOnScreen(s.perch) || performance.now() - s.lastJumpAt > IDLE_MS) hop();
+    }, 700);
     return () => window.clearInterval(timer);
   }, [active, hop, reduceMotion]);
 

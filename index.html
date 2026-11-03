@@ -48,8 +48,7 @@
         if (path !== '/' && path !== '/tr') return;
         var stored = null;
         try { stored = localStorage.getItem('theme'); } catch (e) {}
-        var theme = stored === 'light' || stored === 'dark' ? stored
-          : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        var theme = stored === 'dark' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', theme);
         document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'light' ? '#f8fafc' : '#020617');
 
