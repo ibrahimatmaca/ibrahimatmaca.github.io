@@ -1,27 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>İbrahim Atmaca | Senior Mobile Engineer</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- seo:start (scripts/route-pages.mjs rewrites this block for every page at build time) -->
+    <title>İbrahim Atmaca | Senior Mobile Engineer — iOS, Android &amp; Flutter</title>
+    <meta name="description" content="Senior Mobile Engineer building fluid, high-performance iOS and Android apps with Swift, Kotlin and Flutter. Available for new projects." />
+    <link rel="canonical" href="https://ibrahimatmaca.github.io/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:site_name" content="İbrahim Atmaca" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="İbrahim Atmaca | Senior Mobile Engineer — iOS, Android &amp; Flutter" />
+    <meta property="og:description" content="Senior Mobile Engineer building fluid, high-performance iOS and Android apps with Swift, Kotlin and Flutter. Available for new projects." />
+    <meta property="og:url" content="https://ibrahimatmaca.github.io/" />
+    <meta property="og:image" content="https://ibrahimatmaca.github.io/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="İbrahim Atmaca | Senior Mobile Engineer — iOS, Android &amp; Flutter" />
+    <meta name="twitter:description" content="Senior Mobile Engineer building fluid, high-performance iOS and Android apps with Swift, Kotlin and Flutter. Available for new projects." />
+    <meta name="twitter:image" content="https://ibrahimatmaca.github.io/og-image.png" />
+    <!-- seo:end -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#020617" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.svg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
-    <meta name="theme-color" content="#020617" />
-    <meta name="description" content="Senior Mobile Engineer portfolio by İbrahim Atmaca. Swift, Kotlin, React Native, and high-performance iOS & Android apps." />
-    <meta property="og:title" content="İbrahim Atmaca | Senior Mobile Engineer" />
-    <meta property="og:description" content="Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://ibrahimatmaca.github.io/" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="İbrahim Atmaca | Senior Mobile Engineer" />
-    <meta name="twitter:description" content="Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native." />
-    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="text/javascript">
       // GitHub Pages SPA redirect parser — must run before React Router loads
       (function(l) {
@@ -32,10 +40,29 @@
           window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
         }
       })(window.location);
+
+      // Set the home page theme before first paint. Every other page stays dark.
+      // Keep in sync with hooks/useTheme.ts.
+      (function() {
+        var path = window.location.pathname;
+        if (path !== '/' && path !== '/tr') return;
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (e) {}
+        var theme = stored === 'light' || stored === 'dark' ? stored
+          : window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'light' ? '#f8fafc' : '#020617');
+
+        var lang = null;
+        try { lang = localStorage.getItem('lang'); } catch (e) {}
+        if (lang !== 'en' && lang !== 'tr') lang = navigator.language.toLowerCase().indexOf('tr') === 0 ? 'tr' : 'en';
+        if (path === '/tr') lang = 'tr';
+        document.documentElement.lang = lang;
+      })();
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!-- seo:body --></div>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

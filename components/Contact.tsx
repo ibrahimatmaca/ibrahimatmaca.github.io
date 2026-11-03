@@ -1,53 +1,61 @@
-import React, { useState } from 'react';
-import { Mail, MapPin, Send, Github, Linkedin, Instagram, CheckCircle, XCircle } from 'lucide-react';
-import content from '../content.json';
+import React, { useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Check, Copy, Github, Instagram, Linkedin, Mail, MapPin, Send, XCircle } from 'lucide-react';
+import Reveal from './Reveal';
+import Magnetic from './Magnetic';
+import SectionHeading from './SectionHeading';
+import SpotlightCard from './SpotlightCard';
+import { useLanguage } from '../hooks/useLanguage';
+
+const inputClassName =
+  'w-full rounded-xl border border-line bg-canvas/70 px-4 py-3 text-base text-ink transition-colors placeholder:text-ink-3 focus:border-tint focus:outline-none focus:ring-1 focus:ring-tint';
+const socialClassName =
+  'press flex h-11 w-11 items-center justify-center rounded-full border border-line bg-raised text-ink-2 transition-colors hover:bg-fill hover:text-on-fill';
+
+const SOCIAL_LINKS = [
+  { Icon: Github, href: 'https://github.com/ibrahimatmaca', label: 'GitHub' },
+  { Icon: Linkedin, href: 'https://www.linkedin.com/in/ibrahimatmaca', label: 'LinkedIn' },
+  { Icon: Instagram, href: 'https://www.instagram.com/com.ibrahimatmaca', label: 'Instagram' },
+];
 
 const Contact: React.FC = () => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const { t } = useLanguage();
+  const contact = t.contact;
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [copied, setCopied] = useState(false);
+  const copyTimer = useRef<number | undefined>(undefined);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(contact.email);
+    } catch {
+      // Clipboard access can be blocked. The address is still visible to copy by hand.
+      return;
+    }
+    setCopied(true);
+    window.clearTimeout(copyTimer.current);
+    copyTimer.current = window.setTimeout(() => setCopied(false), 1800);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate form
+
     if (!formState.name.trim() || !formState.message.trim()) {
       setSubmitStatus('error');
-      setErrorMessage('Please enter your name and message.');
-      setTimeout(() => {
-        setSubmitStatus('idle');
-        setErrorMessage('');
-      }, 3000);
+      setTimeout(() => setSubmitStatus('idle'), 3000);
       return;
     }
 
-    // Prepare email content
-    const subject = `Contact from ${formState.name}`;
-    
-    // Build message body - include email if provided
+    const subject = encodeURIComponent(`Contact from ${formState.name}`);
     let body = formState.message;
     if (formState.email.trim()) {
       body += `\n\n---\nEmail: ${formState.email}`;
     }
-    
-    // Encode for mailto URL
-    const encodedSubject = encodeURIComponent(subject);
-    const encodedBody = encodeURIComponent(body);
-    
-    // Create mailto link
-    const mailtoLink = `mailto:${content.contact.email}?subject=${encodedSubject}&body=${encodedBody}`;
-    
-    // Open default email client
-    window.location.href = mailtoLink;
-    
-    // Show success message
+
+    window.location.href = `mailto:${contact.email}?subject=${subject}&body=${encodeURIComponent(body)}`;
     setSubmitStatus('success');
-    
-    // Clear form after a short delay
+
     setTimeout(() => {
       setFormState({ name: '', email: '', message: '' });
       setSubmitStatus('idle');
@@ -55,72 +63,82 @@ const Contact: React.FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value
-    });
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   return (
-    <section id="contact" className="py-24 relative scroll-mt-24">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-          
-          {/* Contact Info */}
-          <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white">{content.contact.title}</h2>
-            <div className="w-20 h-1 bg-brand-500 mb-8"></div>
-            <p className="text-gray-400 text-lg mb-12 leading-relaxed">
-              {content.contact.description}
-            </p>
+    <section id="contact" className="relative scroll-mt-24 py-16 md:py-24">
+      <div className="container mx-auto max-w-6xl px-4">
+        <SectionHeading kicker={contact.kicker} title={contact.title} description={contact.description} />
 
-            <div className="space-y-8">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center shrink-0 text-brand-400 border border-slate-700">
-                  <Mail size={24} />
+        <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-5">
+          <Reveal className="lg:col-span-2">
+            <SpotlightCard>
+              <div className="space-y-6 p-6 sm:p-8">
+                <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-raised/60 py-1.5 pl-3 pr-4 text-sm font-medium text-ink">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  </span>
+                  {contact.availability}
+                </p>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-line bg-raised text-tint">
+                    <Mail size={22} aria-hidden="true" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="mb-1 text-lg font-semibold text-ink">{contact.emailLabel}</h3>
+                    <a
+                      href={`mailto:${contact.email}`}
+                      className="inline-flex min-h-11 items-center break-all text-ink-2 transition-colors hover:text-tint"
+                    >
+                      {contact.email}
+                    </a>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={copyEmail}
+                        className="press mt-1 inline-flex min-h-11 items-center gap-2 rounded-full border border-line px-4 text-sm font-medium text-ink hover:bg-raised"
+                      >
+                        {copied ? <Check size={16} className="text-emerald-500" aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
+                        <span aria-live="polite">{copied ? contact.copied : contact.copyEmail}</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-line bg-raised text-tint">
+                    <MapPin size={22} aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 text-lg font-semibold text-ink">{contact.locationLabel}</h3>
+                    <p className="text-ink-2">{contact.location}</p>
+                  </div>
+                </div>
+
                 <div>
-                  <h3 className="text-white font-semibold text-lg mb-1">Email</h3>
-                  <a href={`mailto:${content.contact.email}`} className="text-gray-400 hover:text-brand-400 transition-colors break-all">
-                    {content.contact.email}
-                  </a>
+                  <h3 className="mb-3 font-semibold text-ink">{contact.socialTitle}</h3>
+                  <div className="flex gap-3">
+                    {SOCIAL_LINKS.map(({ Icon, href, label }) => (
+                      <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className={socialClassName}>
+                        <Icon size={20} />
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
+            </SpotlightCard>
+          </Reveal>
 
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center shrink-0 text-brand-400 border border-slate-700">
-                  <MapPin size={24} />
-                </div>
+          <Reveal delay={0.1} className="lg:col-span-3">
+            <SpotlightCard>
+              <form onSubmit={handleSubmit} className="space-y-6 p-6 md:p-8 lg:p-10">
                 <div>
-                  <h3 className="text-white font-semibold text-lg mb-1">Location</h3>
-                  <p className="text-gray-400">{content.contact.location}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-12">
-               <h3 className="text-white font-semibold mb-4">{content.contact.socialTitle}</h3>
-               <div className="flex gap-3 sm:gap-4">
-                  <a href="https://github.com/ibrahimatmaca" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
-                    <Github size={20} />
-                  </a>
-                  <a href="https://www.linkedin.com/in/ibrahimatmaca" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
-                    <Linkedin size={20} />
-                  </a>
-                  <a href="https://www.instagram.com/com.ibrahimatmaca" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-white transition-all border border-slate-700">
-                    <Instagram size={20} />
-                  </a>
-               </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 lg:p-10 rounded-3xl shadow-2xl relative overflow-hidden group">
-             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-500/20 transition-colors duration-500"></div>
-             
-             <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">{content.contact.form.nameLabel}</label>
+                  <label htmlFor="name" className="mb-2 block text-sm font-medium text-ink-2">
+                    {contact.form.nameLabel}
+                  </label>
                   <input
                     type="text"
                     id="name"
@@ -128,65 +146,84 @@ const Contact: React.FC = () => {
                     value={formState.name}
                     onChange={handleChange}
                     required
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all placeholder-gray-600"
-                    placeholder="John Doe"
+                    autoComplete="name"
+                    className={inputClassName}
+                    placeholder={contact.form.namePlaceholder}
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">{content.contact.form.emailLabel}</label>
+                  <label htmlFor="email" className="mb-2 block text-sm font-medium text-ink-2">
+                    {contact.form.emailLabel}
+                  </label>
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formState.email}
                     onChange={handleChange}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all placeholder-gray-600"
-                    placeholder="john@example.com (optional)"
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    className={inputClassName}
+                    placeholder={contact.form.emailPlaceholder}
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">{content.contact.form.messageLabel}</label>
+                  <label htmlFor="message" className="mb-2 block text-sm font-medium text-ink-2">
+                    {contact.form.messageLabel}
+                  </label>
                   <textarea
                     id="message"
                     name="message"
                     value={formState.message}
                     onChange={handleChange}
                     required
-                    rows={4}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all placeholder-gray-600 resize-none"
-                    placeholder="Tell me about your project..."
-                  ></textarea>
+                    rows={5}
+                    className={`${inputClassName} resize-none`}
+                    placeholder={contact.form.messagePlaceholder}
+                  />
                 </div>
 
-                {/* Status Messages */}
                 <div aria-live="polite" aria-atomic="true">
-                {submitStatus === 'success' && (
-                  <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 flex items-center gap-3">
-                    <CheckCircle className="text-green-400" size={20} />
-                    <span className="text-green-400 text-sm font-medium">
-                      {content.contact.form.success}
-                    </span>
-                  </div>
-                )}
-
-                {submitStatus === 'error' && (
-                  <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-center gap-3">
-                    <XCircle className="text-red-400" size={20} />
-                    <span className="text-red-400 text-sm font-medium">
-                      {errorMessage}
-                    </span>
-                  </div>
-                )}
+                  <AnimatePresence>
+                    {submitStatus === 'success' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/10 p-4"
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-green-600 dark:text-green-400" aria-hidden="true">
+                          <circle cx="12" cy="12" r="10" />
+                          <motion.path d="m8 12 3 3 5-6" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }} />
+                        </svg>
+                        <span className="text-sm font-medium text-green-700 dark:text-green-400">{contact.form.success}</span>
+                      </motion.div>
+                    )}
+                    {submitStatus === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 p-4"
+                      >
+                        <XCircle className="shrink-0 text-red-600 dark:text-red-400" size={20} aria-hidden="true" />
+                        <span className="text-sm font-medium text-red-700 dark:text-red-400">{contact.form.error}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-4 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 shadow-lg shadow-brand-500/25"
-                >
-                  {content.contact.form.button} <Send size={18} />
-                </button>
-             </form>
-          </div>
+                <Magnetic>
+                  <button
+                    type="submit"
+                    className="press flex min-h-12 items-center justify-center gap-2 rounded-full bg-fill px-10 py-3 font-bold text-on-fill shadow-lg shadow-brand-500/25"
+                  >
+                    {contact.form.button} <Send size={18} aria-hidden="true" />
+                  </button>
+                </Magnetic>
+              </form>
+            </SpotlightCard>
+          </Reveal>
         </div>
       </div>
     </section>

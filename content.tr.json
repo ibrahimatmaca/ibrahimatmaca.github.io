@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "title": "İbrahim Atmaca | Kıdemli Mobil Mühendis — iOS, Android & Flutter",
+    "description": "Swift, Kotlin ve Flutter ile akıcı, yüksek performanslı iOS ve Android uygulamaları geliştiren Kıdemli Mobil Mühendis. Yeni projelere açığım."
+  },
+  "nav": {
+    "services": "Hizmetler",
+    "work": "Projeler",
+    "process": "Süreç",
+    "about": "Hakkımda",
+    "contact": "İletişim",
+    "talk": "Konuşalım",
+    "menuOpen": "Menüyü aç",
+    "menuClose": "Menüyü kapat",
+    "themeToLight": "Açık temaya geç",
+    "themeToDark": "Koyu temaya geç",
+    "language": "Dil"
+  },
+  "hero": {
+    "label": "Merhaba, ben",
+    "title": "İbrahim Atmaca",
+    "subtitle": "Kıdemli Mobil Mühendis & Yaratıcı Teknolog",
+    "buildsLabel": "Geliştiriyorum:",
+    "builds": [
+      "Swift ile iOS uygulamaları",
+      "Kotlin ile Android uygulamaları",
+      "Flutter ile çapraz platform uygulamaları",
+      "akıcı, animasyonlu arayüzler"
+    ],
+    "description": "Swift, Kotlin ve React Native ile akıcı, yüksek performanslı mobil deneyimler geliştiriyorum. Tasarım ile mühendislik arasındaki boşluğu kapatıyorum.",
+    "cta": "Projeleri Gör",
+    "headline": "İnsanların gerçekten sevdiği mobil uygulamalar",
+    "headlineAccent": "gerçekten sevdiği",
+    "availability": "Yeni projelere açığım",
+    "ctaPrimary": "Konuşalım",
+    "chips": {
+      "platforms": "iOS & Android",
+      "live": "App Store'da yayında"
+    },
+    "trust": [
+      "SwiftUI",
+      "Kotlin",
+      "Flutter",
+      "Fintech",
+      "Ödeme sistemleri",
+      "App Store",
+      "Clean Architecture"
+    ]
+  },
+  "services": {
+    "kicker": "Hizmetler",
+    "title": "Birlikte neler geliştirebiliriz",
+    "description": "İlk fikirden cilalı bir sürüme kadar, girişimcilerin ve ekiplerin kalıcı mobil ürünler çıkarmasına yardım ediyorum.",
+    "items": [
+      {
+        "id": "ios",
+        "title": "Native iOS",
+        "text": "iPhone'da evinde gibi hissettiren SwiftUI uygulamaları; ilk taslaktan App Store'a."
+      },
+      {
+        "id": "android",
+        "title": "Android",
+        "text": "Gerçek cihazlar ve gerçek ağlar için geliştirilmiş Kotlin uygulamaları."
+      },
+      {
+        "id": "flutter",
+        "title": "Çapraz platform",
+        "text": "Ciladan ödün vermeden iOS ve Android için tek Flutter kod tabanı."
+      },
+      {
+        "id": "fintech",
+        "title": "Fintech & ödemeler",
+        "text": "Güvenli ödeme akışları, POS entegrasyonları ve arkasındaki mimari."
+      },
+      {
+        "id": "mvp",
+        "title": "Fikirden App Store'a",
+        "text": "Kaba bir fikri yayınlanmış bir MVP'ye taşıyorum: kapsam, geliştirme ve yayın."
+      }
+    ]
+  },
+  "projects": {
+    "title": "Projeler",
+    "description": "Performans, kullanıcı deneyimi ve ölçeklenebilirliğe odaklanarak geliştirdiğim mobil uygulamalardan bir seçki.",
+    "kicker": "Seçili işler",
+    "list": [
+      {
+        "id": "1",
+        "description": "Net niyetler belirlemene ve hedeflerinle uyumlu kalmana yardım eden, özenle tasarlanmış bir manifestasyon asistanı.",
+        "tech": [
+          "SwiftUI",
+          "Clean Architecture",
+          "Yerel Depolama"
+        ]
+      },
+      {
+        "id": "2",
+        "description": "COPPA uyumlu gizlilik, iki dilli hukuki sayfalar ve StoreKit abonelikleriyle çocuklara uygun, yapay zekâ destekli bir masal üretim uygulaması.",
+        "tech": [
+          "SwiftUI",
+          "StoreKit",
+          "Yapay Zekâ Entegrasyonu",
+          "COPPA Uyumluluğu"
+        ]
+      }
+    ]
+  },
+  "process": {
+    "kicker": "Süreç",
+    "title": "Birlikte nasıl çalışırız",
+    "steps": [
+      {
+        "title": "Keşif",
+        "text": "Hedeflerinizi, kullanıcılarınızı ve kısıtlarınızı konuşur, net bir kapsamda anlaşırız."
+      },
+      {
+        "title": "Tasarım",
+        "text": "Platform kurallarına uyan akışlar ve ekranlar; gerçek cihazlarda erkenden denenir."
+      },
+      {
+        "title": "Geliştirme",
+        "text": "Temiz, test edilmiş kod ve süreç boyunca deneyebileceğiniz düzenli sürümler."
+      },
+      {
+        "title": "Yayın",
+        "text": "Mağaza yayını, izleme ve lansman sonrası destek."
+      }
+    ]
+  },
+  "about": {
+    "title": "Hakkımda",
+    "paragraphs": [
+      "Fintech, mobil mimariler ve yüksek performanslı çapraz platform uygulamalar konusunda uzmanlaşmış bir Kıdemli Mobil Geliştiriciyim. Flutter ve native entegrasyonlarda beş yılı aşkın uygulamalı deneyimle; özellikle ödeme sistemleri, POS cihazları ve finansal teknolojilerde güvenli, ölçeklenebilir ve kullanıcı odaklı dijital ürünlerin geliştirilmesine katkıda bulundum.",
+      "Son 2,5 yıldır lider bir fintech mühendislik ekibinin parçasıyım, son bir yıldır ise Kıdemli Mobil Geliştirici olarak kritik girişimlere liderlik ediyor ve mobil ekosistemde teknik mükemmelliği ileri taşıyorum. Çalışmalarım ödeme entegrasyonları, uygulama performansını artırma, genel kullanıcı deneyimini iyileştirme ve uzun vadeli ölçeklenebilirliği destekleyen temel mimari kararlara katkı sağlamayı kapsıyor.",
+      "Mobil geliştirmedeki profesyonel geçmişimin ötesinde yapay zekâ destekli otomasyon, SaaS ürün geliştirme ve gelişmekte olan kripto teknolojilerine derin bir tutkum var. Karmaşık fikirleri; otomatik iş akışları, modern yazılım platformları veya yenilikçi finansal araçlar aracılığıyla pratik, pazara hazır çözümlere dönüştürmekten keyif alıyorum.",
+      "Sürekli öğrenmeye ve teknolojik trendlerin önünde kalmaya güveniyorum. İş dışında yeni yan projeler geliştiriyor, yapay zekâ araçlarıyla denemeler yapıyor, Web3, fintech ve mobil ekosistemlerdeki küresel gelişmeleri takip ediyorum. Ayrıca genç geliştiricilere mentorluk yapmaktan, iş birliğini teşvik etmekten ve bilgi paylaşımıyla ekiplerin büyümesine yardım etmekten hoşlanıyorum."
+    ],
+    "education": "Bilgisayar Mühendisliği (Lisans), 19 Mayıs Üniversitesi",
+    "stats": {
+      "experience": "5+",
+      "specialization": "Fintech"
+    },
+    "kicker": "Hakkımda",
+    "statLabels": {
+      "experience": "Yıllık Deneyim",
+      "specialization": "Uzmanlık"
+    },
+    "stackTitle": "Teknolojiler",
+    "badgeTitle": "Mobil Geliştirme",
+    "badgeText": "SwiftUI & Flutter Uzmanlığı"
+  },
+  "contact": {
+    "title": "Birlikte çalışalım",
+    "description": "Ürün tasarımı çalışmalarını veya iş ortaklığı fırsatlarını konuşmaya her zaman açığım. Bir sorunuz olsun ya da sadece merhaba demek isteyin, elimden geldiğince hızlı dönmeye çalışırım!",
+    "email": "ibrahim.atmaca61@hotmail.com",
+    "location": "Türkiye",
+    "socialTitle": "Beni takip edin",
+    "form": {
+      "nameLabel": "Ad",
+      "emailLabel": "E-posta",
+      "messageLabel": "Mesaj",
+      "button": "Mesaj Gönder",
+      "success": "E-posta uygulamasına yönlendiriliyor...",
+      "namePlaceholder": "Adınız",
+      "emailPlaceholder": "siz@ornek.com (isteğe bağlı)",
+      "messagePlaceholder": "Projenizden bahsedin...",
+      "error": "Lütfen adınızı ve mesajınızı girin."
+    },
+    "kicker": "İletişim",
+    "copyEmail": "E-postayı kopyala",
+    "copied": "Kopyalandı",
+    "availability": "Yeni projelere açığım",
+    "locationLabel": "Konum",
+    "emailLabel": "E-posta"
+  },
+  "ui": {
+    "onlyIphone": "Yalnızca iPhone için",
+    "viewAppStore": "App Store'da Gör",
+    "inProgress": "Devam Ediyor",
+    "openInStore": "{name} uygulamasını App Store'da aç",
+    "openProject": "{name} projesini aç"
+  },
+  "footer": {
+    "built": "React & Tailwind ile geliştirildi.",
+    "top": "Yukarı çık"
+  },
+  "notFound": {
+    "pageTitle": "Sayfa Bulunamadı | İbrahim Atmaca",
+    "title": "Sayfa bulunamadı",
+    "text": "Bu ekran sürüme girmemiş. Taşınmış olabilir ya da bağlantı hatalı olabilir.",
+    "home": "Anasayfaya dön",
+    "back": "Geri git"
+  }
+}

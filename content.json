@@ -1,16 +1,83 @@
 {
+  "meta": {
+    "title": "İbrahim Atmaca | Senior Mobile Engineer — iOS, Android & Flutter",
+    "description": "Senior Mobile Engineer building fluid, high-performance iOS and Android apps with Swift, Kotlin and Flutter. Available for new projects."
+  },
+  "nav": {
+    "services": "Services",
+    "work": "Work",
+    "process": "Process",
+    "about": "About",
+    "contact": "Contact",
+    "talk": "Let's talk",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "themeToLight": "Switch to light theme",
+    "themeToDark": "Switch to dark theme",
+    "language": "Language"
+  },
   "hero": {
     "label": "Hello, I am",
     "title": "İbrahim Atmaca",
     "subtitle": "Senior Mobile Engineer & Creative Technologist",
+    "buildsLabel": "I build",
+    "builds": [
+      "iOS apps in Swift",
+      "Android apps in Kotlin",
+      "cross-platform apps in Flutter",
+      "fluid, animated interfaces"
+    ],
     "description": "Crafting fluid, high-performance mobile experiences with Swift, Kotlin, and React Native. Bridging the gap between design and engineering.",
-    "cta": "View Projects"
+    "cta": "View Projects",
+    "headline": "Mobile apps people actually love",
+    "headlineAccent": "actually love",
+    "availability": "Available for new projects",
+    "ctaPrimary": "Let's talk",
+    "chips": {
+      "platforms": "iOS & Android",
+      "live": "Live on the App Store"
+    },
+    "trust": [
+      "SwiftUI",
+      "Kotlin",
+      "Flutter",
+      "Fintech",
+      "Payments",
+      "App Store",
+      "Clean Architecture"
+    ]
   },
-  "dreamBuilder": {
-    "title": "Architecting Your Digital Vision",
-    "slogan": "You Dream It, I Code It.",
-    "description": "Have a groundbreaking app idea? Whether it's a fintech revolution, a social platform, or an AI-powered tool, I transform abstract concepts into scalable, high-performance mobile realities. Let's turn your 'what if' into 'what is'.",
-    "cta": "Start Your Project"
+  "services": {
+    "kicker": "Services",
+    "title": "What we can build together",
+    "description": "From a first idea to a polished release, I help founders and teams ship mobile products that last.",
+    "items": [
+      {
+        "id": "ios",
+        "title": "Native iOS",
+        "text": "SwiftUI apps that feel at home on iPhone, from first sketch to App Store."
+      },
+      {
+        "id": "android",
+        "title": "Android",
+        "text": "Kotlin apps built for real devices and real networks."
+      },
+      {
+        "id": "flutter",
+        "title": "Cross-platform",
+        "text": "One Flutter codebase for iOS and Android, without giving up polish."
+      },
+      {
+        "id": "fintech",
+        "title": "Fintech & payments",
+        "text": "Secure payment flows, POS integrations and the architecture behind them."
+      },
+      {
+        "id": "mvp",
+        "title": "Idea to App Store",
+        "text": "I take a rough idea to a shipped MVP: scope, build and release."
+      }
+    ]
   },
   "projects": {
     "title": "Projects",
@@ -51,6 +118,29 @@
           "COPPA Compliance"
         ]
       }
+    ],
+    "kicker": "Selected work"
+  },
+  "process": {
+    "kicker": "Process",
+    "title": "How we work together",
+    "steps": [
+      {
+        "title": "Discover",
+        "text": "We talk through your goals, users and constraints, then agree on a clear scope."
+      },
+      {
+        "title": "Design",
+        "text": "Flows and screens that follow platform conventions, tried early on real devices."
+      },
+      {
+        "title": "Build",
+        "text": "Clean, tested code with regular builds you can try along the way."
+      },
+      {
+        "title": "Ship",
+        "text": "Store release, monitoring and support after launch."
+      }
     ]
   },
   "about": {
@@ -65,7 +155,15 @@
     "stats": {
       "experience": "5+",
       "specialization": "Fintech"
-    }
+    },
+    "kicker": "About",
+    "statLabels": {
+      "experience": "Years Experience",
+      "specialization": "Specialization"
+    },
+    "stackTitle": "Tech Stack",
+    "badgeTitle": "Mobile Development",
+    "badgeText": "SwiftUI & Flutter Expertise"
   },
   "contact": {
     "title": "Let's work together",
@@ -78,7 +176,35 @@
       "emailLabel": "Email",
       "messageLabel": "Message",
       "button": "Send Message",
-      "success": "Redirecting to Mail..."
-    }
+      "success": "Redirecting to Mail...",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "you@example.com (optional)",
+      "messagePlaceholder": "Tell me about your project...",
+      "error": "Please enter your name and message."
+    },
+    "kicker": "Contact",
+    "copyEmail": "Copy email",
+    "copied": "Copied",
+    "availability": "Open to new projects",
+    "locationLabel": "Location",
+    "emailLabel": "Email"
+  },
+  "ui": {
+    "onlyIphone": "Only for iPhone",
+    "viewAppStore": "View in App Store",
+    "inProgress": "In Progress",
+    "openInStore": "Open {name} in the App Store",
+    "openProject": "Open {name}"
+  },
+  "footer": {
+    "built": "Built with React & Tailwind.",
+    "top": "Back to top"
+  },
+  "notFound": {
+    "pageTitle": "Page Not Found | İbrahim Atmaca",
+    "title": "Page not found",
+    "text": "This screen didn't make it into the build. It may have moved, or the link may be wrong.",
+    "home": "Back to home",
+    "back": "Go back"
   }
 }
