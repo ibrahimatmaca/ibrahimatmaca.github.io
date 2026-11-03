@@ -1,0 +1,33 @@
+# İbrahim Atmaca
+
+> Senior Mobile Engineer building iOS, Android and Flutter apps, with a focus on fintech, payments and polished user experience. Open to new freelance and collaboration projects. The site is available in English and Turkish.
+
+## Main pages
+
+- [Home (English)](https://ibrahimatmaca.github.io/): Portfolio with services, selected work, working process, background and contact form.
+- [Ana sayfa (Türkçe)](https://ibrahimatmaca.github.io/tr): The same portfolio in Turkish.
+- [Support](https://ibrahimatmaca.github.io/support): Support request form for the apps.
+
+## What I do
+
+- Native iOS apps in Swift and SwiftUI.
+- Android apps in Kotlin.
+- Cross-platform apps in Flutter.
+- Fintech and payment flows, including POS integrations.
+- Taking an idea to a shipped MVP on the App Store.
+
+## Apps
+
+- [Elevana](https://apps.apple.com/app/id6745828686): A manifestation assistant for iPhone that helps you set clear intentions and stay aligned with your goals. Built with SwiftUI. Data stays on the device. See the [Elevana privacy policy](https://ibrahimatmaca.github.io/elevana-privacy).
+- KidTales AI: Bedtime Stories: A child-friendly AI story app, in progress. See its [privacy policy](https://ibrahimatmaca.github.io/kidtales-privacy) and [terms of use](https://ibrahimatmaca.github.io/kidtales-terms).
+
+## Contact
+
+- Email: ibrahim.atmaca61@hotmail.com
+- [GitHub](https://github.com/ibrahimatmaca)
+- [LinkedIn](https://www.linkedin.com/in/ibrahimatmaca)
+- [Instagram](https://www.instagram.com/com.ibrahimatmaca)
+
+## Security
+
+- Report security issues to the address in [security.txt](https://ibrahimatmaca.github.io/.well-known/security.txt).

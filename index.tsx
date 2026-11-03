@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { MotionConfig } from 'framer-motion';
 import './index.css';
 import { App } from './App';
+import LanguageProvider from './components/LanguageProvider';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -15,7 +16,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <MotionConfig reducedMotion="user">
-        <App />
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>
       </MotionConfig>
     </BrowserRouter>
   </React.StrictMode>

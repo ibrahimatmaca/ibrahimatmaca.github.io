@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && for r in support elevana-privacy elevana_privacy_policy kidtales-privacy kidtales-terms privacy-policy; do cp dist/index.html dist/$r.html; done",
+    "build": "vite build && node scripts/route-pages.mjs",
     "preview": "vite preview",
     "deploy": "npm run build",
     "fetch-appstore": "node scripts/fetch-appstore-metadata.mjs",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "framer-motion": "^12.23.26",
+    "lenis": "^1.3.27",
     "lucide-react": "^0.560.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
