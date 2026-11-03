@@ -31,6 +31,7 @@ const useLoopWhenVisible = () => {
 };
 
 const FlutterVisual: React.FC = () => {
+  const { t } = useLanguage();
   const { ref, inView } = useLoopWhenVisible();
 
   return (
@@ -46,7 +47,7 @@ const FlutterVisual: React.FC = () => {
         className="absolute right-2 top-0 h-28 w-16 rounded-lg border border-tint/40 bg-tint/10"
       />
       <div className="absolute inset-x-0 bottom-0 flex justify-center">
-        <span className="rounded-full bg-fill px-3 py-1 font-mono text-[11px] font-semibold text-on-fill">1 codebase</span>
+        <span className="rounded-full bg-fill px-3 py-1 font-mono text-[11px] font-semibold text-on-fill">{t.services.codebase}</span>
       </div>
     </div>
   );

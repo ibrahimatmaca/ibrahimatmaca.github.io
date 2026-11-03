@@ -109,6 +109,7 @@ const RotatingBuilds: React.FC = () => {
 
 // Fills, shows success, then starts again. Stops while off screen.
 const BuildWidget: React.FC = () => {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref);
   const reduceMotion = useReducedMotion();
@@ -145,7 +146,7 @@ const BuildWidget: React.FC = () => {
   return (
     <div ref={ref} aria-hidden="true" className="relative z-10 mt-auto rounded-2xl border border-white/5 bg-slate-800/80 p-4">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-medium text-slate-300">{isDone ? 'Build succeeded' : 'Running build...'}</span>
+        <span className="text-xs font-medium text-slate-300">{isDone ? t.hero.phone.built : t.hero.phone.building}</span>
         {isDone ? (
           <Check size={14} className="text-emerald-400" strokeWidth={3} />
         ) : (
@@ -320,7 +321,9 @@ const Hero: React.FC = () => {
         </motion.div>
 
         {/* 3D phone */}
-        <div className="flex items-center justify-center [perspective:1000px]">
+        <div className="flex items-center justify-center">
+          <div className="relative">
+            <div className="[perspective:1000px]">
           {/* Touch screens have no pointer to follow, so the phone drifts on its own. */}
           <motion.div
             animate={finePointer ? { rotateY: 0 } : { rotateY: [-6, 6, -6] }}
@@ -376,12 +379,14 @@ const Hero: React.FC = () => {
                 style={{ transform: 'translateZ(-60px) translateY(3rem) scale(0.9)' }}
               />
             </motion.div>
+          </motion.div>
+            </div>
 
-            {/* Floating chips. Desktop only, next to the phone. */}
+            {/* Outside the 3D layers, so the phone can never cover them. Desktop only. */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-              className="absolute -right-20 top-1/4 z-50 hidden items-center gap-3 rounded-2xl border border-line bg-surface/90 px-4 py-3 shadow-xl backdrop-blur-md xl:flex"
+              className="absolute -right-16 top-1/4 z-30 hidden items-center gap-3 rounded-2xl border border-line bg-surface/90 px-4 py-3 shadow-xl backdrop-blur-md xl:flex"
             >
               <svg className="h-5 w-5 text-tint" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -392,12 +397,12 @@ const Hero: React.FC = () => {
             <motion.div
               animate={{ y: [0, 15, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 1 }}
-              className="absolute -left-20 bottom-1/3 z-50 hidden items-center gap-3 rounded-2xl border border-line bg-surface/90 px-4 py-3 shadow-xl backdrop-blur-md xl:flex"
+              className="absolute -left-16 bottom-1/3 z-30 hidden items-center gap-3 rounded-2xl border border-line bg-surface/90 px-4 py-3 shadow-xl backdrop-blur-md xl:flex"
             >
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
               <span className="whitespace-nowrap text-sm font-medium text-ink">{t.hero.chips.live}</span>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </div>
 

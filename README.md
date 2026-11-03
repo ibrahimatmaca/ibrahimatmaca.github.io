@@ -11,7 +11,7 @@ A responsive portfolio for a Senior Mobile Engineer, built to help clients and t
 ## Features
 
 - Aurora background and bento-style sections: services, selected work, process, about and contact
-- Light and dark themes (follows the system, with a manual switch on the home page)
+- Light and dark themes (light by default, with a manual switch on the home page)
 - English and Turkish: `/` for English, `/tr` for Turkish, with a switch in the navigation
 - Smooth scrolling (Lenis) and animations (Framer Motion), all of which respect `prefers-reduced-motion`
 - Fox splash screen and mascot that hops between cards as you scroll and watches the pointer
