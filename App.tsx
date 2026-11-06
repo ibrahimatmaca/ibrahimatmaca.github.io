@@ -51,9 +51,6 @@ export const App: React.FC = () => {
         <Route path="/privacy-policy" element={<GeneralPrivacy />} />
         <Route path="/wada-closet-privacy" element={<WadaClosetPrivacy />} />
         <Route path="/wada-closet-terms" element={<WadaClosetTerms />} />
-        {/* The Wada Closet app links to /privacy and /terms. */}
-        <Route path="/privacy" element={<WadaClosetPrivacy />} />
-        <Route path="/terms" element={<WadaClosetTerms />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
