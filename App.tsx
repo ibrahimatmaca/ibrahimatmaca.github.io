@@ -9,6 +9,8 @@ const ElevanaPrivacy = lazy(() => import('./components/privacy/ElevanaPrivacy'))
 const KidTalesPrivacy = lazy(() => import('./components/privacy/KidTalesPrivacy'));
 const KidTalesTerms = lazy(() => import('./components/privacy/KidTalesTerms'));
 const GeneralPrivacy = lazy(() => import('./components/privacy/GeneralPrivacy'));
+const WadaClosetPrivacy = lazy(() => import('./components/privacy/WadaClosetPrivacy'));
+const WadaClosetTerms = lazy(() => import('./components/privacy/WadaClosetTerms'));
 
 const isHome = (pathname: string) => pathname === '/' || pathname === '/tr';
 
@@ -47,6 +49,11 @@ export const App: React.FC = () => {
         <Route path="/kidtales-privacy" element={<KidTalesPrivacy />} />
         <Route path="/kidtales-terms" element={<KidTalesTerms />} />
         <Route path="/privacy-policy" element={<GeneralPrivacy />} />
+        <Route path="/wada-closet-privacy" element={<WadaClosetPrivacy />} />
+        <Route path="/wada-closet-terms" element={<WadaClosetTerms />} />
+        {/* The Wada Closet app links to /privacy and /terms. */}
+        <Route path="/privacy" element={<WadaClosetPrivacy />} />
+        <Route path="/terms" element={<WadaClosetTerms />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>

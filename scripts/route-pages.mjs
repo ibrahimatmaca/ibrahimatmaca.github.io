@@ -169,6 +169,30 @@ const pages = [
     description: "Privacy policy for İbrahim Atmaca's mobile games.",
     url: `${SITE}/privacy-policy`,
   },
+  {
+    file: 'wada-closet-privacy.html',
+    title: 'Wada Closet Privacy Policy | İbrahim Atmaca',
+    description: 'Privacy policy for Wada Closet: what stays on your device, the optional AI image enhancement, and your rights. English and Turkish.',
+    url: `${SITE}/wada-closet-privacy`,
+  },
+  {
+    file: 'wada-closet-terms.html',
+    title: 'Wada Closet Terms of Use | İbrahim Atmaca',
+    description: 'Terms of use for Wada Closet, including subscriptions and the lifetime purchase. English and Turkish.',
+    url: `${SITE}/wada-closet-terms`,
+  },
+  {
+    file: 'privacy.html',
+    title: 'Wada Closet Privacy Policy | İbrahim Atmaca',
+    description: 'Privacy policy for Wada Closet: what stays on your device, the optional AI image enhancement, and your rights. English and Turkish.',
+    url: `${SITE}/wada-closet-privacy`,
+  },
+  {
+    file: 'terms.html',
+    title: 'Wada Closet Terms of Use | İbrahim Atmaca',
+    description: 'Terms of use for Wada Closet, including subscriptions and the lifetime purchase. English and Turkish.',
+    url: `${SITE}/wada-closet-terms`,
+  },
 ];
 
 function seoHead(page) {
