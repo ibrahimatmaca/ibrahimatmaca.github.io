@@ -36,8 +36,9 @@ const englishContent = `
       <p>
         Wada Closet lets you photograph clothes, build a digital closet, match
         each item to the Sanzo Wada color palette, receive outfit suggestions
-        based on color harmony, export outfits as an image or PDF, and, with
-        Premium, enhance garment images with AI. Outfit suggestions are
+        based on color harmony, get weather-based outfit ideas, export outfits as an image or PDF, back up
+        and restore your closet, and enhance garment images with AI (daily or
+        monthly limits apply). Outfit suggestions are
         creative inspiration only. Colors detected from photos depend on
         lighting, camera and screen, and may differ from the real item. We do
         not guarantee that any suggestion will suit you, your body, an occasion
@@ -75,12 +76,24 @@ const englishContent = `
       </ul>
       <p>We may limit or end access to the server-based feature if these rules are broken.</p>
 
-      <h2>6. Free plan and Premium</h2>
+      <h2>6. Free plan, ads and Premium</h2>
       <p>
         The free plan includes a limited number of closet items and outfit
-        suggestions. Premium removes these limits and adds AI image enhancement
-        within a monthly quota (currently 50 images a month, which may change).
-        Features and limits may be adjusted over time.
+        suggestions and is supported by ads. Premium removes these limits and the
+        ads, and raises the AI image enhancement quota (currently 50 images a
+        month, which may change). Features and limits may be adjusted over time.
+      </p>
+      <p>
+        <strong>Ads.</strong> On the free plan the App shows third-party ads
+        served by Google AdMob: banner and native ads, occasional full-screen ads
+        after you save or delete an item, and optional rewarded video ads. Watching
+        a rewarded ad unlocks extra Wada Lab suggestions for the current session
+        only. We do not control or endorse advertisers' content or products, and
+        we are not responsible for what advertisers offer or for your dealings with
+        them. Do not click ads fraudulently or use tools to generate artificial
+        impressions or clicks. Ad data practices are described in the
+        <a href="/wada-closet-privacy">Privacy Policy</a>. Purchasing Premium
+        removes ads.
       </p>
       <ul>
         <li><strong>Plans:</strong> weekly subscription, monthly subscription, and a one-time lifetime purchase. Prices and any free trial are shown in the App before you buy and in your local currency.</li>
@@ -98,8 +111,10 @@ const englishContent = `
         protected by law. The Sanzo Wada color data comes from a public
         third-party source and from the historical work <em>A Dictionary of Color
         Combinations</em>; Wada Closet is not affiliated with or endorsed by any
-        of its authors, publishers or hosts. Apple, App Store and iPhone are
-        trademarks of Apple Inc. and Cloudflare is a trademark of Cloudflare, Inc.;
+        of its authors, publishers or hosts. Weather data is provided by Apple Weather and
+        may be inaccurate or delayed. Apple, App Store and iPhone are trademarks of
+        Apple Inc., Google and AdMob are trademarks of Google LLC, and Cloudflare
+        is a trademark of Cloudflare, Inc.;
         they are used only to identify the services we use.
       </p>
 
@@ -131,7 +146,7 @@ const englishContent = `
         before the claim. This does not limit liability for intent, gross
         negligence, death or personal injury, or any liability that cannot be
         limited under mandatory law. Because your closet is stored only on your
-        device, back up your device; we cannot restore lost data.
+        device, back up your device or use the App's backup export; we cannot restore lost data.
       </p>
 
       <h2>11. Termination</h2>
@@ -197,7 +212,7 @@ const turkishContent = `
         Wada Closet; kıyafetlerinizi fotoğraflamanıza, dijital gardırop
         oluşturmanıza, her parçayı Sanzo Wada renk paletiyle eşleştirmenize, renk
         uyumuna göre kombin önerileri almanıza, kombinleri görsel veya PDF olarak
-        dışa aktarmanıza ve Premium ile giysi görsellerini yapay zekayla
+        dışa aktarmanıza hava durumuna göre kombin fikri almanıza, gardırobunuzu yedekleyip geri yüklemenize ve giysi görsellerini yapay zekayla
         iyileştirmenize olanak tanır. Kombin önerileri yalnızca yaratıcı ilham
         amaçlıdır. Fotoğraflardan algılanan renkler ışığa, kameraya ve ekrana bağlıdır
         ve gerçek üründen farklı olabilir. Herhangi bir önerinin size, vücudunuza,
@@ -235,12 +250,24 @@ const turkishContent = `
       </ul>
       <p>Bu kurallar ihlal edilirse sunucu tabanlı özelliğe erişimi sınırlayabilir veya sona erdirebiliriz.</p>
 
-      <h2>6. Ücretsiz plan ve Premium</h2>
+      <h2>6. Ücretsiz plan, reklamlar ve Premium</h2>
       <p>
-        Ücretsiz plan, sınırlı sayıda gardırop parçası ve kombin önerisi içerir.
-        Premium bu sınırları kaldırır ve aylık hak dahilinde (şu an ayda 50 görsel;
-        değişebilir) yapay zeka görsel iyileştirme ekler. Özellikler ve sınırlar zamanla
-        değiştirilebilir.
+        Ücretsiz plan, sınırlı sayıda gardırop parçası ve kombin önerisi içerir
+        ve reklamlarla desteklenir. Premium bu sınırları ve reklamları kaldırır,
+        yapay zeka görsel iyileştirme hakkını artırır (şu an ayda 50 görsel;
+        değişebilir). Özellikler ve sınırlar zamanla değiştirilebilir.
+      </p>
+      <p>
+        <strong>Reklamlar.</strong> Ücretsiz planda Uygulama, Google AdMob
+        tarafından sunulan üçüncü taraf reklamlar gösterir: banner ve yerel
+        reklamlar, bir parçayı kaydedip sildikten sonra ara sıra tam ekran reklamlar
+        ve isteğe bağlı ödüllü video reklamlar. Ödüllü reklam izlemek yalnızca o
+        oturum için ek Wada Lab önerilerini açar. Reklam verenlerin içeriğini veya
+        ürünlerini kontrol etmez, onaylamayız; reklam verenlerin sunduklarından ve
+        onlarla ilişkilerinizden sorumlu değiliz. Reklamlara hileli tıklamayın veya
+        yapay gösterim ya da tıklama üreten araçlar kullanmayın. Reklam veri
+        uygulamaları <a href="/wada-closet-privacy">Gizlilik Politikası</a>'nda
+        açıklanır. Premium satın almak reklamları kaldırır.
       </p>
       <ul>
         <li><strong>Planlar:</strong> haftalık abonelik, aylık abonelik ve tek seferlik ömür boyu satın alma. Fiyatlar ve varsa ücretsiz deneme, satın almadan önce Uygulamada yerel para biriminizle gösterilir.</li>
@@ -258,8 +285,9 @@ const turkishContent = `
         korunur. Sanzo Wada renk verileri herkese açık bir üçüncü taraf kaynaktan ve
         <em>A Dictionary of Color Combinations</em> adlı tarihî çalışmadan gelir; Wada
         Closet'in yazarları, yayıncıları veya barındırıcılarıyla bağlantısı ya da
-        onayı yoktur. Apple, App Store ve iPhone Apple Inc.'in, Cloudflare ise
-        Cloudflare, Inc.'in ticari markalarıdır; yalnızca kullandığımız hizmetleri
+        onayı yoktur. Hava durumu verileri Apple Weather tarafından sağlanır ve hatalı veya
+        gecikmeli olabilir. Apple, App Store ve iPhone Apple Inc.'in, Google ve AdMob
+        Google LLC'nin, Cloudflare ise Cloudflare, Inc.'in ticari markalarıdır; yalnızca kullandığımız hizmetleri
         belirtmek için anılır.
       </p>
 
@@ -290,7 +318,7 @@ const turkishContent = `
         sorumluluğumuz, talepten önceki 12 ayda Uygulama için ödediğiniz tutarla
         sınırlıdır. Bu sınır; kast, ağır kusur, ölüm veya bedensel zarar ya da emredici
         hukuk uyarınca sınırlandırılamayan sorumluluklar için geçerli değildir.
-        Gardırobunuz yalnızca cihazınızda saklandığı için cihazınızı yedekleyin;
+        Gardırobunuz yalnızca cihazınızda saklandığı için cihazınızı yedekleyin veya Uygulamanın yedek dışa aktarımını kullanın;
         kaybolan verileri geri getiremeyiz.
       </p>
 
