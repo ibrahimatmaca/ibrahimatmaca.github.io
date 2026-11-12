@@ -2,7 +2,7 @@ import React from 'react';
 import KidTalesLegalLayout from './KidTalesLegalLayout';
 
 const englishContent = `
-      <p><strong>Last Updated:</strong> November 6, 2026<br />
+      <p><strong>Last Updated:</strong> November 12, 2026<br />
       <strong>Developer:</strong> İbrahim Atmaca (individual developer, Türkiye)<br />
       <strong>Contact:</strong> <a href="mailto:ibrahim.atmaca61@hotmail.com">ibrahim.atmaca61@hotmail.com</a></p>
 
@@ -29,7 +29,9 @@ const englishContent = `
         claims such as product liability, legal-compliance or intellectual-property
         claims, which are handled by us. You confirm that you are not located in a
         country under a U.S. government embargo and are not on a U.S. list of
-        prohibited or restricted parties.
+        prohibited or restricted parties. You must also comply with the applicable
+        terms of third-party services you use together with the App, such as
+        Google AdMob and your wireless or data provider.
       </p>
 
       <h2>2. What the App does</h2>
@@ -177,7 +179,7 @@ const englishContent = `
 `;
 
 const turkishContent = `
-      <p><strong>Son Güncelleme:</strong> 6 Kasım 2026<br />
+      <p><strong>Son Güncelleme:</strong> 12 Kasım 2026<br />
       <strong>Geliştirici:</strong> İbrahim Atmaca (bireysel geliştirici, Türkiye)<br />
       <strong>İletişim:</strong> <a href="mailto:ibrahim.atmaca61@hotmail.com">ibrahim.atmaca61@hotmail.com</a></p>
 
@@ -204,7 +206,9 @@ const turkishContent = `
         size karşı ileri sürebilir. Ürün sorumluluğu, mevzuata uyum veya fikri mülkiyet
         gibi üçüncü taraf talepleri Apple'ın değil bizim sorumluluğumuzdadır. ABD
         hükümetinin ambargo uyguladığı bir ülkede bulunmadığınızı ve ABD'nin yasaklı
-        veya kısıtlı taraflar listesinde yer almadığınızı beyan edersiniz.
+        veya kısıtlı taraflar listesinde yer almadığınızı beyan edersiniz. Uygulamayla birlikte kullandığınız
+        üçüncü taraf hizmetlerin (Google AdMob ve mobil veri sağlayıcınız gibi)
+        geçerli koşullarına da uymanız gerekir.
       </p>
 
       <h2>2. Uygulama ne yapar?</h2>
