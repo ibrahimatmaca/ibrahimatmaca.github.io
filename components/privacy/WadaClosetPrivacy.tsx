@@ -2,7 +2,7 @@ import React from 'react';
 import KidTalesLegalLayout from './KidTalesLegalLayout';
 
 const englishContent = `
-      <p><strong>Last Updated:</strong> November 6, 2026<br />
+      <p><strong>Last Updated:</strong> November 12, 2026<br />
       <strong>Developer and data controller:</strong> İbrahim Atmaca (individual developer, Türkiye)<br />
       <strong>Contact:</strong> <a href="mailto:ibrahim.atmaca61@hotmail.com">ibrahim.atmaca61@hotmail.com</a></p>
 
@@ -32,6 +32,7 @@ const englishContent = `
         <li><strong>Sign-in details:</strong> if you use Sign in with Apple, the name and email address Apple shares with the App are kept on your device to show your profile. If you continue as a guest, nothing is stored.</li>
         <li><strong>Planner data:</strong> saved outfits, the outfits you plan or log for each day, wear statistics, and trip and packing lists. A small snapshot (today's plan and images) is shared with the App's widget through an App Group on your device.</li>
         <li><strong>Preferences:</strong> appearance mode, onboarding progress, weather setting and similar settings, plus counters that limit how often full-screen ads appear.</li>
+        <li><strong>Reminders:</strong> if you turn on morning and evening reminders and allow notifications, the App schedules local notifications on your device. They use no server and send no data to us. You can turn them off in the App or in iOS Settings.</li>
         <li><strong>Weather cache:</strong> the last weather result and a rounded location (about 1 km precision, with the city name).</li>
         <li><strong>Backups:</strong> if you export a backup file, it is created on your device and goes only where you save or share it.</li>
       </ul>
@@ -79,10 +80,14 @@ const englishContent = `
         (free plan, per day, at most a few days) and to an account identifier
         derived from your Premium purchase (per month, up to about 40 days); and
         (c) a short-lived (about one hour) record of whether your purchase is
-        valid. To verify a purchase, our server sends your transaction identifier
+        valid and, if Apple notifies us that a purchase was refunded or revoked,
+        that transaction identifier, kept for up to about 400 days so the refund
+        stays effective. To verify a purchase, our server sends your transaction identifier
         to Apple's App Store Server API, and Apple may notify our server of
-        refunds and revocations. Our logs record error types only and do not
-        contain your device key, IP address or transaction identifier. We do not use your images to train AI
+        refunds and revocations. Our own application logs record error types only and do not
+        contain your device key, IP address or transaction identifier. Cloudflare
+        may keep standard request metadata in its infrastructure logs under its
+        own privacy policy. We do not use your images to train AI
         models, do not link them to your name or email address, and do not use
         them for advertising. The App shows a notice before your first
         enhancement, and you can avoid the feature entirely.
@@ -186,7 +191,7 @@ const englishContent = `
         On-device data stays until you delete it or uninstall the App. Server
         data created by "Enhance image" is limited to the cached enhanced image
         (about 90 days) and the technical records described in section 4 (from a
-        few days up to about 180 days). You can ask us to delete server data
+        few days up to about 400 days). You can ask us to delete server data
         related to you by email; since it is keyed to hashes and random
         identifiers, please include the approximate date of use so we can try to
         locate it.
@@ -241,7 +246,7 @@ const englishContent = `
 `;
 
 const turkishContent = `
-      <p><strong>Son Güncelleme:</strong> 6 Kasım 2026<br />
+      <p><strong>Son Güncelleme:</strong> 12 Kasım 2026<br />
       <strong>Geliştirici ve veri sorumlusu:</strong> İbrahim Atmaca (bireysel geliştirici, Türkiye)<br />
       <strong>İletişim:</strong> <a href="mailto:ibrahim.atmaca61@hotmail.com">ibrahim.atmaca61@hotmail.com</a></p>
 
@@ -271,6 +276,7 @@ const turkishContent = `
         <li><strong>Giriş bilgileri:</strong> Apple ile giriş yaparsanız Apple'ın Uygulamayla paylaştığı ad ve e-posta, profilinizi göstermek için cihazınızda tutulur. Misafir olarak devam ederseniz hiçbir şey saklanmaz.</li>
         <li><strong>Planlayıcı verileri:</strong> kayıtlı kombinler, günlere planladığınız veya kaydettiğiniz kombinler, giyim istatistikleri ile seyahat ve bavul listeleri. Bugünün planı ve görselleri içeren küçük bir özet, cihazınızdaki bir App Group üzerinden Uygulamanın widget'ıyla paylaşılır.</li>
         <li><strong>Tercihler:</strong> görünüm modu, karşılama ilerlemesi, hava durumu ayarı ve benzeri ayarlar ile tam ekran reklamların ne sıklıkla gösterileceğini sınırlayan sayaçlar.</li>
+        <li><strong>Hatırlatmalar:</strong> sabah ve akşam hatırlatmalarını açar ve bildirim izni verirseniz Uygulama cihazınızda yerel bildirimler planlar. Sunucu kullanmaz ve bize veri göndermez. Bunları Uygulamadan veya iOS Ayarları'ndan kapatabilirsiniz.</li>
         <li><strong>Hava durumu önbelleği:</strong> son hava durumu sonucu ve yuvarlanmış konum (yaklaşık 1 km hassasiyet, şehir adıyla).</li>
         <li><strong>Yedekler:</strong> yedek dosyası dışa aktarırsanız cihazınızda oluşturulur ve yalnızca sizin kaydettiğiniz veya paylaştığınız yere gider.</li>
       </ul>
@@ -317,10 +323,14 @@ const turkishContent = `
         plan, günlük, en çok birkaç gün) ve Premium satın alımınızdan türetilen bir
         hesap tanımlayıcısına bağlı (aylık, yaklaşık 40 güne kadar) kullanım sayaçları;
         (c) satın alımınızın geçerli olup olmadığına dair kısa süreli (yaklaşık bir
-        saat) kayıt. Satın alımı doğrulamak için sunucumuz işlem kimliğinizi Apple'ın
+        saat) kayıt ve Apple bir satın alımın iade edildiğini veya iptal edildiğini
+        bildirirse, iadenin geçerli kalması için yaklaşık 400 güne kadar saklanan
+        o işlem kimliği. Satın alımı doğrulamak için sunucumuz işlem kimliğinizi Apple'ın
         App Store Server API'sine gönderir; Apple iade ve iptalleri sunucumuza
-        bildirebilir. Günlüklerimiz yalnızca hata türlerini kaydeder; cihaz
-        anahtarınızı, IP adresinizi veya işlem kimliğinizi içermez. Görsellerinizi yapay
+        bildirebilir. Kendi uygulama günlüklerimiz yalnızca hata türlerini kaydeder; cihaz
+        anahtarınızı, IP adresinizi veya işlem kimliğinizi içermez. Cloudflare,
+        kendi gizlilik politikası kapsamında altyapı günlüklerinde standart istek
+        meta verilerini tutabilir. Görsellerinizi yapay
         zeka modeli eğitmek için kullanmaz, adınız veya e-postanızla ilişkilendirmez
         ve reklam için kullanmayız. Uygulama ilk iyileştirmeden önce bir bilgilendirme
         gösterir ve bu özelliği hiç kullanmayabilirsiniz.
@@ -425,7 +435,7 @@ const turkishContent = `
         Cihazdaki veriler siz silene veya Uygulamayı kaldırana kadar kalır.
         "Görseli iyileştir" ile sunucuda oluşan veriler, önbelleğe alınmış iyileştirilmiş görsel
         (yaklaşık 90 gün) ve 4. bölümde anlatılan teknik kayıtlarla (birkaç günden
-        yaklaşık 180 güne kadar) sınırlıdır. Size ait sunucu
+        yaklaşık 400 güne kadar) sınırlıdır. Size ait sunucu
         verilerinin silinmesini e-posta ile isteyebilirsiniz; veriler özet ve
         rastgele kimliklerle anahtarlandığı için bulabilmemiz adına yaklaşık
         kullanım tarihini belirtin.
