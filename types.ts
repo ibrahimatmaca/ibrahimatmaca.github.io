@@ -20,4 +20,6 @@ export interface Project {
   playStoreUrl?: string;
   appStoreId?: string;
   appStoreCache?: AppStoreCache;
+  platform?: 'macOS';
+  downloadUrl?: string;
 }

@@ -12,6 +12,7 @@ import { lockScroll, scrollToId, scrollToTop } from '../lib/scroll';
 const SECTIONS = [
   { id: 'services', key: 'services' },
   { id: 'projects', key: 'work' },
+  { id: 'open-source', key: 'openSource' },
   { id: 'process', key: 'process' },
   { id: 'about', key: 'about' },
   { id: 'contact', key: 'contact' },
