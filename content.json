@@ -126,19 +126,6 @@
         "link": "https://apps.apple.com/app/id6832475049",
         "appStoreUrl": "https://apps.apple.com/app/id6832475049",
         "appStoreId": "6832475049"
-      },
-      {
-        "id": "3",
-        "title": "StorePilot",
-        "description": "A local macOS app that prepares your App Store listing: it writes the ASO, makes the store images with ShotForge and fills in App Store Connect. Submitting for review stays yours.",
-        "tech": [
-          "SwiftUI",
-          "macOS",
-          "App Store Connect API",
-          "AI Integration"
-        ],
-        "platform": "macOS",
-        "downloadUrl": "/downloads/StorePilot.dmg"
       }
     ],
     "kicker": "Selected work"
@@ -216,10 +203,7 @@
     "viewAppStore": "View in App Store",
     "inProgress": "In Progress",
     "openInStore": "Open {name} in the App Store",
-    "openProject": "Open {name}",
-    "onlyMac": "For macOS",
-    "downloadMac": "Download for macOS",
-    "downloadApp": "Download {name} for macOS"
+    "openProject": "Open {name}"
   },
   "footer": {
     "built": "Built with React & Tailwind.",
@@ -234,15 +218,37 @@
   },
   "openSource": {
     "kicker": "Open source",
-    "title": "ShotForge",
-    "description": "An App Store screenshot generator, as a CLI and an MCP server. Claude picks the colors, the 2D or 3D device template and the copy, and ShotForge renders a separate image for every page and language.",
-    "tech": [
-      "Python",
-      "CLI",
-      "MCP server",
-      "App Store"
-    ],
+    "title": "Tools I built",
+    "description": "Developer tools I use to ship my own apps.",
     "github": "View on GitHub",
-    "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
+    "download": "Download for macOS",
+    "downloadApp": "Download {name} for macOS",
+    "items": [
+      {
+        "id": "storepilot",
+        "title": "StorePilot",
+        "description": "A local macOS app that prepares your App Store listing: it writes the ASO, makes the store images with ShotForge and fills in App Store Connect. Submitting for review stays yours.",
+        "tech": [
+          "SwiftUI",
+          "macOS",
+          "App Store Connect API",
+          "AI Integration"
+        ],
+        "icon": "/storepilot-icon.png",
+        "downloadUrl": "/downloads/StorePilot.dmg"
+      },
+      {
+        "id": "shotforge",
+        "title": "ShotForge",
+        "description": "An App Store screenshot generator, as a CLI and an MCP server. Claude picks the colors, the 2D or 3D device template and the copy, and ShotForge renders a separate image for every page and language.",
+        "tech": [
+          "Python",
+          "CLI",
+          "MCP server",
+          "App Store"
+        ],
+        "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
+      }
+    ]
   }
 }

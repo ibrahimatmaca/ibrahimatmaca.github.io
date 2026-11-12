@@ -108,16 +108,6 @@
           "Renk Teorisi",
           "Yapay Zekâ Entegrasyonu"
         ]
-      },
-      {
-        "id": "3",
-        "description": "App Store sayfanızı hazırlayan yerel bir macOS uygulaması: ASO metinlerini yazar, ShotForge ile mağaza görsellerini üretir ve App Store Connect'i doldurur. İncelemeye gönderme sizde kalır.",
-        "tech": [
-          "SwiftUI",
-          "macOS",
-          "App Store Connect API",
-          "Yapay Zekâ Entegrasyonu"
-        ]
       }
     ]
   },
@@ -194,10 +184,7 @@
     "viewAppStore": "App Store'da Gör",
     "inProgress": "Devam Ediyor",
     "openInStore": "{name} uygulamasını App Store'da aç",
-    "openProject": "{name} projesini aç",
-    "onlyMac": "macOS için",
-    "downloadMac": "macOS için indir",
-    "downloadApp": "{name} uygulamasını macOS için indir"
+    "openProject": "{name} projesini aç"
   },
   "footer": {
     "built": "React & Tailwind ile geliştirildi.",
@@ -212,15 +199,37 @@
   },
   "openSource": {
     "kicker": "Açık kaynak",
-    "title": "ShotForge",
-    "description": "CLI ve MCP sunucusu olarak çalışan bir App Store ekran görüntüsü üreticisi. Renkleri, 2D veya 3D cihaz şablonunu ve metinleri Claude seçer; ShotForge her sayfa ve dil için ayrı bir görsel üretir.",
-    "tech": [
-      "Python",
-      "CLI",
-      "MCP sunucusu",
-      "App Store"
-    ],
+    "title": "Geliştirdiğim araçlar",
+    "description": "Kendi uygulamalarımı yayınlarken kullandığım geliştirici araçları.",
     "github": "GitHub'da görüntüle",
-    "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
+    "download": "macOS için indir",
+    "downloadApp": "{name} uygulamasını macOS için indir",
+    "items": [
+      {
+        "id": "storepilot",
+        "title": "StorePilot",
+        "description": "App Store sayfanızı hazırlayan yerel bir macOS uygulaması: ASO metinlerini yazar, ShotForge ile mağaza görsellerini üretir ve App Store Connect'i doldurur. İncelemeye gönderme sizde kalır.",
+        "tech": [
+          "SwiftUI",
+          "macOS",
+          "App Store Connect API",
+          "Yapay Zekâ Entegrasyonu"
+        ],
+        "icon": "/storepilot-icon.png",
+        "downloadUrl": "/downloads/StorePilot.dmg"
+      },
+      {
+        "id": "shotforge",
+        "title": "ShotForge",
+        "description": "CLI ve MCP sunucusu olarak çalışan bir App Store ekran görüntüsü üreticisi. Renkleri, 2D veya 3D cihaz şablonunu ve metinleri Claude seçer; ShotForge her sayfa ve dil için ayrı bir görsel üretir.",
+        "tech": [
+          "Python",
+          "CLI",
+          "MCP sunucusu",
+          "App Store"
+        ],
+        "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
+      }
+    ]
   }
 }
