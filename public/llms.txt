@@ -19,8 +19,11 @@
 ## Apps
 
 - [Elevana](https://apps.apple.com/app/id6745828686): A manifestation assistant for iPhone that helps you set clear intentions and stay aligned with your goals. Built with SwiftUI. Data stays on the device. See the [Elevana privacy policy](https://ibrahimatmaca.github.io/elevana-privacy).
-- Wada Closet: A digital wardrobe for iPhone that matches your clothes to Sanzo Wada's color combinations. See its [privacy policy](https://ibrahimatmaca.github.io/wada-closet-privacy) and [terms of use](https://ibrahimatmaca.github.io/wada-closet-terms).
-- KidTales AI: Bedtime Stories: A child-friendly AI story app, in progress. See its [privacy policy](https://ibrahimatmaca.github.io/kidtales-privacy) and [terms of use](https://ibrahimatmaca.github.io/kidtales-terms).
+- [Wada Closet](https://apps.apple.com/app/id6832475049): A digital wardrobe for iPhone that matches your clothes to Sanzo Wada's color combinations. See its [privacy policy](https://ibrahimatmaca.github.io/wada-closet-privacy) and [terms of use](https://ibrahimatmaca.github.io/wada-closet-terms).
+
+## Open source
+
+- [ShotForge](https://github.com/ibrahimatmaca/shotforge): App Store screenshot generator, as a CLI and an MCP server.
 
 ## Contact
 

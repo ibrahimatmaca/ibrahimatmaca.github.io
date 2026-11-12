@@ -1,7 +1,7 @@
 import { Project } from '../types';
 
 export function isPublishedProject(project: Project): boolean {
-  return Boolean(project.appStoreId || project.appStoreUrl);
+  return Boolean(project.appStoreId || project.appStoreUrl || project.downloadUrl);
 }
 
 export function isInProgressProject(project: Project): boolean {

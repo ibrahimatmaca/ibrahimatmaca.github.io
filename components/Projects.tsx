@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Download } from 'lucide-react';
 import { Project } from '../types';
 import ProjectPlaceholder from './ProjectPlaceholder';
 import InProgressBadge from './InProgressBadge';
@@ -82,7 +82,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
         {!isInProgress && (
           <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-ink-3">
             {appStoreInfo?.genre && <span>{appStoreInfo.genre}</span>}
-            <span>{t.ui.onlyIphone}</span>
+            <span>{project.platform === 'macOS' ? t.ui.onlyMac : t.ui.onlyIphone}</span>
             {appStoreInfo?.price && <span>{appStoreInfo.price}</span>}
             {appStoreInfo?.contentRating && <span>{appStoreInfo.contentRating}</span>}
             {appStoreInfo && appStoreInfo.rating > 0 && (
@@ -107,7 +107,19 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           </div>
         )}
 
-        {storeUrl && !isInProgress && (
+        {project.downloadUrl && (
+          <a
+            href={project.downloadUrl}
+            rel="noopener noreferrer"
+            className="press mt-auto flex min-h-11 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-fill px-3 py-2 text-sm font-semibold text-on-fill"
+            aria-label={fill(t.ui.downloadApp, { name: project.title })}
+          >
+            <Download size={16} className="flex-shrink-0" aria-hidden="true" />
+            <span>{t.ui.downloadMac}</span>
+          </a>
+        )}
+
+        {storeUrl && !isInProgress && !project.downloadUrl && (
           <div className="mt-auto flex min-h-11 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-xl bg-black px-3 py-2 text-sm font-semibold text-white">
             <AppStoreIcon className="h-4 w-4 flex-shrink-0" />
             <span>{t.ui.viewAppStore}</span>

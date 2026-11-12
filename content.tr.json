@@ -14,7 +14,8 @@
     "menuClose": "Menüyü kapat",
     "themeToLight": "Açık temaya geç",
     "themeToDark": "Koyu temaya geç",
-    "language": "Dil"
+    "language": "Dil",
+    "openSource": "Açık kaynak"
   },
   "hero": {
     "label": "Merhaba, ben",
@@ -100,12 +101,22 @@
       },
       {
         "id": "2",
-        "description": "COPPA uyumlu gizlilik, iki dilli hukuki sayfalar ve StoreKit abonelikleriyle çocuklara uygun, yapay zekâ destekli bir masal üretim uygulaması.",
+        "description": "Kıyafetlerinizi Sanzo Wada'nın renk kombinasyonlarıyla eşleştiren dijital gardırop. Kombin planlayıcı, hava durumu ve isteğe bağlı yapay zekâ görsel iyileştirme içerir.",
         "tech": [
           "SwiftUI",
           "StoreKit",
-          "Yapay Zekâ Entegrasyonu",
-          "COPPA Uyumluluğu"
+          "Renk Teorisi",
+          "Yapay Zekâ Entegrasyonu"
+        ]
+      },
+      {
+        "id": "3",
+        "description": "App Store sayfanızı hazırlayan yerel bir macOS uygulaması: ASO metinlerini yazar, ShotForge ile mağaza görsellerini üretir ve App Store Connect'i doldurur. İncelemeye gönderme sizde kalır.",
+        "tech": [
+          "SwiftUI",
+          "macOS",
+          "App Store Connect API",
+          "Yapay Zekâ Entegrasyonu"
         ]
       }
     ]
@@ -183,7 +194,10 @@
     "viewAppStore": "App Store'da Gör",
     "inProgress": "Devam Ediyor",
     "openInStore": "{name} uygulamasını App Store'da aç",
-    "openProject": "{name} projesini aç"
+    "openProject": "{name} projesini aç",
+    "onlyMac": "macOS için",
+    "downloadMac": "macOS için indir",
+    "downloadApp": "{name} uygulamasını macOS için indir"
   },
   "footer": {
     "built": "React & Tailwind ile geliştirildi.",
@@ -195,5 +209,18 @@
     "text": "Bu ekran uygulamaya eklenmemiş. Taşınmış olabilir ya da bağlantı hatalı olabilir.",
     "home": "Anasayfaya dön",
     "back": "Geri git"
+  },
+  "openSource": {
+    "kicker": "Açık kaynak",
+    "title": "ShotForge",
+    "description": "CLI ve MCP sunucusu olarak çalışan bir App Store ekran görüntüsü üreticisi. Renkleri, 2D veya 3D cihaz şablonunu ve metinleri Claude seçer; ShotForge her sayfa ve dil için ayrı bir görsel üretir.",
+    "tech": [
+      "Python",
+      "CLI",
+      "MCP sunucusu",
+      "App Store"
+    ],
+    "github": "GitHub'da görüntüle",
+    "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
   }
 }
