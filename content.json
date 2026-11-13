@@ -125,7 +125,17 @@
         ],
         "link": "https://apps.apple.com/app/id6832475049",
         "appStoreUrl": "https://apps.apple.com/app/id6832475049",
-        "appStoreId": "6832475049"
+        "appStoreId": "6832475049",
+        "appStoreCache": {
+          "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c6/7c/d6/c67cd6e3-b003-86bd-479a-869b6ec2fc4f/AppIcon-0-0-1x_U007epad-0-11-0-85-220.png/512x512bb.jpg",
+          "name": "Wada Closet",
+          "price": "Free",
+          "genre": "Lifestyle",
+          "rating": 0,
+          "ratingCount": 0,
+          "contentRating": "4+",
+          "fetchedAt": "2026-11-13T00:00:00.000Z"
+        }
       }
     ],
     "kicker": "Selected work"
