@@ -26,6 +26,21 @@ const EDGE = 12;
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const random = (min: number, max: number) => min + Math.random() * (max - min);
 
+/**
+ * Left edge the fox must stay right of, so it never stands on the eyebrow text above a heading.
+ * The eyebrow is marked data-fox-avoid; only the width its text really takes counts.
+ */
+function avoidLeft(perch: HTMLElement): number {
+  const eyebrow = perch.parentElement?.querySelector<HTMLElement>('[data-fox-avoid]');
+  if (!eyebrow) return EDGE;
+  const base = perch.getBoundingClientRect().left;
+  // A text range, not the box: the eyebrow is a full-width flex row.
+  const range = document.createRange();
+  range.selectNodeContents(eyebrow);
+  const right = range.getBoundingClientRect().right;
+  return Math.max(EDGE, right - base + EDGE);
+}
+
 /** Picks a random card or heading that is comfortably on screen. */
 function pickPerch(exclude: HTMLElement | null, foxWidth: number): HTMLElement | null {
   const viewport = window.innerHeight;
@@ -76,7 +91,7 @@ const FoxMascot: React.FC<{ active: boolean }> = ({ active }) => {
   const targetFor = useCallback(
     (perch: HTMLElement, offset: number) => {
       const rect = perch.getBoundingClientRect();
-      return { x: rect.left + window.scrollX + offset, y: rect.top + window.scrollY - foxHeight + 6 };
+      return { x: rect.left + window.scrollX + offset, y: rect.top + window.scrollY - foxHeight - 2 };
     },
     [foxHeight],
   );
@@ -88,7 +103,8 @@ const FoxMascot: React.FC<{ active: boolean }> = ({ active }) => {
     if (!perch) return;
 
     const rect = perch.getBoundingClientRect();
-    const offset = random(EDGE, Math.max(EDGE, rect.width - foxWidth - EDGE));
+    const minOffset = avoidLeft(perch);
+    const offset = random(minOffset, Math.max(minOffset, rect.width - foxWidth - EDGE));
     const target = targetFor(perch, offset);
     const scroll = window.scrollY;
 

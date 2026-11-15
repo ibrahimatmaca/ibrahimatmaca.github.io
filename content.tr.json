@@ -11,11 +11,15 @@
     "contact": "İletişim",
     "talk": "Konuşalım",
     "menuOpen": "Menüyü aç",
+    "menuTitle": "Site gezinmesi",
     "menuClose": "Menüyü kapat",
     "themeToLight": "Açık temaya geç",
     "themeToDark": "Koyu temaya geç",
     "language": "Dil",
-    "openSource": "Açık kaynak"
+    "openSource": "Açık kaynak",
+    "skip": "İçeriğe geç",
+    "home": "Ana sayfa",
+    "support": "Destek"
   },
   "hero": {
     "label": "Merhaba, ben",
@@ -50,7 +54,8 @@
     "phone": {
       "building": "Derleniyor...",
       "built": "Derleme başarılı"
-    }
+    },
+    "ctaSecondary": "Çalışmalara bak"
   },
   "services": {
     "kicker": "Hizmetler",
@@ -83,7 +88,8 @@
         "text": "Ham bir fikri yayındaki bir MVP'ye dönüştürüyorum: kapsam, geliştirme ve yayın."
       }
     ],
-    "codebase": "Tek kod tabanı"
+    "codebase": "Tek kod tabanı",
+    "steps": ["Kapsam", "Geliştirme", "Yayın"]
   },
   "projects": {
     "title": "Projeler",
@@ -109,7 +115,9 @@
           "Yapay Zekâ Entegrasyonu"
         ]
       }
-    ]
+    ],
+    "empty": "Projeler yolda.",
+    "indexLabel": "Proje dizini"
   },
   "process": {
     "kicker": "Süreç",
@@ -131,7 +139,9 @@
         "title": "Yayın",
         "text": "Mağaza yayını, izleme ve lansman sonrası destek."
       }
-    ]
+    ],
+    "stepLabel": "Adım {n}: {title}",
+    "railLabel": "Süreç adımları"
   },
   "about": {
     "title": "Hakkımda",
@@ -170,13 +180,15 @@
       "namePlaceholder": "Adınız",
       "emailPlaceholder": "siz@ornek.com (isteğe bağlı)",
       "messagePlaceholder": "Projenizden bahsedin...",
-      "error": "Lütfen adınızı ve mesajınızı girin."
+      "error": "Lütfen adınızı ve mesajınızı girin.",
+      "sending": "Gönderiliyor"
     },
     "kicker": "İletişim",
     "copyEmail": "E-postayı kopyala",
     "copied": "Kopyalandı",
     "availability": "Yeni projelere açığım",
     "locationLabel": "Konum",
+    "availabilityLabel": "Durum",
     "emailLabel": "E-posta"
   },
   "ui": {
@@ -184,11 +196,15 @@
     "viewAppStore": "App Store'da Gör",
     "inProgress": "Devam Ediyor",
     "openInStore": "{name} uygulamasını App Store'da aç",
-    "openProject": "{name} projesini aç"
+    "openProject": "{name} projesini aç",
+    "comingSoon": "Yakında"
   },
   "footer": {
     "built": "React & Tailwind ile geliştirildi.",
-    "top": "Yukarı çık"
+    "top": "Yukarı çık",
+    "privacy": "Gizlilik",
+    "support": "Destek",
+    "github": "GitHub"
   },
   "notFound": {
     "pageTitle": "Sayfa Bulunamadı | İbrahim Atmaca",
@@ -229,6 +245,39 @@
           "App Store"
         ],
         "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
+      }
+    ]
+  },
+  "intro": {
+    "label": "Bir uygulama beş adımda nasıl yapılır",
+    "skip": "Girişi geç",
+    "scroll": "Kaydır",
+    "replay": "Girişi tekrar oynat",
+    "steps": [
+      {
+        "eyebrow": "01 Fikir",
+        "text": "Birinin hep takıldığı bir sorun.",
+        "alt": "Küçük bir kıvılcım ve çevresinde gevşek bir karalama."
+      },
+      {
+        "eyebrow": "02 Biçim",
+        "text": "Eskizler, tartışmalar, daha dar bir kapsam.",
+        "alt": "Karalama, üstü çizilmiş notlarla bir telefon düzenine dönüşür."
+      },
+      {
+        "eyebrow": "03 Kod",
+        "text": "Sonra Swift, her seferinde tek ekran.",
+        "alt": "Düzen, Swift kod satırlarına dönüşür."
+      },
+      {
+        "eyebrow": "04 Uygulama",
+        "text": "Dokunulabilen bir şeye dönüşür.",
+        "alt": "Kod, bir telefonun içindeki uygulama simgesine katlanır."
+      },
+      {
+        "eyebrow": "05 Servis",
+        "text": "İhtiyacı olan kişiye getirilir.",
+        "alt": "Kubbenin altında telefon olan garson tepsisi; kubbe kalkar ve eller telefonu alır."
       }
     ]
   }

@@ -4,7 +4,7 @@ import { flushSync } from 'react-dom';
 export type Theme = 'light' | 'dark';
 
 const STORAGE_KEY = 'theme';
-const THEME_COLOR: Record<Theme, string> = { light: '#f8fafc', dark: '#020617' };
+const THEME_COLOR: Record<Theme, string> = { light: '#f6f3ec', dark: '#0b0d12' };
 
 function readStored(): Theme | null {
   try {

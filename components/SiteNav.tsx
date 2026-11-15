@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import LanguageToggle from './LanguageToggle';
@@ -18,26 +18,35 @@ const SECTIONS = [
   { id: 'contact', key: 'contact' },
 ] as const;
 
+// Contact is the call to action, so it is not repeated in the centre of the bar.
+const BAR_SECTIONS = SECTIONS.filter(({ id }) => id !== 'contact');
+
 type SiteNavProps =
   | { mode: 'home'; theme: Theme; onToggleTheme: () => void }
-  | { mode: 'page' };
+  | { mode: 'page'; theme?: Theme; onToggleTheme?: () => void };
 
 const EASE_DRAWER = [0.32, 0.72, 0, 1] as const;
+const FOCUSABLE = 'a[href], button:not([disabled])';
 
 /**
- * Floating glass navigation. On the home page it scrolls to sections and offers language and
- * theme switches. On the other pages it links back to the home page and stays English and dark.
+ * Fixed navigation. On the home page it scrolls to sections and offers language and theme
+ * switches. On the other pages it links to Home and Support, in English unless the page passes
+ * theme controls (the 404 page does).
  */
 const SiteNav: React.FC<SiteNavProps> = (props) => {
   const isHome = props.mode === 'home';
+  const hasControls = props.theme !== undefined && props.onToggleTheme !== undefined;
   const { t: current } = useLanguage();
-  const t = isHome ? current : contents.en;
+  const t = isHome || hasControls ? current : contents.en;
+  const { pathname } = useLocation();
+  const reduceMotion = useReducedMotion();
 
   const { scrollY, scrollYProgress } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   useMotionValueEvent(scrollY, 'change', (value) => setIsScrolled(value > 24));
 
@@ -63,13 +72,29 @@ const SiteNav: React.FC<SiteNavProps> = (props) => {
     return () => observer.disconnect();
   }, [isHome]);
 
+  // Menu: lock scroll, trap focus, close on Esc, give focus back to the button.
   useEffect(() => {
     if (!isMenuOpen) return;
     const menuButton = menuButtonRef.current;
+    const sheet = sheetRef.current;
+    sheet?.querySelector<HTMLElement>(FOCUSABLE)?.focus();
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsMenuOpen(false);
-        menuButton?.focus();
+        return;
+      }
+      if (e.key !== 'Tab' || !sheet) return;
+      const items = Array.from(sheet.querySelectorAll<HTMLElement>(FOCUSABLE));
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
     lockScroll(true);
@@ -77,6 +102,7 @@ const SiteNav: React.FC<SiteNavProps> = (props) => {
     return () => {
       lockScroll(false);
       window.removeEventListener('keydown', handleKeyDown);
+      menuButton?.focus({ preventScroll: true });
     };
   }, [isMenuOpen]);
 
@@ -90,11 +116,10 @@ const SiteNav: React.FC<SiteNavProps> = (props) => {
     scrollToId(id);
   };
 
-  const renderLink = (id: string, label: string, className: string, children?: React.ReactNode) =>
+  const sectionLink = (id: string, label: string, className: string, active = false) =>
     isHome ? (
-      <a key={id} href={`#${id}`} onClick={(e) => handleAnchor(e, id)} className={className}>
+      <a key={id} href={`#${id}`} onClick={(e) => handleAnchor(e, id)} className={className} aria-current={active ? 'location' : undefined}>
         {label}
-        {children}
       </a>
     ) : (
       <Link key={id} to={`/#${id}`} onClick={closeMenu} className={className}>
@@ -102,23 +127,39 @@ const SiteNav: React.FC<SiteNavProps> = (props) => {
       </Link>
     );
 
+  const pageLinks = [
+    { to: '/', label: t.nav.home },
+    { to: '/support', label: t.nav.support },
+  ];
+
+  const barLinkClass = (active: boolean) =>
+    `relative flex min-h-11 items-center px-3 text-base font-medium transition-colors duration-150 ${
+      active ? 'text-ink' : 'text-ink-2 hover:text-ink'
+    }`;
+
+  const underline = <span aria-hidden="true" className="absolute inset-x-3 bottom-1.5 h-0.5 bg-tint" />;
+
+  const wordmarkClass = 'flex min-h-11 items-center text-base font-semibold tracking-tight text-ink';
+
   return (
     <>
-      <motion.div
-        aria-hidden="true"
-        className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-brand-400 via-indigo-400 to-violet-400"
-        style={{ scaleX: scrollYProgress }}
-      />
+      <a href="#main" className="skip-link" onClick={(e) => {
+        e.preventDefault();
+        const main = document.getElementById('main');
+        main?.focus({ preventScroll: true });
+        main?.scrollIntoView();
+      }}>
+        {t.nav.skip}
+      </a>
 
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-40 flex justify-center px-3 pt-[calc(0.75rem+env(safe-area-inset-top))]">
-        <nav
-          aria-label="Main"
-          className={`pointer-events-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 rounded-full border pl-5 pr-2 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
-            isScrolled
-              ? 'border-line bg-canvas/75 shadow-lg shadow-black/10'
-              : 'border-line/50 bg-canvas/40'
-          }`}
-        >
+      <header
+        className={`nav-blur fixed inset-x-0 top-0 z-40 border-b pt-[env(safe-area-inset-top)] transition-[background-color,border-color,backdrop-filter] duration-200 ${
+          isScrolled
+            ? 'border-line bg-canvas/85 backdrop-blur-[16px]'
+            : 'border-transparent bg-transparent'
+        }`}
+      >
+        <nav aria-label="Main" className="mx-auto flex h-16 w-full max-w-[80rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
           {isHome ? (
             <a
               href="#"
@@ -127,98 +168,124 @@ const SiteNav: React.FC<SiteNavProps> = (props) => {
                 closeMenu();
                 scrollToTop();
               }}
-              className="flex min-h-11 items-center font-mono text-base font-bold tracking-tighter text-ink sm:text-lg"
+              className={wordmarkClass}
             >
-              IBRAHIM<span className="text-tint">DEV</span>
+              Ibrahim Atmaca
             </a>
           ) : (
-            <Link to="/" onClick={closeMenu} className="flex min-h-11 items-center font-mono text-base font-bold tracking-tighter text-ink sm:text-lg">
-              IBRAHIM<span className="text-tint">DEV</span>
+            <Link to="/" onClick={closeMenu} className={wordmarkClass}>
+              Ibrahim Atmaca
             </Link>
           )}
 
-          <div className="hidden items-center gap-1 text-sm font-medium lg:flex">
-            {SECTIONS.map(({ id, key }) =>
-              renderLink(
-                id,
-                t.nav[key],
-                `relative flex min-h-11 items-center px-3 transition-colors ${
-                  activeSection === id ? 'text-ink' : 'text-ink-2 hover:text-ink'
-                }`,
-                activeSection === id && (
-                  <motion.span
-                    layoutId="nav-active"
-                    transition={{ type: 'spring', duration: 0.4, bounce: 0.15 }}
-                    className="absolute inset-x-1 inset-y-1.5 -z-10 rounded-full bg-raised"
-                  />
-                ),
-              ),
-            )}
+          <div className="hidden items-center lg:flex">
+            {isHome
+              ? BAR_SECTIONS.map(({ id, key }) =>
+                  sectionLink(id, t.nav[key], barLinkClass(activeSection === id), activeSection === id),
+                )
+              : pageLinks.map(({ to, label }) => {
+                  const active = pathname === to;
+                  return (
+                    <Link key={to} to={to} aria-current={active ? 'page' : undefined} className={barLinkClass(active)}>
+                      {label}
+                      {active && underline}
+                    </Link>
+                  );
+                })}
           </div>
 
-          <div className="flex items-center gap-1">
-            {props.mode === 'home' && (
-              <>
+          <div className="flex items-center gap-2">
+            {(isHome || hasControls) && (
+              <div className="hidden items-center gap-1 sm:flex">
                 <LanguageToggle />
-                <ThemeToggle theme={props.theme} onToggle={props.onToggleTheme} />
-              </>
+                <ThemeToggle theme={props.theme as Theme} onToggle={props.onToggleTheme as () => void} />
+              </div>
             )}
-            {renderLink(
-              'contact',
-              t.nav.talk,
-              'press hidden min-h-11 items-center rounded-full bg-fill px-5 text-sm font-semibold text-on-fill sm:flex',
-            )}
+            {isHome &&
+              sectionLink('contact', t.nav.talk, 'btn btn-primary press hidden lg:inline-flex')}
             <button
               ref={menuButtonRef}
               type="button"
               onClick={() => setIsMenuOpen((open) => !open)}
-              className="press flex h-11 w-11 items-center justify-center rounded-full text-ink-2 hover:text-ink lg:hidden"
+              className="press flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-raised lg:hidden"
               aria-label={isMenuOpen ? t.nav.menuClose : t.nav.menuOpen}
               aria-expanded={isMenuOpen}
               aria-controls="site-menu"
             >
-              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {isMenuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
             </button>
           </div>
         </nav>
+
+        {!reduceMotion && (
+          <motion.div
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-[-1px] h-0.5 origin-left bg-tint"
+            style={{ scaleX: scrollYProgress }}
+          />
+        )}
       </header>
 
-      {/* Lives outside the header: its backdrop blur would trap these fixed elements. */}
+      {/* Lives outside the header: its backdrop blur would trap this fixed element. */}
       <AnimatePresence>
         {isMenuOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-30 bg-black/50 lg:hidden"
-              onClick={closeMenu}
-            />
-            <motion.div
-              id="site-menu"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%', transition: { duration: 0.2, ease: EASE_DRAWER } }}
-              transition={{ duration: 0.32, ease: EASE_DRAWER }}
-              className="fixed bottom-0 right-0 top-0 z-[35] w-72 max-w-[85vw] border-l border-line bg-canvas pb-[env(safe-area-inset-bottom)] pt-[calc(5.5rem+env(safe-area-inset-top))] lg:hidden"
-            >
-              <div className="flex flex-col gap-1 p-6">
-                {SECTIONS.map(({ id, key }) =>
-                  renderLink(
-                    id,
-                    t.nav[key],
-                    'press flex min-h-11 items-center rounded-xl px-4 py-3 text-lg font-medium text-ink-2 hover:bg-raised hover:text-ink',
-                  ),
-                )}
-                {renderLink(
-                  'contact',
-                  t.nav.talk,
-                  'press mt-4 flex min-h-11 items-center justify-center rounded-full bg-fill px-5 py-3 text-base font-semibold text-on-fill',
-                )}
+          <motion.div
+            id="site-menu"
+            ref={sheetRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={t.nav.menuTitle}
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, transition: { duration: 0.16 } }}
+            transition={{ duration: 0.24, ease: EASE_DRAWER }}
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-canvas px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-[env(safe-area-inset-top)] sm:px-6 lg:hidden"
+          >
+            <div className="flex h-16 shrink-0 items-center justify-between">
+              <span className={wordmarkClass}>Ibrahim Atmaca</span>
+              <button
+                type="button"
+                onClick={closeMenu}
+                className="press flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-raised"
+                aria-label={t.nav.menuClose}
+              >
+                <X size={22} aria-hidden="true" />
+              </button>
+            </div>
+
+            <ul className="mt-6 flex flex-1 flex-col">
+              {isHome
+                ? SECTIONS.map(({ id, key }) => (
+                    <li key={id} className="border-t border-line first:border-t-0">
+                      {sectionLink(
+                        id,
+                        t.nav[key],
+                        'press flex min-h-14 items-center font-display text-[1.75rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink',
+                        activeSection === id,
+                      )}
+                    </li>
+                  ))
+                : pageLinks.map(({ to, label }) => (
+                    <li key={to} className="border-t border-line first:border-t-0">
+                      <Link
+                        to={to}
+                        onClick={closeMenu}
+                        aria-current={pathname === to ? 'page' : undefined}
+                        className="press flex min-h-14 items-center font-display text-[1.75rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+            </ul>
+
+            {(isHome || hasControls) && (
+              <div className="mt-8 flex items-center justify-between border-t border-line pt-6">
+                <LanguageToggle />
+                <ThemeToggle theme={props.theme as Theme} onToggle={props.onToggleTheme as () => void} />
               </div>
-            </motion.div>
-          </>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
     </>

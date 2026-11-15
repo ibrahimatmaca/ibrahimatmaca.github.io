@@ -11,11 +11,15 @@
     "contact": "Contact",
     "talk": "Let's talk",
     "menuOpen": "Open menu",
+    "menuTitle": "Site navigation",
     "menuClose": "Close menu",
     "themeToLight": "Switch to light theme",
     "themeToDark": "Switch to dark theme",
     "language": "Language",
-    "openSource": "Open source"
+    "openSource": "Open source",
+    "skip": "Skip to content",
+    "home": "Home",
+    "support": "Support"
   },
   "hero": {
     "label": "Hello, I am",
@@ -50,7 +54,8 @@
     "phone": {
       "building": "Running build...",
       "built": "Build succeeded"
-    }
+    },
+    "ctaSecondary": "See the work"
   },
   "services": {
     "kicker": "Services",
@@ -83,7 +88,8 @@
         "text": "I take a rough idea to a shipped MVP: scope, build and release."
       }
     ],
-    "codebase": "1 codebase"
+    "codebase": "1 codebase",
+    "steps": ["Scope", "Build", "Release"]
   },
   "projects": {
     "title": "Projects",
@@ -138,7 +144,9 @@
         }
       }
     ],
-    "kicker": "Selected work"
+    "kicker": "Selected work",
+    "empty": "Projects are on the way.",
+    "indexLabel": "Project index"
   },
   "process": {
     "kicker": "Process",
@@ -160,7 +168,9 @@
         "title": "Ship",
         "text": "Store release, monitoring and support after launch."
       }
-    ]
+    ],
+    "stepLabel": "Step {n}: {title}",
+    "railLabel": "Process steps"
   },
   "about": {
     "title": "About Me",
@@ -199,13 +209,15 @@
       "namePlaceholder": "Your name",
       "emailPlaceholder": "you@example.com (optional)",
       "messagePlaceholder": "Tell me about your project...",
-      "error": "Please enter your name and message."
+      "error": "Please enter your name and message.",
+      "sending": "Sending"
     },
     "kicker": "Contact",
     "copyEmail": "Copy email",
     "copied": "Copied",
     "availability": "Open to new projects",
     "locationLabel": "Location",
+    "availabilityLabel": "Availability",
     "emailLabel": "Email"
   },
   "ui": {
@@ -213,11 +225,15 @@
     "viewAppStore": "View in App Store",
     "inProgress": "In Progress",
     "openInStore": "Open {name} in the App Store",
-    "openProject": "Open {name}"
+    "openProject": "Open {name}",
+    "comingSoon": "Coming soon"
   },
   "footer": {
     "built": "Built with React & Tailwind.",
-    "top": "Back to top"
+    "top": "Back to top",
+    "privacy": "Privacy",
+    "support": "Support",
+    "github": "GitHub"
   },
   "notFound": {
     "pageTitle": "Page Not Found | İbrahim Atmaca",
@@ -258,6 +274,39 @@
           "App Store"
         ],
         "githubUrl": "https://github.com/ibrahimatmaca/shotforge"
+      }
+    ]
+  },
+  "intro": {
+    "label": "How an app gets made, in five steps",
+    "skip": "Skip intro",
+    "scroll": "Scroll",
+    "replay": "Replay intro",
+    "steps": [
+      {
+        "eyebrow": "01 Idea",
+        "text": "A problem someone keeps running into.",
+        "alt": "A small spark and a loose scribble around it."
+      },
+      {
+        "eyebrow": "02 Shape",
+        "text": "Sketches, arguments, a smaller scope.",
+        "alt": "The scribble redrawn as a phone layout with notes crossed out."
+      },
+      {
+        "eyebrow": "03 Code",
+        "text": "Then Swift, one screen at a time.",
+        "alt": "The layout turns into lines of Swift code."
+      },
+      {
+        "eyebrow": "04 App",
+        "text": "It becomes something you can tap.",
+        "alt": "The code folds into an app icon on a phone."
+      },
+      {
+        "eyebrow": "05 Served",
+        "text": "Brought to the person who needed it.",
+        "alt": "A waiter-style tray with the phone under a dome; the dome lifts and hands take the phone."
       }
     ]
   }

@@ -38,3 +38,12 @@ export function lockScroll(lock: boolean): void {
   }
   document.body.style.overflow = lock ? 'hidden' : '';
 }
+
+/** Scrolls to a page position, with the same smooth scroll the rest of the page uses. */
+export function scrollToPosition(top: number): void {
+  if (lenis) {
+    lenis.scrollTo(top, { duration: 0.9, force: true, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) });
+  } else {
+    window.scrollTo({ top, behavior: reducedMotion() ? 'auto' : 'smooth' });
+  }
+}
