@@ -60,7 +60,7 @@ const HeroScene: React.FC<Pick<SceneProps, 'progress' | 'theme' | 'spec'>> = ({ 
   const viewH = 2 * CAM_Z * Math.tan((fov * Math.PI) / 360);
   const viewW = viewH * (size.width / size.height);
   const phoneScale = Math.min((viewH * 0.64) / PHONE_H, (viewW * 0.5) / 1.0);
-  const orbitX = Math.min(Math.max(viewW / 2 - 0.65, phoneScale * 0.75), 2.2);
+  const orbitX = Math.min(Math.max(viewW / 2 - 1.05, phoneScale * 0.7), 2.2);
   const orbitZ = 1.0;
 
   const phone = useRef<THREE.Group>(null);
@@ -129,7 +129,7 @@ const HeroScene: React.FC<Pick<SceneProps, 'progress' | 'theme' | 'spec'>> = ({ 
   return (
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -PHONE_H * phoneScale * 0.5 - 0.15, 0]}>
-        <circleGeometry args={[1.5, 32]} />
+        <circleGeometry args={[Math.min(phoneScale * 1.25, (viewW * 0.4) / 1), 48]} />
         <meshBasicMaterial map={shadow} transparent opacity={dark ? 0.5 : 0.18} depthWrite={false} toneMapped={false} />
       </mesh>
 
