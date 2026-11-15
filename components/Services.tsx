@@ -1,172 +1,268 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Check, CreditCard, Lightbulb, Rocket, Shield, Store } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from 'framer-motion';
 import SectionHeading from './SectionHeading';
-import SpotlightCard from './SpotlightCard';
-import CodeBlock from './CodeBlock';
 import Reveal from './Reveal';
+import ServiceArt from './services/ServiceArt';
+import { DESKTOP, useMediaQuery } from '../hooks/useMediaQuery';
 import { useLanguage } from '../hooks/useLanguage';
+import { scrollToPosition } from '../lib/scroll';
 
-const IOS_CODE = [
-  [['text-purple-400', 'struct '], ['text-sky-300', 'Greeting'], ['text-slate-300', ': '], ['text-sky-300', 'View'], ['text-slate-300', ' {']],
-  [['text-purple-400', '  var '], ['text-slate-300', 'body: '], ['text-purple-400', 'some '], ['text-sky-300', 'View'], ['text-slate-300', ' {']],
-  [['text-sky-300', '    Text'], ['text-slate-300', '('], ['text-emerald-300', '"Hello"'], ['text-slate-300', ')']],
-  [['text-slate-300', '      .'], ['text-sky-300', 'font'], ['text-slate-300', '(.largeTitle)']],
-  [['text-slate-300', '  }']],
-  [['text-slate-300', '}']],
-] satisfies [string, string][][];
-
-const ANDROID_CODE = [
-  [['text-purple-400', '@Composable']],
-  [['text-purple-400', 'fun '], ['text-sky-300', 'Greeting'], ['text-slate-300', '() {']],
-  [['text-sky-300', '  Text'], ['text-slate-300', '('], ['text-emerald-300', '"Hello"'], ['text-slate-300', ')']],
-  [['text-slate-300', '}']],
-] satisfies [string, string][][];
-
-// Runs a loop only while the card is on screen.
-const useLoopWhenVisible = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { margin: '-40px' });
-  return { ref, inView };
+// Technology names are not translated.
+const TAGS: Record<string, string[]> = {
+  ios: ['Swift', 'SwiftUI'],
+  android: ['Kotlin', 'Compose'],
+  flutter: ['Flutter'],
+  fintech: ['Payments', 'POS'],
+  mvp: ['App Store'],
 };
 
-const FlutterVisual: React.FC = () => {
-  const { t } = useLanguage();
-  const { ref, inView } = useLoopWhenVisible();
+const TILT_SPRING = { stiffness: 120, damping: 20, mass: 0.4 };
+const numeral = (index: number) => String(index + 1).padStart(2, '0');
+
+interface ItemData {
+  id: string;
+  title: string;
+  text: string;
+}
+
+const TagList: React.FC<{ tags: string[]; className?: string }> = ({ tags, className = '' }) => (
+  <ul className={`flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.8125rem] leading-[1.4] text-ink-3 ${className}`}>
+    {tags.map((tag) => (
+      <li key={tag}>{tag}</li>
+    ))}
+  </ul>
+);
+
+/** The drawing surface: hairline frame, dot grid, one illustration at a time. */
+const Stage: React.FC<{ activeId: string; index: number; total: number; codebase: string; steps: string[]; tilt?: boolean }> = ({
+  activeId,
+  index,
+  total,
+  codebase,
+  steps,
+  tilt = false,
+}) => {
+  const reduce = useReducedMotion();
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, TILT_SPRING);
+  const sy = useSpring(my, TILT_SPRING);
+  const rotateY = useTransform(sx, (v) => v * 6);
+  const rotateX = useTransform(sy, (v) => v * -5);
+  const gridX = useTransform(sx, (v) => v * -14);
+  const gridY = useTransform(sy, (v) => v * -14);
+  const artX = useTransform(sx, (v) => v * 9);
+  const artY = useTransform(sy, (v) => v * 9);
+  const live = tilt && !reduce;
+
+  const onMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!live || event.pointerType !== 'mouse') return;
+    const box = event.currentTarget.getBoundingClientRect();
+    mx.set((event.clientX - box.left) / box.width - 0.5);
+    my.set((event.clientY - box.top) / box.height - 0.5);
+  };
+  const onLeave = () => {
+    mx.set(0);
+    my.set(0);
+  };
 
   return (
-    <div ref={ref} aria-hidden="true" className="relative mx-auto h-32 w-40">
+    <div onPointerMove={onMove} onPointerLeave={onLeave} className="relative aspect-[4/3] w-full [perspective:1100px]">
       <motion.div
-        animate={inView ? { y: [0, -6, 0] } : { y: 0 }}
-        transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut' }}
-        className="absolute left-2 top-3 h-28 w-16 rounded-[1.1rem] border border-line bg-raised"
-      />
-      <motion.div
-        animate={inView ? { y: [0, 6, 0] } : { y: 0 }}
-        transition={{ repeat: Infinity, duration: 3.2, ease: 'easeInOut', delay: 0.4 }}
-        className="absolute right-2 top-0 h-28 w-16 rounded-lg border border-tint/40 bg-tint/10"
-      />
-      <div className="absolute inset-x-0 bottom-0 flex justify-center">
-        <span className="rounded-full bg-fill px-3 py-1 font-mono text-[11px] font-semibold text-on-fill">{t.services.codebase}</span>
+        aria-hidden="true"
+        style={live ? { rotateX, rotateY, transformStyle: 'preserve-3d' } : undefined}
+        className="absolute inset-0 overflow-hidden rounded-3xl border border-line bg-canvas"
+      >
+        <motion.div
+          style={live ? { x: gridX, y: gridY } : undefined}
+          className="absolute -inset-6 opacity-70 [background-image:radial-gradient(rgb(var(--line))_1px,transparent_1.2px)] [background-size:22px_22px]"
+        />
+        <motion.div style={live ? { x: artX, y: artY } : undefined} className="absolute inset-[6%]">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={activeId}
+              className="absolute inset-0"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: reduce ? 0.12 : 0.2, ease: [0.77, 0, 0.175, 1] } }}
+            >
+              <ServiceArt id={activeId} codebase={codebase} steps={steps} />
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+        <span className="absolute bottom-3 left-4 font-mono text-[0.8125rem] leading-[1.2] tracking-[0.08em] text-ink-3">
+          <span className="text-tint">{numeral(index)}</span> / {numeral(total - 1)}
+        </span>
+      </motion.div>
+    </div>
+  );
+};
+
+/** Desktop: a list that scrolls past a sticky stage. The row in the middle of the screen is the active one. */
+const DesktopStage: React.FC<{ items: ItemData[]; codebase: string; steps: string[] }> = ({ items, codebase, steps }) => {
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
+  const lastScroll = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      lastScroll.current = performance.now();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div className="grid grid-cols-12 gap-x-8">
+      <ol className="col-span-6 border-b border-line">
+        {items.map((item, index) => (
+          <DesktopRow
+            key={item.id}
+            item={item}
+            index={index}
+            active={active === index}
+            reduce={!!reduce}
+            tags={[...(TAGS[item.id] ?? []), ...(item.id === 'flutter' ? [codebase] : [])]}
+            onActive={() => setActive(index)}
+            onHover={() => {
+              // A pointer that is only resting while the page scrolls under it must not take over.
+              if (performance.now() - lastScroll.current > 250) setActive(index);
+            }}
+          />
+        ))}
+      </ol>
+      <div className="col-span-6 col-start-7 hidden lg:block">
+        <div className="sticky top-[max(6rem,calc(50svh-15rem))]">
+          <Stage activeId={items[active].id} index={active} total={items.length} codebase={codebase} steps={steps} tilt />
+        </div>
       </div>
     </div>
   );
 };
 
-// A dot travels along a row of steps while the card is on screen.
-const FlowVisual: React.FC<{ icons: React.ElementType[] }> = ({ icons }) => {
-  const { ref, inView } = useLoopWhenVisible();
+const DesktopRow: React.FC<{
+  item: ItemData;
+  index: number;
+  active: boolean;
+  reduce: boolean;
+  tags: string[];
+  onActive: () => void;
+  onHover: () => void;
+}> = ({ item, index, active, reduce, tags, onActive, onHover }) => {
+  const ref = useRef<HTMLLIElement>(null);
+  const inView = useInView(ref, { margin: '-48% 0px -48% 0px' });
+
+  useEffect(() => {
+    if (inView) onActive();
+    // onActive only closes over a stable setter.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
+
+  const jump = () => {
+    onActive();
+    const el = ref.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.46;
+    scrollToPosition(Math.max(0, top));
+  };
+
+  const move = reduce ? '' : 'translate-y-2';
 
   return (
-    <div ref={ref} aria-hidden="true" className="relative mx-auto flex w-full max-w-[16rem] items-center justify-between py-6">
-      <div className="absolute inset-x-5 top-1/2 h-px bg-line" />
-      <motion.span
-        animate={inView ? { left: ['1.25rem', 'calc(100% - 1.25rem)'] } : { left: '1.25rem' }}
-        transition={{ repeat: Infinity, duration: 2.6, ease: 'easeInOut', repeatType: 'reverse' }}
-        className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-tint shadow-[0_0_12px_rgb(var(--tint))]"
-      />
-      {icons.map((Icon, i) => (
-        <span
-          key={i}
-          className="relative flex h-10 w-10 items-center justify-center rounded-full border border-line bg-canvas text-tint"
+    <li ref={ref} onPointerEnter={onHover} className="min-h-[36svh] border-t border-line py-8 first:border-t-0">
+      <h3 className="font-display text-[clamp(1.75rem,1rem+1.6vw,2.5rem)] font-medium leading-[1.1] tracking-[-0.015em]">
+        <button
+          type="button"
+          onClick={jump}
+          onFocus={onActive}
+          aria-current={active ? 'true' : undefined}
+          className={`group -mx-2 flex min-h-11 w-[calc(100%+1rem)] items-baseline gap-5 rounded-lg px-2 text-left transition-colors duration-200 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-tint ${active ? 'text-ink' : 'text-ink-3 hover:text-ink-2'}`}
         >
-          <Icon size={18} />
-        </span>
-      ))}
-    </div>
+          <span
+            aria-hidden="true"
+            className={`font-mono text-[0.8125rem] font-medium leading-[1.2] tracking-[0.08em] transition-colors duration-200 ${active ? 'text-tint' : 'text-ink-3'}`}
+          >
+            {numeral(index)}
+          </span>
+          <span>{item.title}</span>
+        </button>
+      </h3>
+      <div
+        className={`pl-[calc(1.25rem+1.4rem)] transition duration-300 ease-out ${active ? 'opacity-100' : `opacity-0 ${move}`}`}
+      >
+        <p className="mt-3 max-w-[30rem] text-[1.0625rem] leading-[1.6] text-ink-2">{item.text}</p>
+        <TagList tags={tags} className="mt-4" />
+        <span
+          aria-hidden="true"
+          className={`mt-6 block h-0.5 w-12 origin-left bg-tint transition-transform duration-500 ease-out ${active ? 'scale-x-100' : 'scale-x-0'}`}
+        />
+      </div>
+    </li>
   );
 };
 
-const AndroidVisual: React.FC = () => (
-  <div aria-hidden="true" className="mx-auto w-full max-w-[12rem] space-y-2">
-    {[0, 1, 2].map((row) => (
-      <motion.div
-        key={row}
-        initial={{ opacity: 0, x: 16 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.2 + row * 0.12, ease: [0.23, 1, 0.32, 1] }}
-        className="flex items-center gap-3 rounded-xl border border-line bg-raised/70 p-2.5"
-      >
-        <span className="h-7 w-7 rounded-full bg-tint/25" />
-        <span className="flex-1 space-y-1.5">
-          <span className="block h-1.5 w-4/5 rounded bg-ink-3/50" />
-          <span className="block h-1.5 w-1/2 rounded bg-line" />
-        </span>
-      </motion.div>
-    ))}
-  </div>
+/** Below 1024px: every service is a row with its drawing inline and no sticky stage. */
+const StackedList: React.FC<{ items: ItemData[]; codebase: string; steps: string[] }> = ({ items, codebase, steps }) => (
+  <ol>
+    {items.map((item, index) => {
+      const tags = [...(TAGS[item.id] ?? []), ...(item.id === 'flutter' ? [codebase] : [])];
+      return (
+        <StackedRow key={item.id} index={index} item={item} tags={tags} total={items.length} codebase={codebase} steps={steps} />
+      );
+    })}
+  </ol>
 );
+
+const StackedRow: React.FC<{ item: ItemData; index: number; total: number; tags: string[]; codebase: string; steps: string[] }> = ({
+  item,
+  index,
+  total,
+  tags,
+  codebase,
+  steps,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  // Draw each illustration when it scrolls into view, and again only on a fresh mount.
+  const seen = useInView(ref, { once: true, margin: '0px 0px -15% 0px' });
+
+  return (
+    <Reveal as="li" className="border-t border-line py-8 first:border-t-0 last:border-b md:py-10">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2 md:items-center">
+        <div>
+          <h3 className="flex items-baseline gap-4 font-display text-[1.75rem] font-medium leading-[1.15] tracking-[-0.01em] text-ink">
+            <span aria-hidden="true" className="font-mono text-[0.8125rem] font-medium leading-[1.2] tracking-[0.08em] text-tint">
+              {numeral(index)}
+            </span>
+            <span>{item.title}</span>
+          </h3>
+          <p className="mt-3 max-w-[30rem] text-[1.0625rem] leading-[1.6] text-ink-2">{item.text}</p>
+          <TagList tags={tags} className="mt-4" />
+        </div>
+        <div ref={ref} className="w-full max-w-[30rem] md:justify-self-end">
+          {seen ? (
+            <Stage activeId={item.id} index={index} total={total} codebase={codebase} steps={steps} />
+          ) : (
+            <div aria-hidden="true" className="aspect-[4/3] w-full" />
+          )}
+        </div>
+      </div>
+    </Reveal>
+  );
+};
 
 const Services: React.FC = () => {
   const { t } = useLanguage();
-  const items = Object.fromEntries(t.services.items.map((item) => [item.id, item]));
-
-  const cardBody = (id: string) => (
-    <>
-      <h3 className="mb-2 text-xl font-bold text-ink">{items[id].title}</h3>
-      <p className="text-ink-2">{items[id].text}</p>
-    </>
-  );
+  const desktop = useMediaQuery(DESKTOP);
+  const items = t.services.items as ItemData[];
 
   return (
-    <section id="services" className="relative scroll-mt-24 py-16 md:py-24">
-      <div className="container mx-auto px-4">
-        <SectionHeading kicker={t.services.kicker} title={t.services.title} description={t.services.description} />
-
-        <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-6">
-          <Reveal className="lg:col-span-3">
-            <SpotlightCard className="h-full">
-              <div className="flex h-full flex-col gap-6 p-6 sm:p-8">
-                <div className="rounded-2xl border border-white/5 bg-slate-950 p-4">
-                  <CodeBlock lines={IOS_CODE} delay={0.2} />
-                </div>
-                <div>{cardBody('ios')}</div>
-              </div>
-            </SpotlightCard>
-          </Reveal>
-
-          <Reveal delay={0.08} className="lg:col-span-3">
-            <SpotlightCard className="h-full">
-              <div className="flex h-full flex-col gap-6 p-6 sm:p-8">
-                <div className="grid grid-cols-1 items-center gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-white/5 bg-slate-950 p-4">
-                    <CodeBlock lines={ANDROID_CODE} delay={0.2} />
-                  </div>
-                  <AndroidVisual />
-                </div>
-                <div>{cardBody('android')}</div>
-              </div>
-            </SpotlightCard>
-          </Reveal>
-
-          <Reveal delay={0.04} className="lg:col-span-2">
-            <SpotlightCard className="h-full">
-              <div className="flex h-full flex-col gap-6 p-6 sm:p-8">
-                <FlutterVisual />
-                <div>{cardBody('flutter')}</div>
-              </div>
-            </SpotlightCard>
-          </Reveal>
-
-          <Reveal delay={0.1} className="lg:col-span-2">
-            <SpotlightCard className="h-full">
-              <div className="flex h-full flex-col gap-6 p-6 sm:p-8">
-                <FlowVisual icons={[CreditCard, Shield, Check]} />
-                <div>{cardBody('fintech')}</div>
-              </div>
-            </SpotlightCard>
-          </Reveal>
-
-          <Reveal delay={0.16} className="lg:col-span-2">
-            <SpotlightCard className="h-full">
-              <div className="flex h-full flex-col gap-6 p-6 sm:p-8">
-                <FlowVisual icons={[Lightbulb, Rocket, Store]} />
-                <div>{cardBody('mvp')}</div>
-              </div>
-            </SpotlightCard>
-          </Reveal>
-        </div>
+    <section id="services" aria-labelledby="services-title" className="relative scroll-mt-24 py-[clamp(6rem,12vw,10rem)]">
+      <div className="mx-auto w-full max-w-[80rem] px-4 sm:px-6 lg:px-10">
+        <SectionHeading index="01" kicker={t.services.kicker} title={t.services.title} titleId="services-title" description={t.services.description} />
+        {desktop ? (
+          <DesktopStage items={items} codebase={t.services.codebase} steps={t.services.steps} />
+        ) : (
+          <StackedList items={items} codebase={t.services.codebase} steps={t.services.steps} />
+        )}
       </div>
     </section>
   );
