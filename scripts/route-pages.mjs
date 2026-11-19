@@ -139,7 +139,7 @@ const pages = [
   {
     file: 'elevana-privacy.html',
     title: 'Elevana Privacy Policy | İbrahim Atmaca',
-    description: 'Privacy policy for the Elevana app: what is stored on your device and how it is used.',
+    description: 'Privacy policy for the Elevana app: what is stored on your device, Google AdMob ads and consent, and how data is used.',
     url: `${SITE}/elevana-privacy`,
     appId: elevana?.appStoreId,
   },
@@ -147,7 +147,7 @@ const pages = [
     // The Elevana paywall links to this older address. It points search engines at the real page.
     file: 'elevana_privacy_policy.html',
     title: 'Elevana Privacy Policy | İbrahim Atmaca',
-    description: 'Privacy policy for the Elevana app: what is stored on your device and how it is used.',
+    description: 'Privacy policy for the Elevana app: what is stored on your device, Google AdMob ads and consent, and how data is used.',
     url: `${SITE}/elevana-privacy`,
     appId: elevana?.appStoreId,
   },

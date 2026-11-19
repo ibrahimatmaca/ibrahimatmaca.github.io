@@ -18,7 +18,7 @@
 
 ## Apps
 
-- [Elevana](https://apps.apple.com/app/id6745828686): A manifestation assistant for iPhone that helps you set clear intentions and stay aligned with your goals. Built with SwiftUI. Data stays on the device. See the [Elevana privacy policy](https://ibrahimatmaca.github.io/elevana-privacy).
+- [Elevana](https://apps.apple.com/app/id6745828686): A manifestation assistant for iPhone that helps you set clear intentions and stay aligned with your goals. Built with SwiftUI. Your content stays on the device; the free version shows Google AdMob ads and Premium removes them. See the [Elevana privacy policy](https://ibrahimatmaca.github.io/elevana-privacy).
 - [Wada Closet](https://apps.apple.com/app/id6832475049): A digital wardrobe for iPhone that matches your clothes to Sanzo Wada's color combinations. See its [privacy policy](https://ibrahimatmaca.github.io/wada-closet-privacy) and [terms of use](https://ibrahimatmaca.github.io/wada-closet-terms).
 
 ## Open source
