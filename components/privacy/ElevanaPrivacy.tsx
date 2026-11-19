@@ -3,11 +3,11 @@ import PrivacyPolicy from './PrivacyPolicy';
 
 const elevanaHtmlContent = `
     <h1>Elevana – Privacy Policy</h1>
-    <p><strong>Last Updated:</strong> November 2, 2026<br>
+    <p><strong>Last Updated:</strong> November 20, 2026<br>
     <strong>Developer:</strong> İbrahim Atmaca</p>
 
     <h2>Overview</h2>
-    <p>Elevana helps you stay focused on your goals with manifests, vision boards, widgets and reminders. The app has no accounts and no servers of its own. Everything you enter stays on your device, and <strong>we do not collect, receive or sell your personal data</strong>.</p>
+    <p>Elevana helps you stay focused on your goals with manifests, vision boards, widgets and reminders. The app has no accounts and no servers of its own. Everything you enter stays on your device, and <strong>we do not collect, receive or sell your personal data</strong>. The free version shows ads served by Google AdMob, which is the only part of the app that talks to a third party about you. Premium removes ads.</p>
     <p>"Collect" here has the meaning Apple uses for App Store privacy labels: sending data off your device in a way that lets the developer or a third party access it. Elevana does store information on your device so the app can work. This policy explains what that information is, how it is used and how you can remove it.</p>
 
     <h2>Information Stored on Your Device</h2>
@@ -18,7 +18,7 @@ const elevanaHtmlContent = `
         <li><strong>Settings and usage state:</strong> language, appearance, reminder time, widget configurations, the number of images generated today, and information used to decide when to show the App Store rating prompt.</li>
         <li><strong>Premium status:</strong> a saved copy of whether premium features are unlocked, so that the app and its widgets can respond correctly.</li>
     </ul>
-    <p>This information is stored in the app's private storage and in an App Group container shared only with Elevana's own widgets. It is not sent to us or to any third party by Elevana.</p>
+    <p>This information is stored in the app's private storage and in an App Group container shared only with Elevana's own widgets. It is not sent to us, and it is never given to the ad provider described below.</p>
 
     <h2>Faith Tradition (Sensitive Information)</h2>
     <p>Religious belief is sensitive information, so this choice is handled with extra care:</p>
@@ -29,8 +29,17 @@ const elevanaHtmlContent = `
         <li>You can change or remove it at any time in Settings &gt; Profile.</li>
     </ul>
 
-    <h2>Tracking and Advertising</h2>
-    <p>Elevana does <strong>not</strong> track you, show ads, or include third-party analytics or advertising SDKs. It does not access your location, contacts, camera, microphone, health data or advertising identifier.</p>
+    <h2>Advertising (Google AdMob)</h2>
+    <p>The free version of Elevana shows ads provided by Google AdMob: native ads in your goals list and vision board list, a banner in the board editor, and an occasional full-screen ad after you create a goal (at most 3 a day and at least 3 minutes apart). Ads are labelled as ads. <strong>Premium users see no ads.</strong></p>
+    <p>When an ad is requested, Google and its ad partners may collect and use data from your device: your IP address, device and operating system information, an advertising identifier (IDFA) if you allow tracking, and how you interact with ads. They use it to deliver, personalize, measure and secure ads and to prevent fraud. <strong>We do not give Google your name, goals, vision boards, photos, faith tradition or any other content you enter.</strong> Ads are not chosen from that content.</p>
+    <ul>
+        <li><strong>Consent:</strong> where required, for example in the EEA, the UK and Switzerland, Elevana shows Google's consent form (User Messaging Platform) before ads load. You can change your choices later where the app offers them or by reinstalling the app.</li>
+        <li><strong>Tracking permission:</strong> Elevana asks for Apple's App Tracking Transparency permission. If you decline, you still see ads, but they are not personalized with your advertising identifier. You can change this at any time in iOS Settings &gt; Privacy &amp; Security &gt; Tracking.</li>
+        <li><strong>Ad personalization:</strong> you can manage Google's ad settings at <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">adssettings.google.com</a>.</li>
+        <li><strong>Remove ads:</strong> buy Premium. Ads, and the ad-related requests above, stop once ads are no longer shown.</li>
+    </ul>
+    <p>Google's use of data is described in <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">How Google uses information from sites or apps that use its services</a> and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>. The content of an ad comes from advertisers, and we do not control it.</p>
+    <p>Elevana does not include other third-party analytics or advertising SDKs. It does not access your location, contacts, camera, microphone, health data or, unless you allow tracking, your advertising identifier.</p>
 
     <h2>Photos</h2>
     <p>When you add a photo to a vision board, you choose it in Apple's system photo picker. Elevana receives only the photos you select, and copies of them are kept in the app's storage on your device.</p>
@@ -56,8 +65,9 @@ const elevanaHtmlContent = `
     <p>Purchases and subscriptions are handled by Apple through StoreKit. We do not receive or have access to your payment details, billing address or Apple Account information. Elevana asks StoreKit which purchases are active, including when you restore purchases, and keeps only the premium status described above. You can manage or cancel subscriptions in your Apple Account settings.</p>
 
     <h2>Third Parties and Data Sharing</h2>
-    <p>Elevana does not sell or share your information. We do not operate any server that receives it.</p>
+    <p>Elevana does not sell your information. We do not operate any server that receives it. The only third parties involved are the ones below.</p>
     <ul>
+        <li><strong>Google AdMob:</strong> shows ads in the free version, as described in "Advertising (Google AdMob)" above. Google's Mobile Ads SDK and User Messaging Platform run inside the app.</li>
         <li><strong>Apple:</strong> the app uses Apple's system services, including StoreKit, Image Playground, notifications, widgets and the App Store rating prompt. These are governed by <a href="https://www.apple.com/privacy/" target="_blank" rel="noopener noreferrer">Apple's Privacy Policy</a>.</li>
         <li><strong>Lottie:</strong> this open-source library plays animations included in the app. It does not receive your data.</li>
         <li><strong>Sharing you choose:</strong> when you use the share sheet, the content goes to the app or person you select, under their privacy practices.</li>
@@ -66,12 +76,13 @@ const elevanaHtmlContent = `
     <p>Elevana is licensed to you under Apple's <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">Standard End User License Agreement</a>.</p>
 
     <h2>Internet Access</h2>
-    <p>The core features of Elevana work offline. An internet connection is used for Apple's in-app purchase services and when you open an external link, such as this policy.</p>
+    <p>The core features of Elevana work offline. An internet connection is used for Apple's in-app purchase services, to load ads and Google's consent form in the free version, and when you open an external link, such as this policy.</p>
 
     <h2>Data Retention and Deletion</h2>
     <p>Your information stays on your device until you remove it. Because we hold none of it and there is no account, there is nothing for us to delete on our side.</p>
     <ul>
         <li><strong>In the app:</strong> delete goals and vision boards individually, and edit or clear your profile in Settings &gt; Profile.</li>
+        <li><strong>Ad data:</strong> data held by Google for advertising is governed by Google. Reset or limit it in iOS Settings &gt; Privacy &amp; Security &gt; Tracking and at adssettings.google.com.</li>
         <li><strong>Everything at once:</strong> delete Elevana from your device. This removes the app's data, including its widget data and search entries.</li>
         <li><strong>Items you moved elsewhere:</strong> images saved to Photos or content you shared are outside the app. Remove them where they are stored.</li>
         <li><strong>Backups:</strong> Elevana has no sync service of its own, but its data may be included in your iCloud or computer backups according to your device settings. Those backups are managed by you and Apple.</li>
@@ -81,7 +92,7 @@ const elevanaHtmlContent = `
     <p>Your information is protected by iOS app sandboxing and your device's security features. Using a device passcode helps keep it safe, as anyone who can unlock your device may be able to view the app's content.</p>
 
     <h2>Children's Privacy</h2>
-    <p>Elevana is a general-audience app and is not designed specifically for children. It does not collect personal data from anyone, including children. A parent or guardian can review or remove information entered in the app directly on the device.</p>
+    <p>Elevana is a general-audience app and is not designed specifically for children. We do not knowingly collect personal data from anyone, including children, and we do not direct ads to children or ask Google to treat the app as child-directed. If you are a parent or guardian and are concerned about ads, Premium removes them. A parent or guardian can review or remove information entered in the app directly on the device.</p>
 
     <h2>Your Rights</h2>
     <p>Depending on where you live, laws such as the GDPR and Türkiye's KVKK may give you rights over your personal data, including access, correction and deletion. Because your information stays on your device, you can exercise these rights directly in the app as described above. For any privacy question or request, contact us using the details below.</p>
